@@ -1,0 +1,53 @@
+NOTICE
+======
+
+Information Security Criteria Reference
+Copyright (c) 2026 NerdKim (https://security.nerd.kim)
+
+This project is offered under two licenses, plus a boundary for third-party
+source material:
+
+1. Software (MIT)
+   The web viewer (apps/web), build scripts (extended/, apps/web), shared
+   packages (packages/), and repository tooling/configuration are licensed
+   under the MIT License. See LICENSE.
+
+2. Documentation and reference collection (CC BY 4.0)
+   The original explanatory text, the English translations, and the selection,
+   structuring, and compilation of the material (the content under docs/, and
+   the prose in the meta/project documents) are licensed under the Creative
+   Commons Attribution 4.0 International License. See LICENSE-CONTENT.
+
+You may use, adapt, and redistribute the above for any purpose, including
+commercial use, by individuals or organizations, provided you give appropriate
+credit to NerdKim.
+
+Attribution
+-----------
+A reasonable credit line, for example:
+   "Information Security Criteria Reference by NerdKim
+    (https://security.nerd.kim), code under MIT, content under CC BY 4.0."
+
+Third-party source material (NOT licensed by this project)
+----------------------------------------------------------
+The licenses above apply only to this project's own work. The following remain
+the property of their respective owners and are governed by their own terms:
+
+- Official ISMS-P material: the certification criteria and key checkpoints
+  quoted verbatim, and content derived from the ISMS-P Certification Criteria
+  Guide (baseline: detailed inspection items 2023-10-31, Criteria Guide
+  2023-11-23), are works of the Korean authorities, the Korea Internet and
+  Security Agency (KISA) and the Personal Information Protection Commission
+  (PIPC). This project does not claim ownership of that official text and does
+  not relicense it. Consult the official sources for authoritative wording.
+
+- ISO/IEC 27001:2022 and ISO/IEC 27002:2022: the standard's normative text,
+  implementation guidance, and attribute tables are under ISO copyright and are
+  NOT reproduced or relicensed here. Only public factual information (control
+  numbers, titles, and theme classification) is used; the explanatory body is
+  original material written for practical reference. For certification, verify
+  against a licensed copy of the ISO standard.
+
+This project is provided for reference only and is not legal or certification
+advice. Verify final decisions against the official sources and the relevant
+certification body's guidance.

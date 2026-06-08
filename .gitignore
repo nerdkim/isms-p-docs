@@ -1,0 +1,38 @@
+# Source reference materials (large PDF/Excel), excluded from version control
+references/
+
+# runtime AI outputs: generated under extended/outputs/ and may contain operational data.
+# Keep the directory readmes tracked; ignore everything else. (extended/USAGE.md)
+extended/outputs/*
+!extended/outputs/README.md
+!extended/outputs/README.ko.md
+
+# session work notes / scratch (root HANDOFF.md + _handoff/) - kept out of git (playbook docs/12 5.1)
+/HANDOFF.md
+_handoff/
+
+# playbook standard clone (if cloned inside the project, never commit it)
+/playbook/
+
+# env / secrets (never commit)
+.env
+.env.*
+!.env.example
+
+# Python tooling
+__pycache__/
+.venv/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+
+# logs / cache
+*.log
+.cache/
+
+# OS / editor artifacts
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
