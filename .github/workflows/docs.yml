@@ -1,0 +1,58 @@
+# Required check for this documents-only repository.
+#
+# Three gates, all dependency-free (bash plus the Python standard library):
+#   1. documentation conventions (playbook docs/16) via the harness scripts
+#   2. corpus integrity: bilingual parity, six-section structure, manifest agreement
+#   3. generated-index drift: regenerating must produce no diff, so extended/ and the
+#      docs/{ko,en}/INDEX.md files always match the corpus committed alongside them
+#
+# There is no application and no infrastructure in this repository, so there is no node
+# toolchain, no AWS access, and no deploy job here. The web viewer that consumes
+# extended/manifest.json lives in nerdkim/security-criteria-web.
+name: docs
+
+on:
+  pull_request:
+  push:
+    branches: [develop, master]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: docs-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  TZ: Asia/Seoul
+
+jobs:
+  conventions:
+    name: docs-conventions
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Test the conventions checker (playbook docs/00 D6)
+        run: bash harness/test-check-conventions.sh
+      - name: Check documentation conventions (playbook docs/16)
+        run: bash harness/check-conventions.sh
+
+  corpus:
+    name: corpus-integrity
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Corpus integrity (parity, structure, manifest agreement)
+        run: python3 tools/check_corpus.py
+
+      - name: Generated indexes match the corpus (no drift)
+        run: |
+          python3 tools/build_index.py
+          if ! git diff --exit-code -- extended docs; then
+            echo "::error::the committed indexes are stale. Run 'python3 tools/build_index.py' and commit the result."
+            exit 1
+          fi

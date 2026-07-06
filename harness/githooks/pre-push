@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# pre-push guard - block a direct push to the protected branch (master/main).
+# Standard: master 반영은 develop -> master PR + 승인 merge로만 한다 (docs/12, D5/D16).
+# git feeds "<local ref> <local sha> <remote ref> <remote sha>" lines on stdin.
+# Local guardrail only; server-side branch protection (D16) is the authority, and the
+# owner can bypass with --no-verify when a deliberate exception is needed.
+set -uo pipefail
+protected='refs/heads/master refs/heads/main'
+blocked=0
+while read -r _local_ref _local_sha remote_ref _remote_sha; do
+  for p in $protected; do
+    if [ "$remote_ref" = "$p" ]; then
+      echo "pre-push: direct push to ${remote_ref#refs/heads/} is blocked." >&2
+      echo "차단: master/main 직접 push 금지. develop branch에서 PR + 승인 merge로 반영하세요 (docs/12)." >&2
+      blocked=1
+    fi
+  done
+done
+exit "$blocked"

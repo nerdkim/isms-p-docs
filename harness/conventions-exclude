@@ -1,0 +1,6 @@
+# Authoritative external data corpus (confirmed exception, docs/16 6): the reproduced
+# criteria documents under docs/. This is faithful source data (Korean is authoritative),
+# not the project's own engineering prose, so docs/16 (English IT terms, no-space parens)
+# must not rewrite it. Do NOT add the project's own docs here; only this external corpus.
+docs/ko/
+docs/en/

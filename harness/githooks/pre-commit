@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# pre-commit guard - enforce the playbook standard before every commit.
+#   [1] docs/16 conventions: BLOCKING. Always fixable, so it hard-fails the commit.
+#   [2] infra/DNS conformance D17/D18/D19: REPORT ONLY. Architectural gaps are surfaced
+#       but do NOT block the commit, so a repo with pre-existing debt (e.g. self-hosted
+#       DNS pending a re-platform) is not frozen. The authoritative infra gate is CI, and
+#       the fix is owner-gated (docs/00 D20, docs/20 2). Runs only if the checker exists
+#       (the installer copies it for repos that have infra).
+# This one hook works in the playbook repo and in any consumer repo.
+# Enable with: git config core.hooksPath harness/githooks (the harness installer sets it).
+# Local guardrail; the authority gate is CI (docs/20).
+set -uo pipefail
+root="$(git rev-parse --show-toplevel)"
+rc=0
+if [ -f "$root/harness/check-conventions.sh" ]; then
+  bash "$root/harness/check-conventions.sh" || rc=1
+fi
+if [ -f "$root/harness/check-infra-conformance.sh" ]; then
+  bash "$root/harness/check-infra-conformance.sh" "$root" \
+    || echo "pre-commit: infra/DNS conformance gaps above are REPORTED, not blocking (owner-gated fix; CI is the authority)." >&2
+fi
+exit "$rc"

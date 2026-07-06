@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# commit-msg - block forbidden unicode punctuation in commit messages (docs/16).
+# Scans the message file ($1) for the 6 forbidden chars (em dash / en dash /
+# horizontal bar / middle dot / bullet / fullwidth hyphen) and fails the commit
+# if any is present. Comment lines and the `git commit -v` diff (below the
+# scissors line) are ignored so only the real message is checked.
+# Local guardrail; the authority gate is CI/`pnpm verify` (docs/20).
+set -euo pipefail
+
+msg_file="${1:-}"
+[ -n "$msg_file" ] && [ -s "$msg_file" ] || exit 0
+
+# Drop the scissors section (git -v diff) and comment lines, keep the message.
+body="$(sed '/^#.*>8/,$d' "$msg_file" | grep -vE '^#' || true)"
+
+if printf '%s' "$body" | LC_ALL=C grep -qP '\xe2\x80\x94|\xe2\x80\x93|\xe2\x80\x95|\xc2\xb7|\xe2\x80\xa2|\xef\xbc\x8d'; then
+  echo "commit-msg: forbidden unicode punctuation in commit message (docs/16)." >&2
+  echo "차단: em dash 등 금지 문자를 ASCII 하이픈/쉼표/괄호로 교체 후 다시 commit하세요." >&2
+  exit 1
+fi
+
+# Co-Authored-By policy (CLAUDE.md commit rule): author is nerdkim, and the only
+# sanctioned co-author is mikdren <bot-sidekick@nerd.kim>. Any OTHER
+# co-author (e.g. Claude) or a generated signature is blocked.
+if printf '%s\n' "$body" | grep -iE '^[[:space:]]*co-authored-by:' \
+     | grep -qivE '^[[:space:]]*co-authored-by:[[:space:]]*mikdren[[:space:]]*<bot-sidekick@nerd\.kim>[[:space:]]*$'; then
+  echo "commit-msg: the only allowed co-author is 'Co-Authored-By: mikdren <bot-sidekick@nerd.kim>'." >&2
+  echo "차단: mikdren 외의 Co-Authored-By는 넣지 마세요(예: Claude)." >&2
+  exit 1
+fi
+exit 0
