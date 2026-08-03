@@ -1,0 +1,31 @@
+# CODEOWNERS - require code-owner review on the authoritative corpus, its generated
+# indexes, the builders, and CI. Enforced only when master branch protection has
+# "Require review from Code Owners" enabled.
+# Last matching pattern wins. Owner is the GitHub user @nerdkim.
+#
+# This repository holds documents only: no application, no build output, no infra.
+# So there is no /infra/ or /deploy/ entry here; every path below is corpus, or the
+# tooling that guards it.
+
+# CI (the docs workflow: conventions, corpus integrity, index drift) + this file
+/.github/            @nerdkim
+
+# The authoritative bilingual corpus. Korean is authoritative, English is an
+# unofficial translation, and the two must change together.
+/docs/               @nerdkim
+
+# extended/manifest.json is a PUBLISHED CONTRACT read by nerdkim/security-criteria-web.
+# A schema change here breaks that consumer, so it needs an owner review.
+/extended/           @nerdkim
+
+# The deterministic builders and the read-only integrity checker. CI regenerates with
+# these and fails on any diff, so they define what "the indexes are correct" means.
+/tools/              @nerdkim
+
+# The playbook guard set (conventions checker, git hooks, hook installer)
+/harness/            @nerdkim
+
+# Source pin and the known-divergence register: records which official edition the
+# corpus is based on, and which upstream legal changes are deliberately NOT reflected.
+/UPDATES.md          @nerdkim
+/UPDATES.ko.md       @nerdkim
