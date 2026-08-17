@@ -27,9 +27,9 @@ segment. All paths are ASCII, so there are no URL-encoding surprises for consume
 ```
 docs/
   ko/                  authoritative Korean documents
-    annex7/1.1.1.md    별표 7,    101 items
-    annex7-2/*.md      별표 7의2,  62 items
-    annex7-3/*.md      별표 7의3,  65 items
+    annex7/1.1.1.md    Annex 7,    101 items
+    annex7-2/*.md      Annex 7-2,   62 items
+    annex7-3/*.md      Annex 7-3,   65 items
     INDEX.md           generated table of contents
   en/                  unofficial English translation, same relative paths
     annex7/1.1.1.md
@@ -41,19 +41,21 @@ docs/
 
 | Set (stable id) | Slug | Items | Applies to | Index |
 |---|---|:--:|---|---|
-| 별표 7 | `annex7` | 101 | general ISMS and ISMS-P applicants, full set | [ko](ko/INDEX.md) / [en](en/INDEX.md) |
-| 별표 7의2 | `annex7-2` | 62 | SMEs with ICT-service revenue under KRW 30 billion | same |
-| 별표 7의3 | `annex7-3` | 65 | SMEs at or above KRW 30 billion without major ICT facilities | same |
+| Annex 7 (`별표7`) | `annex7` | 101 | general ISMS and ISMS-P applicants, full set | [Index](en/INDEX.md) |
+| Annex 7-2 (`별표7의2`) | `annex7-2` | 62 | SMEs with ICT-service revenue under KRW 30 billion | same |
+| Annex 7-3 (`별표7의3`) | `annex7-3` | 65 | SMEs at or above KRW 30 billion without major ICT facilities | same |
 
 Annexes 7-2 and 7-3 are not separate certifications. They are simplified sets that ease the
-certification burden for SMEs (정보통신망법 제47조의7, 시행령 제49조의2).
+certification burden for SMEs (Network Act (정보통신망법) Article 47-7, Enforcement Decree
+Article 49-2).
 
 ## Document structure
 
 Every item document carries a metadata table, then the same six sections in the same order, then a
 source footer:
 
-`인증기준` → `주요 확인사항` → `세부 설명` → `관련 법규` → `증적자료` → `결함사례`
+`Certification criterion` → `Key checkpoints` → `Detailed explanation` →
+`Related laws` → `Evidence` → `Nonconformity examples`
 
 `check_corpus.py` fails when a document is missing a section or reorders them, so the structure is
 safe to depend on.

@@ -13,9 +13,9 @@ published contract for this corpus.
 
 | Set | Items per language | Applies to |
 |---|---|---|
-| 별표 7 (Annex 7) | 101 | General ISMS / ISMS-P applicants, full set |
-| 별표 7의2 (Annex 7-2) | 62 | SMEs with ICT-service revenue under KRW 30 billion |
-| 별표 7의3 (Annex 7-3) | 65 | SMEs at or above KRW 30 billion without major ICT facilities |
+| Annex 7 (별표 7) | 101 | General ISMS / ISMS-P applicants, full set |
+| Annex 7-2 (별표 7의2) | 62 | SMEs with ICT-service revenue under KRW 30 billion |
+| Annex 7-3 (별표 7의3) | 65 | SMEs at or above KRW 30 billion without major ICT facilities |
 | **Total** | **228 per language** (456 documents) | |
 
 Annexes 7-2 and 7-3 are not separate certifications. They are simplified sets that ease the
@@ -24,7 +24,8 @@ set applies depends on the applicant's size and type.
 
 Every item document keeps the same six sections:
 
-`인증기준` → `주요 확인사항` → `세부 설명` → `관련 법규` → `증적자료` → `결함사례`
+`Certification criterion` → `Key checkpoints` → `Detailed explanation` →
+`Related laws` → `Evidence` → `Nonconformity examples`
 
 ## Layout
 
@@ -65,8 +66,8 @@ All paths are ASCII, so there are no URL-encoding surprises for consumers.
 [UPDATES.md](UPDATES.md) records the exact source edition behind each part of the corpus, **and**
 which upstream legal changes are deliberately not reflected. Several items cite a notice as it stood
 in 2023 even though it has since been amended, and that is a recorded decision rather than a defect:
-the criteria text only takes on such a change when KISA re-issues the 인증기준 안내서. Read it before
-"fixing" a citation that looks out of date.
+the criteria text only takes on such a change when KISA re-issues the Certification Criteria Guide
+(인증기준 안내서). Read it before "fixing" a citation that looks out of date.
 
 ## The manifest contract
 
