@@ -40,7 +40,8 @@ extended/                AI agent가 이 자료집을 사용하도록 돕는 계
   outputs/               runtime 산출물 루트(readme 외에는 git에서 제외)
 tools/
   build_index.py         docs/에서 파생 색인 전체를 재생성
-  check_corpus.py        읽기 전용 무결성 검사
+  check_corpus.py        읽기 전용 무결성 검사 13종
+  test_check_corpus.py   위 두 도구의 테스트
 harness/
   install-hooks.sh       clone에 git hook을 배선(최초 1회, 설치 절 참고)
   check-conventions.sh   문서 규약 검사기(playbook docs/16)
@@ -113,6 +114,7 @@ bash harness/install-hooks.sh
 ```bash
 python3 tools/build_index.py    # extended/와 docs/{ko,en}/INDEX.md 재생성
 python3 tools/check_corpus.py   # 읽기 전용 무결성 검사
+python3 tools/test_check_corpus.py  # 위 두 도구의 테스트
 bash harness/check-conventions.sh
 ```
 

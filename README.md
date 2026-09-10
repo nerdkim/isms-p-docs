@@ -44,7 +44,8 @@ extended/                the layer that helps AI agents use this corpus
   outputs/               runtime output root (git-ignored except the readmes)
 tools/
   build_index.py         regenerate every derived index from docs/
-  check_corpus.py        read-only integrity checks
+  check_corpus.py        read-only integrity checks (13 of them)
+  test_check_corpus.py   tests for the two guards above
 harness/
   install-hooks.sh       wire this clone to the git hooks (run once, see Setup)
   check-conventions.sh   documentation conventions checker (playbook docs/16)
@@ -124,6 +125,7 @@ Everything else needs only Python 3 (standard library only) and bash.
 ```bash
 python3 tools/build_index.py    # regenerate extended/ and the docs/{ko,en}/INDEX.md files
 python3 tools/check_corpus.py   # read-only integrity checks
+python3 tools/test_check_corpus.py  # tests for the two guards above
 bash harness/check-conventions.sh
 ```
 

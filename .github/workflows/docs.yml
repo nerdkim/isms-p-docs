@@ -46,13 +46,19 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Test the corpus guards (playbook docs/00 D6)
+        run: python3 tools/test_check_corpus.py
+
       - name: Corpus integrity (parity, structure, manifest agreement)
         run: python3 tools/check_corpus.py
 
       - name: Generated indexes match the corpus (no drift)
         run: |
           python3 tools/build_index.py
-          if ! git diff --exit-code -- extended docs; then
-            echo "::error::the committed indexes are stale. Run 'python3 tools/build_index.py' and commit the result."
+          # Stage first: git diff alone is blind to a generated file that is new or
+          # deleted, so a missing index would pass. Nothing is committed in CI.
+          git add -A -- extended docs
+          if ! git diff --cached --exit-code -- extended docs; then
+            echo "::error::the committed indexes are stale, or a generated file is missing or untracked. Run 'python3 tools/build_index.py' and commit the result."
             exit 1
           fi

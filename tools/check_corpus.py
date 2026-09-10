@@ -16,6 +16,11 @@ Checks
   [9] Annexes 7-2/7-3 borrow the guide sections verbatim from their Annex 7 source,
       in BOTH languages
   [10] every relative markdown link resolves on disk
+  [11] no required section is empty, so deleting a section's body cannot pass
+  [12] Korean and English agree on content shape: the same bullet count per
+       section, so a one-sided content edit cannot pass on file existence alone
+  [13] the metadata table has one row-label sequence per (set, language), and the
+       criterion-type row has a single value per set
 
 Exit code 0 when the corpus is intact, 1 otherwise.
 
@@ -186,7 +191,11 @@ def check_borrowed():
         targets = re.findall(r"\]\(\.\./annex7/([0-9.]+)\.md\)", row.group(1))
         src = None
         for cand in targets:
-            ct = open(os.path.join(DOCS, "ko", "annex7", cand + ".md"), encoding="utf-8").read()
+            cpath = os.path.join(DOCS, "ko", "annex7", cand + ".md")
+            if not os.path.exists(cpath):
+                fail(f"{os.path.relpath(kp, ROOT)}: 대응(별표7) target {cand}.md does not exist")
+                continue
+            ct = open(cpath, encoding="utf-8").read()
             if _norm(_body(ct, "세부 설명")) == _norm(_strip_disclaimer(_body(kt, "세부 설명"))):
                 src = cand
                 break
@@ -195,8 +204,13 @@ def check_borrowed():
             continue
         for lang in LANGS:
             path = kp.replace(os.sep + "ko" + os.sep, os.sep + lang + os.sep)
+            spath = os.path.join(DOCS, lang, "annex7", src + ".md")
+            if not os.path.exists(path) or not os.path.exists(spath):
+                missing = path if not os.path.exists(path) else spath
+                fail(f"{os.path.relpath(missing, ROOT)}: expected document is missing")
+                continue
             text = open(path, encoding="utf-8").read()
-            stext = open(os.path.join(DOCS, lang, "annex7", src + ".md"), encoding="utf-8").read()
+            stext = open(spath, encoding="utf-8").read()
             for i, name in enumerate(BORROWED[lang]):
                 a, b = _body(text, name), _body(stext, name)
                 if i == 0:
@@ -206,6 +220,104 @@ def check_borrowed():
                 if _norm(a) != _norm(b):
                     fail(f"{os.path.relpath(path, ROOT)}: borrowed '{name}' differs from "
                          f"its source {src}")
+
+
+BULLET_RE = re.compile(r"(?m)^\s*(?:[-*]|\d+\.)\s+\S")
+
+
+def _content(body):
+    """Section body with the footer and any leading blockquote disclaimer removed."""
+    text = _strip_footer(body)
+    return "\n".join(l for l in text.split("\n") if not l.lstrip().startswith(">")).strip()
+
+
+def _item_pairs():
+    """Yield (slug, filename, ko_text, en_text) for every mirrored item document."""
+    for path in sorted(glob.glob(os.path.join(DOCS, "ko", "*", "*.md"))):
+        if os.path.basename(path) == "INDEX.md":
+            continue
+        epath = path.replace(os.sep + "ko" + os.sep, os.sep + "en" + os.sep)
+        if not os.path.exists(epath):
+            continue  # [2] and [6] already report a missing mirror
+        yield (os.path.basename(os.path.dirname(path)), os.path.basename(path),
+               open(path, encoding="utf-8").read(), open(epath, encoding="utf-8").read())
+
+
+def check_nonempty():
+    """[11] no required section may be empty.
+
+    Presence alone is not enough: a heading can stand with nothing under it, which
+    would let a criterion's text be deleted with every other gate staying green.
+    """
+    for lang in LANGS:
+        for path in sorted(glob.glob(os.path.join(DOCS, lang, "*", "*.md"))):
+            if os.path.basename(path) == "INDEX.md":
+                continue
+            text = open(path, encoding="utf-8").read()
+            for title in REQUIRED_SECTIONS[lang]:
+                body = _body(text, title)
+                if body is None:
+                    continue  # [3] already reports the missing section
+                if not _content(body):
+                    fail(f"{os.path.relpath(path, ROOT)}: section '{title}' has an empty body")
+
+
+def check_parity_shape():
+    """[12] Korean and English must agree on content shape, not merely both exist.
+
+    Matching keys is not parity: a one-sided edit that drops or duplicates a
+    bullet leaves both files in place and passes [2] and [6]. The bullet count per
+    section is a cheap invariant that such an edit breaks.
+    """
+    for slug, name, kt, et in _item_pairs():
+        for kn, en in zip(REQUIRED_SECTIONS["ko"], REQUIRED_SECTIONS["en"]):
+            kb, eb = _body(kt, kn), _body(et, en)
+            if kb is None or eb is None:
+                continue  # [3] already reports it
+            nk = len(BULLET_RE.findall(_strip_footer(kb)))
+            ne = len(BULLET_RE.findall(_strip_footer(eb)))
+            if nk != ne:
+                fail(f"docs/*/{slug}/{name}: section '{kn}' has {nk} bullets in ko "
+                     f"but '{en}' has {ne} in en")
+
+
+def check_metadata_uniformity():
+    """[13] the metadata table must be uniform within a (set, language).
+
+    The Korean side carries one fixed form per set, so a divergence is drift in
+    the other language rather than a real difference. Catching it here is what
+    keeps the English table from fanning out into variants of one fixed value.
+    """
+    fixed_row = {"ko": "기준 구분", "en": "Criterion type"}
+    for lang in LANGS:
+        slugs = sorted({os.path.basename(os.path.dirname(x))
+                        for x in glob.glob(os.path.join(DOCS, lang, "*", "*.md"))})
+        for slug in slugs:
+            base_order = base_path = None
+            value = value_path = None
+            for path in sorted(glob.glob(os.path.join(DOCS, lang, slug, "*.md"))):
+                if os.path.basename(path) == "INDEX.md":
+                    continue
+                head = open(path, encoding="utf-8").read().split("\n## ", 1)[0]
+                rows = re.findall(r"(?m)^\|\s*([^|]+?)\s*\|\s*(.+?)\s*\|\s*$", head)
+                rows = [(a, b) for a, b in rows
+                        if a not in ("구분", "Field") and not a.startswith("---")]
+                order = tuple(a for a, _ in rows)
+                if base_order is None:
+                    base_order, base_path = order, path
+                elif order != base_order:
+                    fail(f"{os.path.relpath(path, ROOT)}: metadata row order {list(order)} "
+                         f"differs from {list(base_order)} in "
+                         f"{os.path.relpath(base_path, ROOT)}")
+                for a, b in rows:
+                    if a != fixed_row[lang]:
+                        continue
+                    if value is None:
+                        value, value_path = b, path
+                    elif b != value:
+                        fail(f"{os.path.relpath(path, ROOT)}: '{a}' row is '{b}' but "
+                             f"{os.path.relpath(value_path, ROOT)} has '{value}' "
+                             f"(one value per set and language)")
 
 
 def check_links():
@@ -280,6 +392,9 @@ def main():
     check_labels(manifest)
     check_footers()
     check_borrowed()
+    check_nonempty()
+    check_parity_shape()
+    check_metadata_uniformity()
     check_links()
 
     if problems:
