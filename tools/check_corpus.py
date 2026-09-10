@@ -21,6 +21,11 @@ Checks
        section, so a one-sided content edit cannot pass on file existence alone
   [13] the metadata table has one row-label sequence per (set, language), and the
        criterion-type row has a single value per set
+  [14] identical Korean text gets identical English: where two items share a
+       byte-identical criterion or checkpoint list in Korean, the English must
+       match too, so translation noise cannot masquerade as a real relaxation
+  [15] a Domain/Section number maps to one name within a (set, language), checked
+       against its siblings rather than against the manifest built from it
 
 Exit code 0 when the corpus is intact, 1 otherwise.
 
@@ -320,6 +325,64 @@ def check_metadata_uniformity():
                              f"(one value per set and language)")
 
 
+def check_shared_text():
+    """[14] identical Korean text must get identical English.
+
+    The relaxed sets reuse Annex 7 wording verbatim, so where the Korean is
+    byte-identical the English has to be too. Otherwise independent translation
+    of the same sentence leaves a difference that reads like a real relaxation.
+    Items whose Korean genuinely differs, such as Annex 7-2 1.1.2, never group
+    together here, so a deliberate difference cannot be flagged.
+    """
+    pairs = (("인증기준", "Certification criterion"),
+             ("주요 확인사항", "Key checkpoints"))
+    groups = {}
+    for slug, name, kt, et in _item_pairs():
+        for kn, en in pairs:
+            kb, eb = _body(kt, kn), _body(et, en)
+            if kb is None or eb is None:
+                continue
+            groups.setdefault((kn, _norm(kb)), []).append((slug, name, en, _norm(eb)))
+    for (kn, _ktext), members in sorted(groups.items()):
+        variants = {m[3] for m in members}
+        if len(variants) < 2:
+            continue
+        where = ", ".join(f"{m[0]}/{m[1]}" for m in sorted(members)[:6])
+        fail(f"section '{kn}' is byte-identical in Korean across {len(members)} items "
+             f"but its English has {len(variants)} different renderings ({where})")
+
+
+def check_label_consistency():
+    """[15] a Domain/Section number maps to one name within a (set, language).
+
+    Check [7] compares each document's row against a manifest value derived from
+    that same row, so a wrong row agrees with itself. This compares the row
+    against its siblings instead, which is independent of the manifest: one
+    mistyped 분야 name conflicts with the other items sharing its number. The
+    numbers deliberately differ BETWEEN sets, because the relaxed sets renumber,
+    so the check is per set.
+    """
+    row_for = {"ko": ("영역", "분야"), "en": ("Domain", "Section")}
+    seen = {}
+    for lang in LANGS:
+        for path in sorted(glob.glob(os.path.join(DOCS, lang, "*", "*.md"))):
+            if os.path.basename(path) == "INDEX.md":
+                continue
+            slug = os.path.basename(os.path.dirname(path))
+            head = open(path, encoding="utf-8").read().split("\n## ", 1)[0]
+            for kind, label in zip(("Domain", "Section"), row_for[lang]):
+                value = _row(head, label)
+                if not value:
+                    continue
+                number = value.split(".")[0] if kind == "Domain" else value.split(" ")[0]
+                key = (lang, slug, kind, number)
+                first = seen.setdefault(key, (value, path))
+                if value != first[0]:
+                    fail(f"{os.path.relpath(path, ROOT)}: {label} '{value}' disagrees with "
+                         f"'{first[0]}' in {os.path.relpath(first[1], ROOT)} "
+                         f"(same number within {slug}/{lang})")
+
+
 def check_links():
     """[10] every relative markdown link resolves.
 
@@ -395,6 +458,8 @@ def main():
     check_nonempty()
     check_parity_shape()
     check_metadata_uniformity()
+    check_shared_text()
+    check_label_consistency()
     check_links()
 
     if problems:

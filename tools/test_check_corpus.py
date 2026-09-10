@@ -145,6 +145,32 @@ def main():
 
     case("a reordered metadata table is rejected", reorder_rows, "metadata row order")
 
+    print("== [14] shared Korean text, divergent English ==")
+
+    def diverge_shared_english(work):
+        # 1.1.1 is byte-identical in Korean across all three sets, so the English
+        # must match. Re-translate one of them and the group splits.
+        p = os.path.join(work, "docs", "en", "annex7-2", "1.1.1.md")
+        t = read(p)
+        t = re.sub(r"(?ms)^## Certification criterion\n.*?(?=^## )",
+                   "## Certification criterion\n\nAn independently reworded rendering of the same "
+                   "Korean sentence.\n\n", t)
+        write(p, t)
+
+    case("an independently reworded English twin is rejected", diverge_shared_english,
+         "different renderings")
+
+    print("== [15] label disagreeing with its siblings ==")
+
+    def diverge_label(work):
+        p = os.path.join(work, "docs", "ko", "annex7", "2.5.1.md")
+        t = read(p)
+        t = re.sub(r"(?m)^\|\s*분야\s*\|\s*.+?\s*\|$", "| 분야 | 2.5 접근통제 |", t, count=1)
+        write(p, t)
+
+    case("a 분야 name disagreeing with its siblings is rejected", diverge_label,
+         "same number within")
+
     print("== pre-existing checks still bite ==")
 
     def remove_section(work):
