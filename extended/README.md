@@ -48,10 +48,13 @@ obligation, (2) managing accountability/reputation risk in the event of a large-
 
 > **Currency boundary**: this reference collection is based on the detailed inspection items of
   2023.10.31 / the Certification Criteria Guide of 2023.11.23. The full overhaul of the
-  certification scheme announced in December 2025 (notice revision planned for Q1 2026:
-  reorganization into three tiers of simplified/standard/enhanced, expansion of mandatory targets,
-  mandatory technical review, etc.) is **not reflected in the collection**, so the AI must not
-  assert this area and should confirm it against external sources (see the guardrails in Section 7).
+  certification scheme (announced 2025.12.6, plan published 2026.4.10: reorganization into three
+  tiers of simplified/standard/enhanced, expansion of mandatory targets, mandatory technical
+  review) is **not reflected in the collection**. The notice amendment first presented for Q1 2026
+  had still not been issued when this was last checked on 2026-09-10, so the criteria annexes are
+  those of the 2024.7.24 notice and the item counts are unchanged. The AI must not assert this area
+  and should confirm it against external sources (see the guardrails in Section 7). The register
+  entry is `UPDATES.md` section 2.3.
 
 ---
 
@@ -237,9 +240,9 @@ nonconformity is it, and what are the basis and evidence?"
 - Network Act (정보통신망법) Articles 47, 47-7, 76 / Personal Information Protection Act (개인정보
   보호법) Article 32-2
 - Guidance on preliminary ISMS certification for virtual-asset service providers (KISA)
-- Announcement of the full overhaul of the certification scheme (2025.12): MSIT/PIPC press releases
-  and related coverage
+- Announcement of the full overhaul of the certification scheme (2025.12.6) and the published plan
+  (2026.4.10): MSIT/PIPC press releases and related coverage
 
 > The scheme/audit descriptions in this document are based on public materials as of the time of
-  writing (June 2026), and the per-item certification-criteria content is based entirely on the
-  `docs/` collection (2023 baseline).
+  writing (June 2026, upstream currency re-checked 2026-09-10), and the per-item
+  certification-criteria content is based entirely on the `docs/` collection (2023 baseline).

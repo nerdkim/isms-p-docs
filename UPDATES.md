@@ -10,7 +10,7 @@ This document does two things:
 
 Read part 2 before "fixing" a citation that looks out of date. It probably is not a defect.
 
-Last checked: 2026-09.
+Last checked: 2026-09-10.
 
 ## 1. Source versions
 
@@ -41,10 +41,10 @@ Since then:
 
 | What changed upstream | When | Reflected here? |
 |---|---|---|
-| Guide to the Standards for Measures to Ensure the Safety of Personal Information (개인정보의 안전성 확보조치 기준 안내서) published | 2024.10.31 | No |
+| Guide to the Standards for Measures to Ensure the Safety of Personal Information (개인정보의 안전성 확보조치 기준 안내서) published, then re-issued as the 2025.11 edition | 2024.10.31, 2025.11 | No |
 | PIPC Notice 2025-9 (개인정보보호위원회 고시 제2025-9호) amending the notice: the uniform internet-network blocking measure becomes risk-based, and the scope of access rights and access records widens | 2025.10.31 | No |
 | PIPC Notice 2026-9 (개인정보보호위원회 고시 제2026-9호), the current version of the notice | 2026.7.1 | No |
-| Personal Information Protection Act and its Enforcement Decree: board resolution and filing for the Chief Privacy Officer, notification on the *possibility* of a leak, higher administrative fines | 2026.9.11 | No |
+| Personal Information Protection Act, its Enforcement Decree and the related notices: board resolution and filing for the Chief Privacy Officer, notification within 72 hours on the *possibility* of a leak, the administrative-fine ceiling raised from 3 to 10 percent of total turnover, and ISMS-P certification made mandatory above a size threshold | 2026.9.11 | No |
 
 **Decision: keep the current text.** The article numbering the criteria depend on (Article 4
 Internal management plan through Article 13 Destruction) is unchanged across these revisions - the
@@ -54,14 +54,38 @@ and the criteria body only takes on such a change when the Certification Criteri
 (인증기준 안내서) is re-issued. Rewriting the Related laws sections now would contradict the current
 authoritative version (2023.11.23).
 
-### 2.3 Confirmed as current
+### 2.3 The pending divergence: the 2026 overhaul of the certification scheme
+
+A full overhaul of the ISMS-P certification scheme is under way. It is the largest pending change,
+and the only one that would restructure the **criteria themselves** rather than the statutes they
+cite, so it belongs in this register and not only in `extended/README.md`.
+
+| What happened upstream | When | Reflected here? |
+|---|---|---|
+| The PIPC and the MSIT announce measures to strengthen the effectiveness of the certification scheme (인증 실효성 강화 방안), presenting a notice amendment for the first quarter of 2026 | 2025.12.6 | No |
+| The two agencies publish the plan (정보보호 및 개인정보보호 관리체계 인증제 실효성 강화방안): the single criteria set is to be reorganized into three tiers (간편, 표준, 강화), the enhanced tier adding 20 criteria and 76 detailed inspection items, and document-centered audit is to give way to technical review and on-site demonstration | 2026.4.10 | No |
+
+**Decision: keep the current text. This is not yet a divergence in the criteria at all.** The
+planned notice amendment has not been issued. Re-checked on 2026-09-10, the Notice on certification
+(정보보호 및 개인정보보호 관리체계 인증 등에 관한 고시) is still the 2024.7.24 version (개인정보위
+고시 제2024-8호 / 과기정통부 고시 제2024-30호) in the 국가법령정보센터 record, so 별표 7, 별표 7의2
+and 별표 7의3 are unchanged and the corpus still matches the current authoritative annexes. The
+first-quarter-2026 amendment did not land and the published plan works toward a later commencement,
+so treat the three-tier restructuring as announced but not in force, and do not pre-empt it.
+
+The trigger for this corpus is unchanged: a re-issue of the 인증기준 안내서, per section 3. When
+amended annexes are promulgated the item counts (101 / 62 / 65) are what move first, so record the
+reflection plan here **before** touching `docs/`.
+
+### 2.4 Confirmed as current
 
 | Item | Status |
 |---|---|
-| ISMS-P Certification Criteria Guide (인증기준 안내서) | 2023.11.23 is the latest published edition; no later re-issue confirmed. The corpus content is current. |
+| ISMS-P Certification Criteria Guide (인증기준 안내서) | 2023.11.23 is the latest published edition; no later re-issue confirmed, re-checked 2026-09-10 against the KISA and PIPC repositories. The corpus content is current. |
+| Notice on certification (정보보호 및 개인정보보호 관리체계 인증 등에 관한 고시) | The 2024.7.24 version (개인정보위 고시 제2024-8호 / 과기정통부 고시 제2024-30호) is the current one in the 국가법령정보센터 record, re-checked 2026-09-10. 별표 7, 별표 7의2 and 별표 7의3 are unamended, so the pinned annexes are current. |
 | Annex 7-2, 7-3 detailed inspection items | The 2024.7.24 revision is fully reflected; the item structure matches 62 and 65. Based on the edition published on the Public Data Portal (공공데이터포털). <!-- conventions-allow: 공식 표준 용어(데이터, 네트워크) 원문 보존 --> |
 
-### 2.4 Resolved: the Annex 7 date in the source footer
+### 2.5 Resolved: the Annex 7 date in the source footer
 
 The footer used to cite `[별표 7] 세부점검항목(2023.10.31)`, bundling two different sources under
 one date. Two facts settle it:
@@ -83,7 +107,7 @@ The footer now attributes each part separately: the criterion to the Notice anne
 key checkpoints to the detailed inspection items (2023.10.31), and the remaining four sections to
 the Certification Criteria Guide (2023.11.23).
 
-### 2.5 Resolved: Annex 7-2 item 1.1.2
+### 2.6 Resolved: Annex 7-2 item 1.1.2
 
 The gazette states this criterion as designating **only** the Chief Privacy Officer, while the
 corpus had carried Annex 7's fuller sentence requiring a CISO as well. The criterion is now the
@@ -118,5 +142,8 @@ and the detailed inspection items for the key checkpoints, which is the correct 
 - ISMS-P certification criteria and the Certification Criteria Guide (인증기준 안내서): the official
   repositories of the PIPC (개인정보보호위원회) and of KISA (한국인터넷진흥원)
 - Annex 7-2, 7-3 detailed inspection items: the Public Data Portal (공공데이터포털), provided by KISA <!-- conventions-allow: 공식 표준 용어(데이터, 네트워크) 원문 보존 -->
+- The 2026 overhaul of the certification scheme: the PIPC and MSIT announcement (2025.12.6) and the
+  published plan (2026.4.10), with the 국가법령정보센터 record of the certification notice used to
+  confirm that no amended annex has been promulgated
 - Standards for Ensuring the Safety of Personal Information (개인정보의 안전성 확보조치 기준): Korea
   Law Information Center (국가법령정보센터), the administrative-rules database, and PIPC notices
