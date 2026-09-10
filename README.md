@@ -55,8 +55,9 @@ All paths are ASCII, so there are no URL-encoding surprises for consumers.
 ## Authority and provenance
 
 - The **Korean** documents are authoritative. They are based on the official source material: the
-  detailed inspection items of the Notice (Annex 7, 2023.10.31; Annexes 7-2 and 7-3, 2024.7.24) and
-  the ISMS-P Certification Criteria Guide (2023.11.23).
+  criteria of the Notice (Annex 7, 2023.10.5; Annexes 7-2 and 7-3, 2024.7.24), the matching
+  detailed inspection items (2023.10.31; 2024.7.24) and the ISMS-P Certification Criteria Guide
+  (2023.11.23).
 - The **English** documents are an unofficial translation for reference. Where the two diverge, the
   Korean original prevails.
 - The collection reflects the published source documents. Later revisions of the certification

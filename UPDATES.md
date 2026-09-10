@@ -16,8 +16,9 @@ Last checked: 2026-09.
 
 | Part of the corpus | Basis | Date |
 |---|---|---|
-| Annex 7: Certification criterion, Key checkpoints | Notice [별표 7] detailed inspection items | 2023.10.31 |
-| Annex 7-2 and 7-3 (simplified certification) | Notice [별표 7의2, 별표 7의3] detailed inspection items | 2024.7.24 |
+| Annex 7: Certification criterion | Notice [별표 7] (개인정보위 고시 제2023-8호, 발령 = 시행) | 2023.10.5 |
+| Annex 7: Key checkpoints | ISMS-P detailed inspection items (세부점검항목) | 2023.10.31 |
+| Annex 7-2 and 7-3 (simplified certification): criterion and key checkpoints | Notice [별표 7의2, 별표 7의3] and the matching detailed inspection items | 2024.7.24 |
 | Detailed explanation, Related laws, Evidence, Nonconformity examples | ISMS-P Certification Criteria Guide (인증기준 안내서) | 2023.11.23 |
 | The English documents under `docs/en/` | unofficial translation of the Korean authoritative version above | Korean original prevails |
 
@@ -60,29 +61,45 @@ authoritative version (2023.11.23).
 | ISMS-P Certification Criteria Guide (인증기준 안내서) | 2023.11.23 is the latest published edition; no later re-issue confirmed. The corpus content is current. |
 | Annex 7-2, 7-3 detailed inspection items | The 2024.7.24 revision is fully reflected; the item structure matches 62 and 65. Based on the edition published on the Public Data Portal (공공데이터포털). <!-- conventions-allow: 공식 표준 용어(데이터, 네트워크) 원문 보존 --> |
 
-### 2.4 Open question: the Annex 7 date carried in the source footer
+### 2.4 Resolved: the Annex 7 date in the source footer
 
-Every Annex 7 document's source footer cites `[별표 7] 세부점검항목(2023.10.31)`. The amendment
-history of the Notice on the National Law Information Center records 2022.7.21, **2023.10.5** and
-2024.7.24; there is no 2023.10.31 entry, and 2023.10.5 appears nowhere in this repository. The
-current Annex 7 gazette PDF is byte-identical to the 2023.10.5 one, so the Annex 7 text in this
-corpus dates from that amendment.
+The footer used to cite `[별표 7] 세부점검항목(2023.10.31)`, bundling two different sources under
+one date. Two facts settle it:
 
-2023.10.31 may still be a real and intended date (a Public Data Portal posting date, for example),
-so it has **not** been changed. Confirm what it refers to, then either keep it with a clarifying
-word or correct it across the 101 Korean and 101 English Annex 7 footers plus `README`, `UPDATES`,
-`CLAUDE.md` and the `extended/` documents in one commit.
+- The 2023 amendment of the Notice is **발령일자 = 시행일자 = 2023.10.5** (개인정보위 고시
+  제2023-8호 / 과기정통부 고시 제2023-33호), per the 국가법령정보센터 record. There is no
+  2023.10.31 amendment.
+- The annex itself carries **only the certification criterion**. A check of every checkpoint
+  sentence against the gazette text finds 4 of 328 for Annex 7, 1 of 232 for Annex 7-2 and 1 of 222
+  for Annex 7-3: the key checkpoints are not in the annex at all, they come from the separate
+  detailed inspection items (세부점검항목).
 
-### 2.5 Open question: the Annex 7-2 1.1.2 key checkpoints
+2023.10.31 is itself confirmed and correct, but for the OTHER document: KISA publishes the detailed
+inspection items separately, registered on the Public Data Portal as
+`한국인터넷진흥원_ISMS_P 인증기준 세부점검항목_20231031` with a data reference date of 2023.10.31
+(data.go.kr dataset 15106188). It is not the Notice's date and must not be "corrected" to 2023.10.5.
 
-The Annex 7-2 gazette states this criterion as designating **only** the Chief Privacy Officer
-(개인정보보호 책임자); the corpus had carried Annex 7's fuller sentence, which also requires a
-Chief Information Security Officer. The criterion has been corrected to the gazette text.
+The footer now attributes each part separately: the criterion to the Notice annex (2023.10.5), the
+key checkpoints to the detailed inspection items (2023.10.31), and the remaining four sections to
+the Certification Criteria Guide (2023.11.23).
 
-The two key checkpoints under it still read "정보보호 최고책임자 및 개인정보 보호책임자", i.e.
-broader than the corrected criterion. Key checkpoints do not come from the annex itself, so they
-were **not** changed here. Reconcile them against the Annex 7-2 detailed inspection items when
-that source is at hand, and correct Korean and English together.
+### 2.5 Resolved: Annex 7-2 item 1.1.2
+
+The gazette states this criterion as designating **only** the Chief Privacy Officer, while the
+corpus had carried Annex 7's fuller sentence requiring a CISO as well. The criterion is now the
+gazette text, confirmed from the 국가법령정보센터 open API (admRulSeq 2100000244750, 별표키 000702).
+Article 23(3)2 of the Notice corroborates it: it excludes 1.1.2 from ISMS-only certification
+precisely because the item is CPO-only.
+
+The **key checkpoints were deliberately left unchanged, and that is correct**. KISA's own Annex 7-2
+detailed inspection items (data.go.kr dataset 15134405, 62 rows, matching the annex's 62 items)
+reuse Annex 7's two checkpoints verbatim for 1.1.2, including the reference to 정보보호 최고책임자
+및 개인정보 보호책임자. The corpus matches that source.
+
+**Known upstream inconsistency:** the same KISA file reprints the CISO-plus-CPO wording in its own
+상세내용 column, which contradicts the gazette. This corpus follows the gazette for the criterion
+and the detailed inspection items for the key checkpoints, which is the correct precedence. Do not
+"fix" the checkpoints to match the narrowed criterion; they are what the official checklist says.
 
 ## 3. Operating principle
 

@@ -21,8 +21,9 @@ this repository. See the managed block at the bottom.
 - `docs/` : the per-item criteria documents. `docs/<lang>/<set-slug>/<no>.md`, where `<lang>` is
   `ko` or `en` and the two languages mirror each other with identical relative paths. Annex 7 (101)
   plus Annex 7-2 (62) plus Annex 7-3 (65) is 228 items per language, plus one generated `INDEX.md`
-  per language. The Korean side is **authoritative**, based on official source material (detailed
-  inspection items 2023.10.31 and 2024.7.24, Certification Criteria Guide 2023.11.23). The English
+  per language. The Korean side is **authoritative**, based on official source material (Notice
+  [별표 7] 2023.10.5 and [별표 7의2, 7의3] 2024.7.24, the matching detailed inspection items
+  2023.10.31 and 2024.7.24, Certification Criteria Guide 2023.11.23). The English
   side is an **unofficial translation of the Korean original, which prevails**.
 - `extended/` : the layer that helps AI agents **use** the corpus. `manifest.json` is the published
   contract; `index/` holds the generated flat index, defect rulebook, and evidence dictionary;

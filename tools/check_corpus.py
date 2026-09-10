@@ -15,6 +15,7 @@ Checks
   [8] the source footer has exactly one form per (set, language)
   [9] Annexes 7-2/7-3 borrow the guide sections verbatim from their Annex 7 source,
       in BOTH languages
+  [10] every relative markdown link resolves on disk
 
 Exit code 0 when the corpus is intact, 1 otherwise.
 
@@ -207,6 +208,29 @@ def check_borrowed():
                          f"its source {src}")
 
 
+def check_links():
+    """[10] every relative markdown link resolves.
+
+    A footer written as `[별표 7](2023.10.5)` is valid link syntax, so a plain
+    text edit can silently turn prose into a broken hyperlink.
+    """
+    targets = sorted(glob.glob(os.path.join(ROOT, "docs", "**", "*.md"), recursive=True))
+    targets += [os.path.join(ROOT, n) for n in ("README.md", "README.ko.md",
+                                                "UPDATES.md", "UPDATES.ko.md", "CLAUDE.md")]
+    targets += glob.glob(os.path.join(ROOT, "extended", "**", "*.md"), recursive=True)
+    for path in targets:
+        if not os.path.exists(path):
+            continue
+        text = open(path, encoding="utf-8").read()
+        for m in re.finditer(r"\[([^\]]*)\]\(([^)]+)\)", text):
+            target = m.group(2).split("#")[0].strip()
+            if not target or target.startswith(("http://", "https://", "mailto:")):
+                continue
+            if not os.path.exists(os.path.normpath(os.path.join(os.path.dirname(path), target))):
+                fail(f"{os.path.relpath(path, ROOT)}: link target '{target}' does not exist "
+                     f"(link text '{m.group(1)}')")
+
+
 def main():
     if not os.path.exists(MANIFEST):
         print("extended/manifest.json is missing. Run: python3 tools/build_index.py", file=sys.stderr)
@@ -256,6 +280,7 @@ def main():
     check_labels(manifest)
     check_footers()
     check_borrowed()
+    check_links()
 
     if problems:
         for p in problems:
