@@ -17,8 +17,11 @@ Checks
       in BOTH languages
   [10] every relative markdown link resolves on disk
   [11] no required section is empty, so deleting a section's body cannot pass
-  [12] Korean and English agree on content shape: the same bullet count per
-       section, so a one-sided content edit cannot pass on file existence alone
+  [12] Korean and English agree on content shape: the same bullet count in each
+       of the five bullet-bearing sections, so a one-sided edit that drops or
+       duplicates a bullet cannot pass on file existence alone. It gives no
+       signal on 인증기준 / Certification criterion, which is prose and carries
+       no bullets; [14] covers that section only where the Korean is shared
   [13] the metadata table has one row-label sequence per (set, language), and the
        criterion-type row has a single value per set
   [14] identical Korean text gets identical English: where two items share a
@@ -27,6 +30,9 @@ Checks
   [15] a Domain/Section number maps to one name within a (set, language), checked
        against its siblings rather than against the manifest built from it
   [16] one Korean statute citation gets one English rendering across the corpus
+  [17] each set holds exactly the number of items the official annex defines, so
+       a deleted or invented item cannot pass by agreeing with a manifest that
+       was regenerated from the same corpus
 
 Exit code 0 when the corpus is intact, 1 otherwise.
 
@@ -44,6 +50,24 @@ MANIFEST = os.path.join(ROOT, "extended", "manifest.json")
 
 LANGS = ("ko", "en")
 
+# The exact H2 sequence every item document carries. There is precisely one form
+# per language across all 456 documents, so this is pinned rather than matched on a
+# prefix: a prefix walk let '## 결함사례' be renamed to '## 결함사례아님' with every
+# gate green, because _body() resolves sections the same way.
+EXACT_SECTIONS = {
+    "ko": ("인증기준", "주요 확인사항", "세부 설명", "관련 법규",
+           "증적자료 (증거자료 예시)", "결함사례"),
+    "en": ("Certification criterion", "Key checkpoints", "Detailed explanation",
+           "Related laws", "Evidence (examples)", "Nonconformity examples"),
+}
+
+# The number of items each official annex defines. These move only when amended
+# annexes are promulgated, and UPDATES.md section 1 pins the edition while section
+# 2.3 requires the reflection plan to be recorded before docs/ is touched.
+EXPECTED_COUNTS = {"별표7": 101, "별표7의2": 62, "별표7의3": 65}
+
+# Short names used for lookups and message text; the headings themselves are pinned
+# by EXACT_SECTIONS above.
 REQUIRED_SECTIONS = {
     "ko": ["인증기준", "주요 확인사항", "세부 설명", "관련 법규", "증적자료", "결함사례"],
     "en": [
@@ -80,17 +104,20 @@ def check_document(path, lang):
     elif m.group(1) != expected_no:
         fail(f"{rel}: H1 item number {m.group(1)} does not match the file name {expected_no}")
 
-    # [3] the six required sections, in order.
-    found = headings(text)
-    required = REQUIRED_SECTIONS[lang]
-    cursor = 0
-    for title in required:
-        while cursor < len(found) and not found[cursor].startswith(title):
-            cursor += 1
-        if cursor == len(found):
-            fail(f"{rel}: missing or out-of-order section '{title}'")
-            break
-        cursor += 1
+    # [3] exactly the six required sections, in order, spelled exactly.
+    found = tuple(headings(text))
+    if found != EXACT_SECTIONS[lang]:
+        expected = EXACT_SECTIONS[lang]
+        extra = [h for h in found if h not in expected]
+        missing = [h for h in expected if h not in found]
+        detail = []
+        if missing:
+            detail.append("missing " + ", ".join(f"'{h}'" for h in missing))
+        if extra:
+            detail.append("unexpected " + ", ".join(f"'{h}'" for h in extra))
+        if not detail:
+            detail.append("out of order: " + " / ".join(found))
+        fail(f"{rel}: section headings are wrong ({'; '.join(detail)})")
 
     # [5] source footer.
     if not re.search(r"(?m)^---\s*\n>\s*\S", text):
@@ -274,6 +301,13 @@ def check_parity_shape():
     Matching keys is not parity: a one-sided edit that drops or duplicates a
     bullet leaves both files in place and passes [2] and [6]. The bullet count per
     section is a cheap invariant that such an edit breaks.
+
+    Scope, stated plainly so the coverage is not overread: this constrains the
+    five bullet-bearing sections. 인증기준 / Certification criterion is prose with
+    no bullets, so both sides count zero and the check is silent there. [14]
+    guards that section wherever the Korean is shared between items, which leaves
+    the items with a unique Korean criterion without an automated ko/en check on
+    it.
     """
     for slug, name, kt, et in _item_pairs():
         for kn, en in zip(REQUIRED_SECTIONS["ko"], REQUIRED_SECTIONS["en"]):
@@ -413,6 +447,27 @@ def check_citation_renderings():
                      f"(one English rendering per Korean citation)")
 
 
+def check_expected_counts():
+    """[17] each set must hold exactly the number of items its official annex defines.
+
+    Checks [2] and [6] compare the corpus against extended/manifest.json, but the
+    manifest is generated FROM the corpus, so deleting an item from both languages
+    and rebuilding leaves the two in perfect agreement and every gate green. The
+    only way out of that circle is a number written down independently, which is
+    what EXPECTED_COUNTS is.
+    """
+    slug_for = {"별표7": "annex7", "별표7의2": "annex7-2", "별표7의3": "annex7-3"}
+    for set_id, expected in sorted(EXPECTED_COUNTS.items()):
+        slug = slug_for[set_id]
+        for lang in LANGS:
+            paths = [p for p in glob.glob(os.path.join(DOCS, lang, slug, "*.md"))
+                     if os.path.basename(p) != "INDEX.md"]
+            if len(paths) != expected:
+                fail(f"docs/{lang}/{slug}: holds {len(paths)} items but {set_id} defines "
+                     f"{expected} (see UPDATES.md section 1; if an amended annex really "
+                     f"changed the count, record the reflection plan there first)")
+
+
 def check_links():
     """[10] every relative markdown link resolves.
 
@@ -491,6 +546,7 @@ def main():
     check_shared_text()
     check_label_consistency()
     check_citation_renderings()
+    check_expected_counts()
     check_links()
 
     if problems:

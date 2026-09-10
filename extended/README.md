@@ -76,8 +76,10 @@ with evidence that each criterion's key checkpoints are actually operated"**
 
 - **Nonconformity classification**: general nonconformity / **major nonconformity** (a material
   impact on the management system; the audit may be halted upon confirmation).
-- **Frequent-nonconformity focus areas**: 2.5 Authentication and authorization management, 2.6
-  Access control, 2.7 Application of encryption, 2.9 System and service operation management
+- **Frequent-nonconformity focus subgroups**: 인증 및 권한관리(Authentication and authorization
+  management), 접근통제(Access control), 암호화 적용(Application of encryption), 시스템 및 서비스
+  운영관리(System and service operation management). These are 2.5, 2.6, 2.7 and 2.9 in **Annex 7**;
+  the relaxed sets renumber, so match the manifest `subgroup` field by name rather than by number
   (logs/access records).
 - **Three frequent-nonconformity patterns**: (1) missing/unreported evidence, (2) mismatch between
   policy and operation, (3) failure to implement required protection measures / absence of periodic
