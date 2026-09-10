@@ -45,32 +45,35 @@ DOMAINS_KO = {
     "3": "개인정보 처리단계별 요구사항",
 }
 DOMAINS_EN = {
-    "1": "Establishment and operation of the management system",
-    "2": "Requirements for protection measures",
-    "3": "Requirements by personal information processing phase",
+    "1": "Establishment and Operation of the Management System",
+    "2": "Protective Measure Requirements",
+    "3": "Requirements by Personal Information Processing Stage",
 }
+# Fallback only, and keyed on ANNEX 7 numbering. Annexes 7-2 and 7-3 renumber their
+# sections, so the label is read from each English document's own Section row instead;
+# see parse_item(). Keep these values identical to the documents' canonical labels.
 BUNYA_EN = {
-    "1.1": "Laying the foundation of the management system",
-    "1.2": "Risk management",
-    "1.3": "Operation of the management system",
-    "1.4": "Inspection and improvement of the management system",
-    "2.1": "Policy, organization, and asset management",
-    "2.2": "Human resource security",
-    "2.3": "External party security",
-    "2.4": "Physical security",
-    "2.5": "Authentication and authorization management",
-    "2.6": "Access control",
-    "2.7": "Application of cryptography",
-    "2.8": "Security in information system introduction and development",
-    "2.9": "System and service operation management",
-    "2.10": "System and service security management",
-    "2.11": "Incident prevention and response",
-    "2.12": "Disaster recovery",
-    "3.1": "Protection measures when collecting personal information",
-    "3.2": "Protection measures when retaining and using personal information",
-    "3.3": "Protection measures when providing personal information",
-    "3.4": "Protection measures when destroying personal information",
-    "3.5": "Protection of data subject rights",
+    "1.1": "Laying the Foundation for the Management System",
+    "1.2": "Risk Management",
+    "1.3": "Management System Operation",
+    "1.4": "Management System Inspection and Improvement",
+    "2.1": "Policy, Organization, and Asset Management",
+    "2.2": "Human Resource Security",
+    "2.3": "External Party Security",
+    "2.4": "Physical Security",
+    "2.5": "Authentication and Authorization Management",
+    "2.6": "Access Control",
+    "2.7": "Application of Encryption",
+    "2.8": "Information System Introduction and Development Security",
+    "2.9": "System and Service Operation Management",
+    "2.10": "System and Service Security Management",
+    "2.11": "Incident Prevention and Response",
+    "2.12": "Disaster Recovery",
+    "3.1": "Protective Measures When Collecting Personal Information",
+    "3.2": "Protective Measures When Retaining and Using Personal Information",
+    "3.3": "Protective Measures When Providing Personal Information",
+    "3.4": "Protective Measures When Destroying Personal Information",
+    "3.5": "Protection of Data Subject Rights",
 }
 
 # Section headings counted per item, by language.
@@ -276,11 +279,18 @@ def parse_item(path, lang, ko_by_key):
         applies = ["ISMS-P"] if group_no == "3" else ["ISMS", "ISMS-P"]
     else:
         # English items mirror the Korean structure one-to-one, keyed by (set, no).
+        # The English LABEL is read from the English document, exactly as the Korean
+        # branch does, and never looked up by section number: Annexes 7-2 and 7-3
+        # renumber their sections (2.1 is 인적 보안 in Annex 7-2 but 정책, 조직,
+        # 자산 관리 in Annex 7), so a number-keyed table names the wrong section for
+        # them. DOMAINS_EN/BUNYA_EN survive only as a fallback for a missing row.
         ko = ko_by_key.get((section, no), {})
-        group_no = ko.get("groupNo", no.split(".", 1)[0])
-        group = DOMAINS_EN.get(group_no, ko.get("group", ""))
-        subgroup_no = ko.get("subgroupNo", ".".join(no.split(".")[:2]))
-        subgroup = BUNYA_EN.get(subgroup_no, ko.get("subgroup", ""))
+        dom = re.match(r"^(\d+)\.\s*(.*)$", meta_row(text, "Domain"))
+        group_no = dom.group(1) if dom else ko.get("groupNo", no.split(".", 1)[0])
+        group = dom.group(2).strip() if dom else DOMAINS_EN.get(group_no, ko.get("group", ""))
+        bun = re.match(r"^(\d+\.\d+)\s+(.*)$", meta_row(text, "Section"))
+        subgroup_no = bun.group(1) if bun else ko.get("subgroupNo", ".".join(no.split(".")[:2]))
+        subgroup = bun.group(2).strip() if bun else BUNYA_EN.get(subgroup_no, ko.get("subgroup", ""))
         applies = ko.get("appliesTo", ["ISMS", "ISMS-P"])
 
     checks, laws, evidence, defects = counts_for(text, lang)

@@ -10,7 +10,7 @@ This document does two things:
 
 Read part 2 before "fixing" a citation that looks out of date. It probably is not a defect.
 
-Last checked: 2026-07.
+Last checked: 2026-09.
 
 ## 1. Source versions
 
@@ -40,11 +40,15 @@ Since then:
 
 | What changed upstream | When | Reflected here? |
 |---|---|---|
-| Guide to the Standards for Ensuring the Safety of Personal Information (개인정보의 안전성 확보조치 기준 안내서) published | 2024.10.31 | No |
-| PIPC Notice 2025-9 (개인정보보호위원회 고시 제2025-9호) amending the notice, effective (includes changes to the uniform internet-network blocking measure system) | 2025.10.31 | No |
+| Guide to the Standards for Measures to Ensure the Safety of Personal Information (개인정보의 안전성 확보조치 기준 안내서) published | 2024.10.31 | No |
+| PIPC Notice 2025-9 (개인정보보호위원회 고시 제2025-9호) amending the notice: the uniform internet-network blocking measure becomes risk-based, and the scope of access rights and access records widens | 2025.10.31 | No |
+| PIPC Notice 2026-9 (개인정보보호위원회 고시 제2026-9호), the current version of the notice | 2026.7.1 | No |
+| Personal Information Protection Act and its Enforcement Decree: board resolution and filing for the Chief Privacy Officer, notification on the *possibility* of a leak, higher administrative fines | 2026.9.11 | No |
 
 **Decision: keep the current text.** The article numbering the criteria depend on (Article 4
-Internal management plan through Article 12 Destruction) is largely stable across these revisions,
+Internal management plan through Article 13 Destruction) is unchanged across these revisions - the
+2026.7.1 version inserts Article 6-2 (internet-network blocking measures) as a branch number, which
+does not shift Article 7 onwards - and it is largely stable otherwise,
 and the criteria body only takes on such a change when the Certification Criteria Guide
 (인증기준 안내서) is re-issued. Rewriting the Related laws sections now would contradict the current
 authoritative version (2023.11.23).
@@ -55,6 +59,30 @@ authoritative version (2023.11.23).
 |---|---|
 | ISMS-P Certification Criteria Guide (인증기준 안내서) | 2023.11.23 is the latest published edition; no later re-issue confirmed. The corpus content is current. |
 | Annex 7-2, 7-3 detailed inspection items | The 2024.7.24 revision is fully reflected; the item structure matches 62 and 65. Based on the edition published on the Public Data Portal (공공데이터포털). <!-- conventions-allow: 공식 표준 용어(데이터, 네트워크) 원문 보존 --> |
+
+### 2.4 Open question: the Annex 7 date carried in the source footer
+
+Every Annex 7 document's source footer cites `[별표 7] 세부점검항목(2023.10.31)`. The amendment
+history of the Notice on the National Law Information Center records 2022.7.21, **2023.10.5** and
+2024.7.24; there is no 2023.10.31 entry, and 2023.10.5 appears nowhere in this repository. The
+current Annex 7 gazette PDF is byte-identical to the 2023.10.5 one, so the Annex 7 text in this
+corpus dates from that amendment.
+
+2023.10.31 may still be a real and intended date (a Public Data Portal posting date, for example),
+so it has **not** been changed. Confirm what it refers to, then either keep it with a clarifying
+word or correct it across the 101 Korean and 101 English Annex 7 footers plus `README`, `UPDATES`,
+`CLAUDE.md` and the `extended/` documents in one commit.
+
+### 2.5 Open question: the Annex 7-2 1.1.2 key checkpoints
+
+The Annex 7-2 gazette states this criterion as designating **only** the Chief Privacy Officer
+(개인정보보호 책임자); the corpus had carried Annex 7's fuller sentence, which also requires a
+Chief Information Security Officer. The criterion has been corrected to the gazette text.
+
+The two key checkpoints under it still read "정보보호 최고책임자 및 개인정보 보호책임자", i.e.
+broader than the corrected criterion. Key checkpoints do not come from the annex itself, so they
+were **not** changed here. Reconcile them against the Annex 7-2 detailed inspection items when
+that source is at hand, and correct Korean and English together.
 
 ## 3. Operating principle
 
