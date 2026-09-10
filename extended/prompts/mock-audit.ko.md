@@ -2,7 +2,7 @@
 
 > English: [mock-audit.md](mock-audit.md)
 
-`system-grounding.md`를 먼저 적용한 뒤 사용합니다.
+`system-grounding.ko.md`를 먼저 적용한 뒤 사용합니다.
 
 ```
 [작업] 지정 분야/항목에 대한 심사 모의 질의응답을 생성하십시오.

@@ -2,7 +2,7 @@
 
 > English: [remediation.md](remediation.md)
 
-`system-grounding.md`를 먼저 적용한 뒤 사용합니다.
+`system-grounding.ko.md`를 먼저 적용한 뒤 사용합니다.
 
 ```
 [작업] 결함보고서 항목에 대한 보완조치 내역서/완료확인서 초안과 마감 추적표를 작성하십시오.

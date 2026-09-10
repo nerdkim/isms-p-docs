@@ -2,7 +2,7 @@
 
 > English: [policy-draft.md](policy-draft.md)
 
-`system-grounding.md`를 먼저 적용한 뒤 사용합니다.
+`system-grounding.ko.md`를 먼저 적용한 뒤 사용합니다.
 
 ```
 [작업] 인증기준에 mapping되는 정책/지침 초안을 생성하십시오.

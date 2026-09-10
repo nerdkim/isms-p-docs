@@ -15,6 +15,10 @@ Input:
 [Procedure]
 1. In extended/manifest.json, finalize the item list for the applicable set (Annex 7=101, 7-2=62, 7-3=65).
 2. Use the per-item nonconformity examples in extended/index/defect-rulebook.json and the "Key checkpoints" in each item's .md as inspection rules.
+
+Note: defect-rulebook.json and evidence-dictionary.json cover Annex 7 (Korean) only, and their
+keys are bare item numbers that are not comparable across sets. For an Annex 7-2 or 7-3 run, take
+the rules from each item's own .md (Key checkpoints / Evidence / Nonconformity examples).
 3. Classify each item into one of four levels: Met / Partially met / Not met / Undetermined, and cite the nonconformity example that served as the basis for the judgment.
 4. Weight the frequently bottlenecked areas (2.5 Authentication and authorization management, 2.6 Access control, 2.7 Encryption, 2.9 Operations management) and prioritize accordingly.
 5. Mark "Not met", "Undetermined", and major nonconformity candidates for a human to conclude (the AI presents candidates only).

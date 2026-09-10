@@ -14,8 +14,10 @@ collection to perform ISMS-P work. The rules for maintaining this repository its
 - `docs/` is the **read-only** authoritative collection. Under no circumstances do you
   create/modify/delete anything under `docs/`.
 - All outputs are written only under `extended/outputs/`.
-- The authoritative sources are only the 228 `.md` files in `docs/`, `extended/manifest.json`,
-  `extended/index/*`, and the original material in `references/`. Do not assert
+- The authoritative sources are only the 228 ISMS-P items in `docs/` (456 `.md` files, 228 per
+  language; the Korean side is authoritative), `extended/manifest.json`, `extended/index/*`, and the
+  original material in `references/` (local-only source material: it is gitignored and absent from a
+  clone unless the maintainer placed it there, so do not treat its absence as an error). Do not assert
   criteria/laws/figures from the model's general knowledge.
 
 ## Workflow (manifest first)
@@ -26,7 +28,9 @@ collection to perform ISMS-P work. The rules for maintaining this repository its
    (Certification criterion / Key checkpoints / Detailed explanation / Related laws / Evidence /
    Nonconformity examples).
 3. If self-assessment/mapping is needed, use `extended/index/defect-rulebook.json` (nonconformity
-   rules) and `evidence-dictionary.json` (evidence dictionary).
+   rules) and `evidence-dictionary.json` (evidence dictionary). Both cover Annex 7 (Korean) only and
+   key on bare item numbers, which are not comparable across sets, so for an Annex 7-2 or 7-3 run
+   take the rules from each item's own `.md` instead.
 
 ## Output rules
 
@@ -39,7 +43,7 @@ collection to perform ISMS-P work. The rules for maintaining this repository its
 - **Human gate**: Interpretation of laws, certification eligibility judgments, policy finalization,
   final met/not-met determinations, and remediation-completion determinations are finalized by a
   human. Such outputs are also kept as review items in `extended/outputs/review-queue/`.
-- **Currency boundary**: State the collection's reference date (detailed inspection items 2023.10.31
+- **Currency boundary**: State the collection's reference date (detailed inspection items 2023.10.31 (Annex 7) / 2024.7.24 (Annexes 7-2, 7-3)
   / Certification Criteria Guide 2023.11.23), and do not assert unlisted revisions such as the 2026
   reform; instead flag them as "not in the collection, external verification required".
 - **DLP**: Do not input actual personal data or the body of original evidence into external models.

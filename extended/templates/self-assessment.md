@@ -4,7 +4,7 @@
 
 > Status: AI-generated draft / not reviewed
 > Organization: {{organization}} | Applied set: {{Annex 7 / 7-2 / 7-3}} | Generated: {{YYYY-MM-DD}}
-> Model/version: {{model}} | Collection reference date: detailed inspection items 2023.10.31 /
+> Model/version: {{model}} | Collection reference date: detailed inspection items 2023.10.31 (Annex 7) / 2024.7.24 (Annexes 7-2, 7-3) /
   Certification Criteria Guide 2023.11.23
 > All verdicts are "suggestions"; the final compliant/non-compliant determination is confirmed by
   the responsible person.

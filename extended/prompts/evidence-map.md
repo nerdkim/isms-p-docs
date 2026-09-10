@@ -13,6 +13,10 @@ Inputs:
 
 [Procedure]
 1. Use the per-item "evidence examples" in extended/index/evidence-dictionary.json as the mapping reference dictionary.
+
+Note: defect-rulebook.json and evidence-dictionary.json cover Annex 7 (Korean) only, and their
+keys are bare item numbers that are not comparable across sets. For an Annex 7-2 or 7-3 run, take
+the rules from each item's own .md (Key checkpoints / Evidence / Nonconformity examples).
 2. Compare the evidence you hold against each item's evidence examples and classify each item as met / partial / missing.
 3. For missing/partial items, specify which evidence examples are absent, and cite the relevant Evidence section as the basis.
 4. Make each mapping a "candidate" status that a human can approve/reject (verifying the actual authenticity of evidence is the human's job).

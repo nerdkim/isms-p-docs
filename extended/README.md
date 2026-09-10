@@ -47,7 +47,8 @@ obligation, (2) managing accountability/reputation risk in the event of a large-
   a post-certification/renewal audit results in loss of effect/revocation.
 
 > **Currency boundary**: this reference collection is based on the detailed inspection items of
-  2023.10.31 / the Certification Criteria Guide of 2023.11.23. The full overhaul of the
+  2023.10.31 (Annex 7) and 2024.7.24 (Annexes 7-2 and 7-3) / the Certification Criteria Guide of
+  2023.11.23. The full overhaul of the
   certification scheme (announced 2025.12.6, plan published 2026.4.10: reorganization into three
   tiers of simplified/standard/enhanced, expansion of mandatory targets, mandatory technical
   review) is **not reflected in the collection**. The notice amendment first presented for Q1 2026
@@ -163,13 +164,16 @@ generated `docs/{ko,en}/INDEX.md` navigation files).
 1. **Source pinning**: attach a citation with the `docs/` item path and section name to every
    claim/judgment. If a citation cannot be produced, do not output, or state explicitly "No basis
    (not in the collection)".
-2. **Limit to the collection's scope (hallucination prevention)**: treat only the 228 ISMS-P `docs/`
-   .md files, `manifest.json`/`index/`, and the `references/` originals as authoritative sources.
+2. **Limit to the collection's scope (hallucination prevention)**: treat only the 228 ISMS-P items
+   in `docs/` (456 .md files, 228 per language), `manifest.json`/`index/`, and the `references/`
+   originals as authoritative sources. `references/` is local-only and gitignored, so it is absent
+   from a clone; that absence is not an error.
    Leave figures not in the collection (retention periods/thresholds, etc.) blank with a `[To
    verify]` placeholder.
 3. **docs/ immutable**: the AI never modifies/creates/deletes `docs/`. All derivatives are written
    only under `extended/`.
-4. **Currency boundary**: note the collection's baseline dates (2023.10.31 / 2023.11.23 / 2024.07)
+4. **Currency boundary**: note the collection's baseline dates (detailed inspection items
+   2023.10.31 and 2024.7.24 / Criteria Guide 2023.11.23 / Certification Scheme Guide 2024.07)
    in outputs, and do not assert revisions not in the collection, such as the 2026 overhaul; flag
    them as "not in the collection, external confirmation required".
 5. **Human approval gate**: legal interpretation, certification conformity judgment, policy
@@ -220,8 +224,8 @@ generated `docs/{ko,en}/INDEX.md` navigation files).
 Question: "If an account left unaccessed for 6 months or more is left neglected, which item's
 nonconformity is it, and what are the basis and evidence?"
 
-1. In `extended/manifest.json`, find items whose `name` contains "계정/권한" (2.5.x Authentication
-   and authorization management).
+1. In `extended/manifest.json`, find items whose `subgroup` is "인증 및 권한관리" (2.5.x
+   Authentication and authorization management).
 2. Read the candidate `path` `.md` files and confirm the item whose "Nonconformity examples"
    includes something like "long-unused account".
 3. Attach a citation in the form `[Source: docs/.../2.5.x ....md > Nonconformity examples]` to the

@@ -10,7 +10,7 @@ Apply `system-grounding.md` first, then use this.
 Question: {{user question}}
 
 [Procedure]
-1. In extended/manifest.json, find candidate items related to the question (first-pass routing by name/bunya/domain).
+1. In extended/manifest.json, find candidate items related to the question (first-pass routing by name/subgroup/group; the criteria-index.csv equivalents are domain/bunya).
 2. Read the docs/ .md files of the candidate items and confirm the item that precisely corresponds to the question.
 3. Write the answer, appending a [Source: <docs path> > <section>] citation at the end of each sentence.
 4. Distinguish and answer which criterion item the nonconformity falls under, what the related laws are, and what evidence to present (cite the Evidence section).

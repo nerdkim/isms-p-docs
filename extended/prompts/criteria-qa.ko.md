@@ -2,7 +2,7 @@
 
 > English: [criteria-qa.md](criteria-qa.md)
 
-`system-grounding.md`를 먼저 적용한 뒤 사용합니다.
+`system-grounding.ko.md`를 먼저 적용한 뒤 사용합니다.
 
 ```
 [작업] 아래 질문에 대해, ISMS-P 자료집에 근거하여 답변하십시오.
@@ -10,7 +10,7 @@
 질문: {{사용자 질문}}
 
 [절차]
-1. extended/manifest.json 에서 질문과 관련된 항목 후보를 찾는다(name/bunya/domain 으로 1차 라우팅).
+1. extended/manifest.json 에서 질문과 관련된 항목 후보를 찾는다(name/subgroup/group 으로 1차 라우팅. criteria-index.csv 에서는 domain/bunya 가 대응).
 2. 후보 항목의 docs/ .md 를 읽어, 질문에 정확히 대응하는 항목을 확정한다.
 3. 답변을 작성하되, 각 문장 끝에 [근거: <docs 경로> > <섹션명>] 인용을 붙인다.
 4. 어느 인증기준 항목 결함인지, 관련 법규는 무엇인지, 제시할 증적은 무엇인지(증적자료 섹션 인용)를 구분해 답한다.
