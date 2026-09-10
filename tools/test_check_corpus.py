@@ -171,6 +171,21 @@ def main():
     case("a 분야 name disagreeing with its siblings is rejected", diverge_label,
          "same number within")
 
+    print("== [16] one Korean citation, two English renderings ==")
+
+    def diverge_citation(work):
+        # Re-render one citation line in a single document; the 83 other documents
+        # citing the same Korean provision still carry the canonical form.
+        p = os.path.join(work, "docs", "en", "annex7", "1.1.3.md")
+        t = read(p)
+        old_line = "- Personal Information Protection Act Article 29 (Duty of Safety Measures)"
+        assert old_line in t, "test fixture moved: expected a PIPA Article 29 citation"
+        write(p, t.replace(old_line,
+                           "- Personal Information Protection Act Art. 29 (Safety Measure Duty)", 1))
+
+    case("a re-rendered citation line is rejected", diverge_citation,
+         "one English rendering per Korean citation")
+
     print("== pre-existing checks still bite ==")
 
     def remove_section(work):

@@ -26,6 +26,7 @@ Checks
        match too, so translation noise cannot masquerade as a real relaxation
   [15] a Domain/Section number maps to one name within a (set, language), checked
        against its siblings rather than against the manifest built from it
+  [16] one Korean statute citation gets one English rendering across the corpus
 
 Exit code 0 when the corpus is intact, 1 otherwise.
 
@@ -383,6 +384,35 @@ def check_label_consistency():
                          f"(same number within {slug}/{lang})")
 
 
+def check_citation_renderings():
+    """[16] one Korean statute citation gets one English rendering.
+
+    Related laws is a list of citations, and the same Korean statute and article
+    appeared under several English names (capitalisation, a stray article, "/"
+    against ", "). A reader cannot tell whether two differently named citations
+    are the same provision, so the rendering has to be single-valued. Keyed on the
+    Korean line, so a genuinely different citation is never grouped.
+    """
+    section = {"ko": "관련 법규", "en": "Related laws"}
+    renderings = {}
+    for slug, name, kt, et in _item_pairs():
+        kb, eb = _body(kt, section["ko"]), _body(et, section["en"])
+        if kb is None or eb is None:
+            continue
+        klines = [l.strip() for l in _strip_footer(kb).splitlines() if l.strip().startswith("-")]
+        elines = [l.strip() for l in _strip_footer(eb).splitlines() if l.strip().startswith("-")]
+        if len(klines) != len(elines):
+            fail(f"docs/*/{slug}/{name}: 'Related laws' lists {len(klines)} citations in ko "
+                 f"but {len(elines)} in en")
+            continue
+        for korean, english in zip(klines, elines):
+            first = renderings.setdefault(korean, (english, f"{slug}/{name}"))
+            if english != first[0]:
+                fail(f"docs/en/{slug}/{name}: citation '{korean}' is rendered "
+                     f"'{english}' but '{first[0]}' in docs/en/{first[1]} "
+                     f"(one English rendering per Korean citation)")
+
+
 def check_links():
     """[10] every relative markdown link resolves.
 
@@ -460,6 +490,7 @@ def main():
     check_metadata_uniformity()
     check_shared_text()
     check_label_consistency()
+    check_citation_renderings()
     check_links()
 
     if problems:
