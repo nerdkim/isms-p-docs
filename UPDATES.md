@@ -42,14 +42,21 @@ Since then:
 | What changed upstream | When | Reflected here? |
 |---|---|---|
 | Guide to the Standards for Measures to Ensure the Safety of Personal Information (개인정보의 안전성 확보조치 기준 안내서) published, then re-issued as the 2025.11 edition | 2024.10.31, 2025.11 | No |
-| PIPC Notice 2025-9 (개인정보보호위원회 고시 제2025-9호) amending the notice: the uniform internet-network blocking measure becomes risk-based, and the scope of access rights and access records widens | 2025.10.31 | No |
+| PIPC Notice 2025-9 (개인정보보호위원회 고시 제2025-9호) amending the notice: the uniform internet-network blocking measure becomes risk-based (the new Article 6-2, in force from promulgation), while the widening of the access-rights and access-records scope (Article 4(1)12 and 13, Article 5(1) and (6), Article 6(2), Article 8(1) and (2)) is deferred by the 부칙 to one year after promulgation, so it is still not in force | 2025.10.31 / 2026.10.31 | No |
 | PIPC Notice 2026-9 (개인정보보호위원회 고시 제2026-9호), the current version of the notice | 2026.7.1 | No |
-| Personal Information Protection Act, its Enforcement Decree and the related notices: board resolution and filing for the Chief Privacy Officer, notification within 72 hours on the *possibility* of a leak, the administrative-fine ceiling raised from 3 to 10 percent of total turnover, and ISMS-P certification made mandatory above a size threshold | 2026.9.11 | No |
+| Personal Information Protection Act (법률 제20897호): the domestic representative must be a domestic corporation the processor established or controls, with a new education and supervision duty (Article 31-2(3)) and matching 과태료 in Article 75. Cited by items 3.5.1 and 1.4.1 | 2025.10.2 | No |
+| Enforcement Decree (대통령령 제36121호): Article 42-2(1) who must transmit, Article 42-4(1) the scope of self-transmission information, and Article 42-6(3) to (5) the transmission methods, giving content to the standards left to Presidential Decree in Article 35-2. Subject matter of item 3.5.2 | 2026.8.20 | No |
+| Personal Information Protection Act, its Enforcement Decree and the related notices: board resolution and filing for the Chief Privacy Officer, notification within 72 hours on the *possibility* of a leak, a new 10 percent of total turnover ceiling for repeated or serious violations (Article 64-2(2)) alongside the retained 3 percent general ceiling (Article 64-2(1)), and ISMS-P certification made mandatory above a size threshold | 2026.9.11 | No |
+
+Also promulgated but not yet in force, so not a divergence yet: 개인정보 보호법 법률 제21910호
+(promulgated 2026.9.8, effective 2027.3.9).
 
 **Decision: keep the current text.** The article numbering the criteria depend on (Article 4
 Internal management plan through Article 13 Destruction) is unchanged across these revisions - the
-2026.7.1 version inserts Article 6-2 (internet-network blocking measures) as a branch number, which
-does not shift Article 7 onwards - and it is largely stable otherwise,
+2025.10.31 version (Notice 2025-9) moved the internet-network blocking measure out of Article 6(6)
+into a new branch-numbered Article 6-2 (인터넷망의 차단 조치 등), which does not shift Article 7
+onwards, and the 2026.7.1 version altered only Articles 15, 18 and 19 - and it is largely stable
+otherwise,
 and the criteria body only takes on such a change when the Certification Criteria Guide
 (인증기준 안내서) is re-issued. Rewriting the Related laws sections now would contradict the current
 authoritative version (2023.11.23).
@@ -106,6 +113,13 @@ inspection items separately, registered on the Public Data Portal as
 The footer now attributes each part separately: the criterion to the Notice annex (2023.10.5), the
 key checkpoints to the detailed inspection items (2023.10.31), and the remaining four sections to
 the Certification Criteria Guide (2023.11.23).
+
+**That date applies to Annex 7 only.** KISA publishes the detailed inspection items per annex, so
+Annexes 7-2 and 7-3 take their own 2024.7.24 editions (Public Data Portal datasets 15134405 with 62
+rows and 15134408 with 65 rows), not the 2023.10.31 Annex 7 file, which predates those annexes by
+nine months. The 254 simplified-set documents carried 2023.10.31 until this was corrected; their
+footers now cite 2024.7.24, agreeing with the source pin in section 1 and with the manifest. The 202
+Annex 7 documents keep 2023.10.31, which is the right date for them.
 
 ### 2.6 Resolved: Annex 7-2 item 1.1.2
 
