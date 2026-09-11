@@ -17,10 +17,22 @@ Checks
       in BOTH languages
   [10] every relative markdown link resolves on disk
   [11] no required section is empty, so deleting a section's body cannot pass
-  [12] Korean and English agree on content shape: the same bullet count per
-       section, so a one-sided content edit cannot pass on file existence alone
+  [12] Korean and English agree on content shape: the same bullet count in each
+       of the five bullet-bearing sections, so a one-sided edit that drops or
+       duplicates a bullet cannot pass on file existence alone. It gives no
+       signal on 인증기준 / Certification criterion, which is prose and carries
+       no bullets; [14] covers that section only where the Korean is shared
   [13] the metadata table has one row-label sequence per (set, language), and the
        criterion-type row has a single value per set
+  [14] identical Korean text gets identical English: where two items share a
+       byte-identical criterion or checkpoint list in Korean, the English must
+       match too, so translation noise cannot masquerade as a real relaxation
+  [15] a Domain/Section number maps to one name within a (set, language), checked
+       against its siblings rather than against the manifest built from it
+  [16] one Korean statute citation gets one English rendering across the corpus
+  [17] each set holds exactly the number of items the official annex defines, so
+       a deleted or invented item cannot pass by agreeing with a manifest that
+       was regenerated from the same corpus
 
 Exit code 0 when the corpus is intact, 1 otherwise.
 
@@ -38,6 +50,24 @@ MANIFEST = os.path.join(ROOT, "extended", "manifest.json")
 
 LANGS = ("ko", "en")
 
+# The exact H2 sequence every item document carries. There is precisely one form
+# per language across all 456 documents, so this is pinned rather than matched on a
+# prefix: a prefix walk let '## 결함사례' be renamed to '## 결함사례아님' with every
+# gate green, because _body() resolves sections the same way.
+EXACT_SECTIONS = {
+    "ko": ("인증기준", "주요 확인사항", "세부 설명", "관련 법규",
+           "증적자료 (증거자료 예시)", "결함사례"),
+    "en": ("Certification criterion", "Key checkpoints", "Detailed explanation",
+           "Related laws", "Evidence (examples)", "Nonconformity examples"),
+}
+
+# The number of items each official annex defines. These move only when amended
+# annexes are promulgated, and UPDATES.md section 1 pins the edition while section
+# 2.3 requires the reflection plan to be recorded before docs/ is touched.
+EXPECTED_COUNTS = {"별표7": 101, "별표7의2": 62, "별표7의3": 65}
+
+# Short names used for lookups and message text; the headings themselves are pinned
+# by EXACT_SECTIONS above.
 REQUIRED_SECTIONS = {
     "ko": ["인증기준", "주요 확인사항", "세부 설명", "관련 법규", "증적자료", "결함사례"],
     "en": [
@@ -74,17 +104,20 @@ def check_document(path, lang):
     elif m.group(1) != expected_no:
         fail(f"{rel}: H1 item number {m.group(1)} does not match the file name {expected_no}")
 
-    # [3] the six required sections, in order.
-    found = headings(text)
-    required = REQUIRED_SECTIONS[lang]
-    cursor = 0
-    for title in required:
-        while cursor < len(found) and not found[cursor].startswith(title):
-            cursor += 1
-        if cursor == len(found):
-            fail(f"{rel}: missing or out-of-order section '{title}'")
-            break
-        cursor += 1
+    # [3] exactly the six required sections, in order, spelled exactly.
+    found = tuple(headings(text))
+    if found != EXACT_SECTIONS[lang]:
+        expected = EXACT_SECTIONS[lang]
+        extra = [h for h in found if h not in expected]
+        missing = [h for h in expected if h not in found]
+        detail = []
+        if missing:
+            detail.append("missing " + ", ".join(f"'{h}'" for h in missing))
+        if extra:
+            detail.append("unexpected " + ", ".join(f"'{h}'" for h in extra))
+        if not detail:
+            detail.append("out of order: " + " / ".join(found))
+        fail(f"{rel}: section headings are wrong ({'; '.join(detail)})")
 
     # [5] source footer.
     if not re.search(r"(?m)^---\s*\n>\s*\S", text):
@@ -268,6 +301,13 @@ def check_parity_shape():
     Matching keys is not parity: a one-sided edit that drops or duplicates a
     bullet leaves both files in place and passes [2] and [6]. The bullet count per
     section is a cheap invariant that such an edit breaks.
+
+    Scope, stated plainly so the coverage is not overread: this constrains the
+    five bullet-bearing sections. 인증기준 / Certification criterion is prose with
+    no bullets, so both sides count zero and the check is silent there. [14]
+    guards that section wherever the Korean is shared between items, which leaves
+    the items with a unique Korean criterion without an automated ko/en check on
+    it.
     """
     for slug, name, kt, et in _item_pairs():
         for kn, en in zip(REQUIRED_SECTIONS["ko"], REQUIRED_SECTIONS["en"]):
@@ -318,6 +358,114 @@ def check_metadata_uniformity():
                         fail(f"{os.path.relpath(path, ROOT)}: '{a}' row is '{b}' but "
                              f"{os.path.relpath(value_path, ROOT)} has '{value}' "
                              f"(one value per set and language)")
+
+
+def check_shared_text():
+    """[14] identical Korean text must get identical English.
+
+    The relaxed sets reuse Annex 7 wording verbatim, so where the Korean is
+    byte-identical the English has to be too. Otherwise independent translation
+    of the same sentence leaves a difference that reads like a real relaxation.
+    Items whose Korean genuinely differs, such as Annex 7-2 1.1.2, never group
+    together here, so a deliberate difference cannot be flagged.
+    """
+    pairs = (("인증기준", "Certification criterion"),
+             ("주요 확인사항", "Key checkpoints"))
+    groups = {}
+    for slug, name, kt, et in _item_pairs():
+        for kn, en in pairs:
+            kb, eb = _body(kt, kn), _body(et, en)
+            if kb is None or eb is None:
+                continue
+            groups.setdefault((kn, _norm(kb)), []).append((slug, name, en, _norm(eb)))
+    for (kn, _ktext), members in sorted(groups.items()):
+        variants = {m[3] for m in members}
+        if len(variants) < 2:
+            continue
+        where = ", ".join(f"{m[0]}/{m[1]}" for m in sorted(members)[:6])
+        fail(f"section '{kn}' is byte-identical in Korean across {len(members)} items "
+             f"but its English has {len(variants)} different renderings ({where})")
+
+
+def check_label_consistency():
+    """[15] a Domain/Section number maps to one name within a (set, language).
+
+    Check [7] compares each document's row against a manifest value derived from
+    that same row, so a wrong row agrees with itself. This compares the row
+    against its siblings instead, which is independent of the manifest: one
+    mistyped 분야 name conflicts with the other items sharing its number. The
+    numbers deliberately differ BETWEEN sets, because the relaxed sets renumber,
+    so the check is per set.
+    """
+    row_for = {"ko": ("영역", "분야"), "en": ("Domain", "Section")}
+    seen = {}
+    for lang in LANGS:
+        for path in sorted(glob.glob(os.path.join(DOCS, lang, "*", "*.md"))):
+            if os.path.basename(path) == "INDEX.md":
+                continue
+            slug = os.path.basename(os.path.dirname(path))
+            head = open(path, encoding="utf-8").read().split("\n## ", 1)[0]
+            for kind, label in zip(("Domain", "Section"), row_for[lang]):
+                value = _row(head, label)
+                if not value:
+                    continue
+                number = value.split(".")[0] if kind == "Domain" else value.split(" ")[0]
+                key = (lang, slug, kind, number)
+                first = seen.setdefault(key, (value, path))
+                if value != first[0]:
+                    fail(f"{os.path.relpath(path, ROOT)}: {label} '{value}' disagrees with "
+                         f"'{first[0]}' in {os.path.relpath(first[1], ROOT)} "
+                         f"(same number within {slug}/{lang})")
+
+
+def check_citation_renderings():
+    """[16] one Korean statute citation gets one English rendering.
+
+    Related laws is a list of citations, and the same Korean statute and article
+    appeared under several English names (capitalisation, a stray article, "/"
+    against ", "). A reader cannot tell whether two differently named citations
+    are the same provision, so the rendering has to be single-valued. Keyed on the
+    Korean line, so a genuinely different citation is never grouped.
+    """
+    section = {"ko": "관련 법규", "en": "Related laws"}
+    renderings = {}
+    for slug, name, kt, et in _item_pairs():
+        kb, eb = _body(kt, section["ko"]), _body(et, section["en"])
+        if kb is None or eb is None:
+            continue
+        klines = [l.strip() for l in _strip_footer(kb).splitlines() if l.strip().startswith("-")]
+        elines = [l.strip() for l in _strip_footer(eb).splitlines() if l.strip().startswith("-")]
+        if len(klines) != len(elines):
+            fail(f"docs/*/{slug}/{name}: 'Related laws' lists {len(klines)} citations in ko "
+                 f"but {len(elines)} in en")
+            continue
+        for korean, english in zip(klines, elines):
+            first = renderings.setdefault(korean, (english, f"{slug}/{name}"))
+            if english != first[0]:
+                fail(f"docs/en/{slug}/{name}: citation '{korean}' is rendered "
+                     f"'{english}' but '{first[0]}' in docs/en/{first[1]} "
+                     f"(one English rendering per Korean citation)")
+
+
+def check_expected_counts():
+    """[17] each set must hold exactly the number of items its official annex defines.
+
+    Checks [2] and [6] compare the corpus against extended/manifest.json, but the
+    manifest is generated FROM the corpus, so deleting an item from both languages
+    and rebuilding leaves the two in perfect agreement and every gate green. The
+    only way out of that circle is a number written down independently, which is
+    what EXPECTED_COUNTS is.
+    """
+    slug_for = {"별표7": "annex7", "별표7의2": "annex7-2", "별표7의3": "annex7-3"}
+    for set_id, expected in sorted(EXPECTED_COUNTS.items()):
+        slug = slug_for[set_id]
+        for lang in LANGS:
+            paths = [p for p in glob.glob(os.path.join(DOCS, lang, slug, "*.md"))
+                     if os.path.basename(p) != "INDEX.md"]
+            if len(paths) != expected:
+                fail(f"docs/{lang}/{slug}: holds {len(paths)} items but {set_id} defines "
+                     f"{expected} (see UPDATES.md section 1; if an amended annex really "
+                     f"changed the count, record the reflection plan there first)")
 
 
 def check_links():
@@ -395,6 +543,10 @@ def main():
     check_nonempty()
     check_parity_shape()
     check_metadata_uniformity()
+    check_shared_text()
+    check_label_consistency()
+    check_citation_renderings()
+    check_expected_counts()
     check_links()
 
     if problems:

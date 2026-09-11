@@ -16,4 +16,4 @@ AI 에이전트가 만든 모든 산출물은 이 directory 아래에만 작성�
 | `diffs/`, `regwatch/` | 세트 차이/개정 영향 mapping(자료집 미수록 항목 플래그) | S7 |
 | `review-queue/` | 고위험 산출물(법규 해석/적부 판단/정책 확정) 사람 검수 큐 | 공통 |
 
-> 산출물은 실제 운영 데이터를 포함할 수 있으므로, 외부에 올릴 필요가 없다면 `.gitignore`에 `extended/outputs/`를 추가하는 것을 권장합니다. <!-- conventions-allow: 공식 표준 용어(데이터, 네트워크) 원문 보존 -->
+> `extended/outputs/` 아래는 이 README 두 개만 빼고 이미 git에서 무시됩니다. 두 README는 디렉터리가 스스로를 설명하도록 일부러 추적합니다(`.gitignore` 참고). 산출물은 실제 운영 데이터를 포함할 수 있으므로 버전 관리에 넣지 마십시오. <!-- conventions-allow: 공식 표준 용어(데이터, 네트워크) 원문 보존 -->

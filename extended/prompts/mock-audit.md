@@ -9,7 +9,7 @@ Apply `system-grounding.md` first, then use this.
 
 Input:
 - Applicable set: {{Annex 7 / 7-2 / 7-3}}
-- Target area or item: {{e.g. 2.6 Access control}}
+- Target subgroup or item: {{e.g. 접근통제(Access control)}}
 
 [Procedure]
 1. Confirm the target items with extended/manifest.json and read each item's .md.

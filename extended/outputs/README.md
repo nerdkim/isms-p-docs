@@ -16,5 +16,6 @@ Subfolders are created as work happens.
 | `diffs/`, `regwatch/` | Set differences / amendment impact mapping (flags items not in the collection) | S7 |
 | `review-queue/` | Human review queue for high-risk outputs (legal interpretation / conformity judgment / policy finalization) | Common |
 
-> Outputs may contain real operational data, so unless you need to publish them externally, we
-  recommend adding `extended/outputs/` to `.gitignore`.
+> Everything under `extended/outputs/` is already git-ignored except these two READMEs, which are
+  tracked on purpose so the directory documents itself (see `.gitignore`). Outputs may contain real
+  operational data, so keep them out of version control.

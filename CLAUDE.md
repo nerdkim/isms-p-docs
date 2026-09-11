@@ -31,7 +31,7 @@ this repository. See the managed block at the bottom.
   root. How to use the corpus is described in `extended/README.md` (the plan) and
   `extended/USAGE.md` (operating rules).
 - `tools/` : `build_index.py` regenerates every derived index from `docs/`; `check_corpus.py` runs
-  13 read-only integrity checks; `test_check_corpus.py` proves each of those checks actually fails on
+  17 read-only integrity checks; `test_check_corpus.py` proves each of those checks actually fails on
   the mutation it exists to catch, so run it after touching either tool. All three are
   dependency-free (Python standard library only).
 - `harness/` : the playbook guard set (documentation conventions checker, git hooks). `core.hooksPath`

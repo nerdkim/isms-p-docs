@@ -14,6 +14,7 @@ Dependency-free (Python standard library only).
 
 Usage: python3 tools/test_check_corpus.py
 """
+import json
 import os
 import re
 import shutil
@@ -145,13 +146,64 @@ def main():
 
     case("a reordered metadata table is rejected", reorder_rows, "metadata row order")
 
+    print("== [14] shared Korean text, divergent English ==")
+
+    def diverge_shared_english(work):
+        # 1.1.1 is byte-identical in Korean across all three sets, so the English
+        # must match. Re-translate one of them and the group splits.
+        p = os.path.join(work, "docs", "en", "annex7-2", "1.1.1.md")
+        t = read(p)
+        t = re.sub(r"(?ms)^## Certification criterion\n.*?(?=^## )",
+                   "## Certification criterion\n\nAn independently reworded rendering of the same "
+                   "Korean sentence.\n\n", t)
+        write(p, t)
+
+    case("an independently reworded English twin is rejected", diverge_shared_english,
+         "different renderings")
+
+    print("== [15] label disagreeing with its siblings ==")
+
+    def diverge_label(work):
+        p = os.path.join(work, "docs", "ko", "annex7", "2.5.1.md")
+        t = read(p)
+        t = re.sub(r"(?m)^\|\s*분야\s*\|\s*.+?\s*\|$", "| 분야 | 2.5 접근통제 |", t, count=1)
+        write(p, t)
+
+    case("a 분야 name disagreeing with its siblings is rejected", diverge_label,
+         "same number within")
+
+    print("== [16] one Korean citation, two English renderings ==")
+
+    def diverge_citation(work):
+        # Re-render one citation line in a single document; the 83 other documents
+        # citing the same Korean provision still carry the canonical form.
+        p = os.path.join(work, "docs", "en", "annex7", "1.1.3.md")
+        t = read(p)
+        old_line = "- Personal Information Protection Act Article 29 (Duty of Safety Measures)"
+        assert old_line in t, "test fixture moved: expected a PIPA Article 29 citation"
+        write(p, t.replace(old_line,
+                           "- Personal Information Protection Act Art. 29 (Safety Measure Duty)", 1))
+
+    case("a re-rendered citation line is rejected", diverge_citation,
+         "one English rendering per Korean citation")
+
     print("== pre-existing checks still bite ==")
 
     def remove_section(work):
         p = os.path.join(work, "docs", "ko", "annex7", "1.1.2.md")
         write(p, read(p).replace("## 결함사례", "## 사례 모음"))
 
-    case("[3] a renamed required section is rejected", remove_section, "missing or out-of-order")
+    case("[3] a renamed required section is rejected", remove_section,
+         "section headings are wrong")
+
+    def rename_section_keeping_prefix(work):
+        # The heading walk used to match on a prefix, so this rename passed every
+        # gate: [3] accepted it and _body() still resolved the section.
+        p = os.path.join(work, "docs", "ko", "annex7", "1.1.4.md")
+        write(p, read(p).replace("## 결함사례", "## 결함사례아님"))
+
+    case("[3] a rename that keeps the required prefix is rejected",
+         rename_section_keeping_prefix, "section headings are wrong")
 
     def break_h1(work):
         p = os.path.join(work, "docs", "ko", "annex7", "1.1.3.md")
@@ -184,15 +236,60 @@ def main():
          "borrowed")
 
     def break_link(work):
-        p = os.path.join(work, "docs", "ko", "annex7-2", "1.1.2.md")
-        write(p, read(p).replace("../annex7/1.1.2.md", "../annex7/9.9.9.md"))
+        # A link outside the 대응(별표7) row, so only check_links can fire: the
+        # mapping row would also trip check_borrowed and its crash guard.
+        p = os.path.join(work, "docs", "README.md")
+        t = read(p)
+        assert "../UPDATES.md" in t, "test fixture moved: expected a link to ../UPDATES.md"
+        write(p, t.replace("../UPDATES.md", "../UPDATES-does-not-exist.md"))
 
-    case("[10] a link target that does not exist is rejected", break_link, "does not exist")
+    case("[10] a link target that does not exist is rejected", break_link,
+         "link target '../UPDATES-does-not-exist.md'")
 
     def delete_mirror(work):
         os.remove(os.path.join(work, "docs", "en", "annex7", "2.1.1.md"))
 
-    case("[2]/[6] a deleted English mirror is rejected", delete_mirror, "2.1.1")
+    case("[2]/[6] a deleted English mirror is rejected", delete_mirror,
+         "recorded in the manifest but not present on disk")
+
+    print("== [1] manifest self-consistency ==")
+
+    def perturb_manifest_counts(work):
+        p = os.path.join(work, "extended", "manifest.json")
+        data = json.load(open(p, encoding="utf-8"))
+        data["counts"]["total"] = data["counts"]["total"] + 1
+        with open(p, "w", encoding="utf-8") as fh:
+            json.dump(data, fh, ensure_ascii=False, indent=1)
+
+    case("a manifest whose counts disagree with its item list is rejected",
+         perturb_manifest_counts, "manifest counts.total is")
+
+    print("== [7] document label against the manifest ==")
+
+    def desync_label(work):
+        # Edit the 영역 row without rebuilding, so the document and the published
+        # contract disagree.
+        p = os.path.join(work, "docs", "ko", "annex7", "1.2.1.md")
+        t = read(p)
+        m = re.search(r"(?m)^\|\s*영역\s*\|\s*(.+?)\s*\|$", t)
+        assert m, "test fixture moved: expected an 영역 metadata row"
+        write(p, t.replace(m.group(0), "| 영역 | 9. 존재하지 않는 영역 |", 1))
+
+    case("a metadata label disagreeing with the manifest is rejected", desync_label,
+         "but the manifest publishes")
+
+    print("== [17] the official item counts ==")
+
+    def delete_item_and_rebuild(work):
+        # The failure mode [17] exists for: remove an item from BOTH languages and
+        # rebuild, so corpus and manifest agree perfectly and [2]/[6] see nothing.
+        for lang in ("ko", "en"):
+            os.remove(os.path.join(work, "docs", lang, "annex7", "2.1.3.md"))
+        subprocess.run([sys.executable, os.path.join(work, "tools", "build_index.py")],
+                       capture_output=True, text=True, cwd=work)
+
+    case("a deleted criteria item is rejected even after a rebuild",
+         delete_item_and_rebuild, "defines")
 
     print("== the crash guard ==")
 
