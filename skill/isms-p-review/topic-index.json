@@ -1,6 +1,6 @@
 {
  "schema": "isms-p-review-topic-index/v1",
- "description": "Routing table for the isms-p-review skill. Each topic maps everyday Korean and English words to the ISMS-P criteria items whose key checkpoints test that topic, per set. The first item in each list is the primary one. The 별표7의2 and 별표7의3 lists are derived from the 별표7 list through the 대응(별표7) row of each relaxed-set document, so an empty list means the relaxed set has no counterpart item and the topic is outside that set. This is a lookup aid written by this project; it is not part of the official criteria. tools/check_corpus.py check [18] verifies that every item of every set appears in at least one topic, that every listed number exists, and that the relaxed lists agree with the 대응(별표7) rows.",
+ "description": "Routing table for the isms-p-review skill. Each topic maps everyday Korean and English words to the ISMS-P criteria items whose key checkpoints test that topic, per set. The first item in each list is the primary one. The 별표7의2 and 별표7의3 lists are derived from the 별표7 list through the 대응(별표7) row of each relaxed-set document, so an empty list means the relaxed set has no counterpart item and the topic is outside that set. This is a lookup aid written by this project; it is not part of the official criteria. derive_relaxed_lists.py next to this file rewrites the relaxed lists after a 별표7 list is edited, and tools/check_corpus.py check [18] verifies that every item of every set appears in at least one topic, that every listed number exists, and that the relaxed lists agree with the 대응(별표7) rows.",
  "sets": {
   "별표7": "docs/ko/annex7",
   "별표7의2": "docs/ko/annex7-2",
@@ -12,15 +12,17 @@
    "topic_en": "executive participation, reporting, committee",
    "keywords": [
     "경영진",
-    "대표",
     "임원",
-    "보고",
     "위원회",
     "의사결정",
     "management",
     "executive",
     "committee",
-    "report"
+    "report",
+    "경영진 보고",
+    "경영진에게 보고",
+    "대표에게 보고",
+    "임원 보고"
    ],
    "items": {
     "별표7": [
@@ -72,15 +74,16 @@
    "topic_ko": "정보보호 조직, 실무 조직, 담당자 배정",
    "topic_en": "security organization, working-level team, assignment",
    "keywords": [
-    "조직",
-    "실무",
-    "담당자",
     "전담",
-    "인력",
     "보안팀",
     "organization",
-    "team",
-    "staff"
+    "보안 조직",
+    "정보보호 조직",
+    "실무 조직",
+    "보안 담당자",
+    "전담 인력",
+    "security team",
+    "security organization"
    ],
    "items": {
     "별표7": [
@@ -104,10 +107,12 @@
     "범위",
     "인증 범위",
     "대상 서비스",
-    "제외",
     "scope",
     "in scope",
-    "out of scope"
+    "out of scope",
+    "범위에서 제외",
+    "범위 누락",
+    "인증 대상 서비스"
    ],
    "items": {
     "별표7": [
@@ -132,13 +137,15 @@
     "지침",
     "규정",
     "절차서",
-    "승인",
-    "개정",
-    "제정",
     "policy",
     "guideline",
     "procedure",
-    "approv"
+    "approv",
+    "정책 승인",
+    "정책 개정",
+    "지침 개정",
+    "정책 제정",
+    "정책 수립"
    ],
    "items": {
     "별표7": [
@@ -159,12 +166,14 @@
    "topic_en": "budget, staffing, resources",
    "keywords": [
     "예산",
-    "인력",
     "자원",
-    "비용",
     "budget",
     "resource",
-    "headcount"
+    "headcount",
+    "보안 예산",
+    "보안 인력",
+    "자원 부족",
+    "예산 부족"
    ],
    "items": {
     "별표7": [
@@ -283,12 +292,13 @@
    "topic_ko": "보호대책 구현, 이행 결과 확인",
    "topic_en": "implementation of protection measures",
    "keywords": [
-    "구현",
-    "이행",
     "이행 결과",
     "적용 결과",
     "implement",
-    "deployed control"
+    "deployed control",
+    "보호대책 구현",
+    "대책 이행",
+    "구현 결과"
    ],
    "items": {
     "별표7": [
@@ -303,12 +313,13 @@
    "topic_ko": "보호대책 공유, 담당자 전달",
    "topic_en": "sharing protection measures with operators",
    "keywords": [
-    "공유",
-    "전달",
-    "안내",
     "숙지",
     "share",
-    "communicate"
+    "communicate",
+    "보호대책 공유",
+    "대책 공유",
+    "대책 전달",
+    "담당자에게 안내"
    ],
    "items": {
     "별표7": [
@@ -360,11 +371,14 @@
     "법령",
     "준수",
     "컴플라이언스",
-    "의무",
     "legal",
     "regulat",
     "compliance",
-    "law"
+    "법적 의무",
+    "법 개정 반영",
+    "준수 검토",
+    "legal requirement",
+    "regulatory change"
    ],
    "items": {
     "별표7": [
@@ -387,11 +401,14 @@
     "내부 점검",
     "내부 감사",
     "자체 점검",
-    "감사",
     "점검 결과",
     "internal audit",
     "self-assessment",
-    "review"
+    "내부감사",
+    "보안 감사",
+    "점검 계획",
+    "management system review",
+    "internal check"
    ],
    "items": {
     "별표7": [
@@ -546,7 +563,17 @@
     "termination",
     "leaver",
     "offboard",
-    "transfer"
+    "퇴직자",
+    "퇴사자",
+    "비활성화",
+    "계정 잠금",
+    "계정 회수",
+    "권한 회수",
+    "통보",
+    "인사 명단",
+    "job transfer",
+    "leaving employee",
+    "deactivat"
    ],
    "items": {
     "별표7": [
@@ -567,14 +594,16 @@
    "topic_ko": "보안 위반, 징계, 상벌",
    "topic_en": "security violation and disciplinary action",
    "keywords": [
-    "위반",
     "징계",
     "상벌",
     "처벌",
-    "제재",
     "violation",
     "disciplin",
-    "sanction"
+    "sanction",
+    "보안 위반",
+    "규정 위반",
+    "징계 절차",
+    "위반자 조치"
    ],
    "items": {
     "별표7": [
@@ -622,14 +651,16 @@
    "topic_ko": "외부자 계약, 위탁 계약서, 계약상 보안 요구사항",
    "topic_en": "contracts with third parties, security clauses",
    "keywords": [
-    "계약",
     "계약서",
     "위탁계약",
     "보안 조항",
     "SLA",
     "contract",
-    "clause",
-    "agreement"
+    "외주 계약",
+    "용역 계약",
+    "보안 요구사항 계약",
+    "contract clause",
+    "vendor agreement"
    ],
    "items": {
     "별표7": [
@@ -790,14 +821,17 @@
     "항온항습",
     "UPS",
     "소방",
-    "소화",
     "온도",
     "습도",
     "누수",
-    "전원",
     "HVAC",
-    "fire",
-    "power"
+    "소화기",
+    "소화 설비",
+    "소방 설비",
+    "전원 공급",
+    "정전",
+    "fire suppression",
+    "power supply"
    ],
    "items": {
     "별표7": [
@@ -873,7 +907,22 @@
     "사무실",
     "clear desk",
     "screen lock",
-    "printout"
+    "printout",
+    "공용 드라이브",
+    "공유 드라이브",
+    "공유 폴더",
+    "공유폴더",
+    "파일 서버",
+    "파일서버",
+    "문서 공유",
+    "명단 파일",
+    "전 직원이 열",
+    "누구나 볼 수",
+    "아무나 접근",
+    "shared drive",
+    "shared folder",
+    "file server",
+    "everyone can open"
    ],
    "items": {
     "별표7": [
@@ -901,10 +950,16 @@
     "미사용",
     "장기 미접속",
     "계정 관리",
-    "account",
     "dormant",
     "inactive",
-    "provision"
+    "provision",
+    "계정 비활성화",
+    "계정 정지",
+    "계정 잠금",
+    "계정 신청",
+    "user account",
+    "account deletion",
+    "dormant account"
    ],
    "items": {
     "별표7": [
@@ -932,7 +987,14 @@
     "기본 계정",
     "default account",
     "shared account",
-    "unique id"
+    "unique id",
+    "계정 하나를",
+    "여러 명이 사용",
+    "여러 사람이 사용",
+    "함께 쓰는 계정",
+    "공유해서 사용",
+    "share one account",
+    "shared login"
    ],
    "items": {
     "별표7": [
@@ -965,7 +1027,14 @@
     "자동 로그아웃",
     "login",
     "authentication",
-    "session"
+    "session",
+    "로그인 실패 횟수",
+    "실패 제한",
+    "계정 잠금 정책",
+    "ID와 비밀번호만",
+    "아이디 비밀번호만",
+    "single factor",
+    "two-factor"
    ],
    "items": {
     "별표7": [
@@ -1024,7 +1093,11 @@
     "최고 권한",
     "권한 부여",
     "privileged",
-    "superuser"
+    "superuser",
+    "관리자 권한",
+    "권한 승인",
+    "권한 부여 내역",
+    "특권"
    ],
    "items": {
     "별표7": [
@@ -1051,7 +1124,17 @@
     "불필요한 권한",
     "access review",
     "recertif",
-    "entitlement"
+    "entitlement",
+    "대사",
+    "계정 대사",
+    "계정 현황",
+    "계정 목록",
+    "권한 현황 점검",
+    "분기 점검",
+    "정기 검토",
+    "권한 적정성",
+    "access recertification",
+    "account reconciliation"
    ],
    "items": {
     "별표7": [
@@ -1146,7 +1229,14 @@
     "마스킹",
     "application access",
     "admin page",
-    "bulk download"
+    "bulk download",
+    "admin",
+    "/admin",
+    "관리자 화면",
+    "관리 콘솔",
+    "백오피스",
+    "백엔드 관리",
+    "외부에서 접속"
    ],
    "items": {
     "별표7": [
@@ -1261,7 +1351,18 @@
     "웹 필터",
     "URL 차단",
     "internet access",
-    "web filter"
+    "web filter",
+    "이메일",
+    "메일",
+    "Gmail",
+    "지메일",
+    "개인 메일",
+    "외부 메일",
+    "클라우드 저장소",
+    "email",
+    "gmail",
+    "personal mail",
+    "file sharing site"
    ],
    "items": {
     "별표7": [
@@ -1294,7 +1395,13 @@
     "복호화",
     "encrypt",
     "hash",
-    "plaintext"
+    "plaintext",
+    "암호화되어 있지 않",
+    "암호화 안 함",
+    "암호화 미적용",
+    "unencrypted",
+    "not encrypted",
+    "in clear"
    ],
    "items": {
     "별표7": [
@@ -1373,9 +1480,10 @@
     "동적 분석",
     "취약점 진단 후 반영",
     "security test",
-    "code review",
     "SAST",
-    "DAST"
+    "DAST",
+    "코드 리뷰",
+    "code security review"
    ],
    "items": {
     "별표7": [
@@ -1402,7 +1510,18 @@
     "운영 서버에서 개발",
     "production",
     "staging",
-    "environment separation"
+    "environment separation",
+    "개발 서버",
+    "운영 서버",
+    "같은 장비",
+    "같은 서버",
+    "한 서버",
+    "동일 서버",
+    "개발과 운영",
+    "dev and prod",
+    "same server",
+    "development server",
+    "production server"
    ],
    "items": {
     "별표7": [
@@ -1425,7 +1544,15 @@
     "운영 데이터 복사",
     "가공",
     "test data",
-    "production data in test"
+    "production data in test",
+    "운영 DB 복사",
+    "운영 데이터",
+    "그대로 복사",
+    "실 데이터",
+    "고객 데이터로 테스트",
+    "production data",
+    "copy of the production",
+    "test with real data"
    ],
    "items": {
     "별표7": [
@@ -1500,14 +1627,18 @@
    "topic_ko": "변경 관리, 변경 승인, 변경 이력",
    "topic_en": "change management",
    "keywords": [
-    "변경",
     "변경 관리",
     "변경 승인",
     "변경 이력",
     "설정 변경",
     "change management",
     "change request",
-    "CAB"
+    "CAB",
+    "변경 요청",
+    "변경 작업",
+    "구성 변경",
+    "무단 변경",
+    "change approval"
    ],
    "items": {
     "별표7": [
@@ -1529,14 +1660,16 @@
     "성능",
     "용량",
     "장애",
-    "다운",
     "응답 지연",
     "장애 기록",
     "모니터링",
     "performance",
     "capacity",
     "outage",
-    "fault"
+    "fault",
+    "서비스 다운",
+    "다운타임",
+    "장애 발생"
    ],
    "items": {
     "별표7": [
@@ -1563,7 +1696,12 @@
     "백업 매체",
     "backup",
     "restore",
-    "offsite"
+    "offsite",
+    "복구 테스트",
+    "복구 시험",
+    "백업 복구",
+    "restore test",
+    "never restored"
    ],
    "items": {
     "별표7": [
@@ -1582,16 +1720,23 @@
    "topic_ko": "로그, 접속 기록, 보관 기간, 로그 보호",
    "topic_en": "logs and access records, retention, integrity",
    "keywords": [
-    "로그",
     "접속 기록",
     "접속기록",
     "보관 기간",
     "보존 기간",
     "로그 보관",
     "위변조",
-    "log",
     "audit trail",
-    "retention"
+    "retention",
+    "로그 기록",
+    "접속 로그",
+    "기록 보관",
+    "기록이 없",
+    "이력 관리",
+    "record of",
+    "no record",
+    "logging",
+    "history"
    ],
    "items": {
     "별표7": [
@@ -1668,7 +1813,12 @@
     "disposal",
     "wipe",
     "degauss",
-    "reuse"
+    "reuse",
+    "장비 폐기",
+    "서버 폐기",
+    "PC 폐기",
+    "중고 판매",
+    "매체 폐기"
    ],
    "items": {
     "별표7": [
@@ -1734,7 +1884,15 @@
     "보안 그룹",
     "cloud",
     "bucket",
-    "IAM"
+    "IAM",
+    "S3",
+    "스토리지 공개",
+    "퍼블릭 버킷",
+    "public bucket",
+    "cloud storage",
+    "Google Drive",
+    "Dropbox",
+    "OneDrive"
    ],
    "items": {
     "별표7": [
@@ -1805,17 +1963,25 @@
    "topic_ko": "정보 전송, 파일 전송, 외부 연계, API, 전송 보호",
    "topic_en": "information transfer, interfaces, APIs",
    "keywords": [
-    "전송",
     "파일 전송",
     "외부 연계",
-    "연계",
     "API",
     "FTP",
     "SFTP",
     "이메일 전송",
-    "transfer",
     "interface",
-    "integration"
+    "integration",
+    "정보 전송",
+    "외부 전송",
+    "메일 첨부",
+    "이메일로 보냄",
+    "메일로 전달",
+    "첨부파일",
+    "email attachment",
+    "send by email",
+    "sent to clients",
+    "data transfer",
+    "file transfer"
    ],
    "items": {
     "별표7": [
@@ -1845,7 +2011,15 @@
     "개인 기기",
     "endpoint",
     "laptop",
-    "mobile device"
+    "mobile device",
+    "개인 메일",
+    "웹메일",
+    "Gmail",
+    "지메일",
+    "개인 계정 사용",
+    "personal email",
+    "personal account",
+    "webmail"
    ],
    "items": {
     "별표7": [
@@ -2070,14 +2244,18 @@
     "사고 발생",
     "유출",
     "침해",
-    "신고",
-    "통지",
-    "복구",
     "사고 보고",
     "원인 분석",
     "breach",
     "notification",
-    "incident handling"
+    "incident handling",
+    "사고 복구",
+    "유출 신고",
+    "유출 통지",
+    "사고 신고",
+    "침해 신고",
+    "해킹",
+    "랜섬웨어 감염"
    ],
    "items": {
     "별표7": [
@@ -2133,7 +2311,9 @@
     "복구 훈련",
     "복구 계획 점검",
     "DR test",
-    "recovery test"
+    "recovery test",
+    "재해 복구 시험",
+    "DR 리허설"
    ],
    "items": {
     "별표7": [
@@ -2148,8 +2328,6 @@
    "topic_ko": "개인정보 수집과 이용, 동의, 법정대리인, 만 14세 미만",
    "topic_en": "collection and use of personal information, consent",
    "keywords": [
-    "수집",
-    "이용",
     "동의",
     "동의서",
     "법정대리인",
@@ -2158,7 +2336,12 @@
     "수집 근거",
     "collect",
     "consent",
-    "lawful basis"
+    "lawful basis",
+    "개인정보 수집",
+    "수집 항목",
+    "수집 동의",
+    "이용 동의",
+    "동의 없이"
    ],
    "items": {
     "별표7": [
@@ -2214,7 +2397,11 @@
     "아이핀",
     "i-PIN",
     "RRN",
-    "resident registration"
+    "resident registration",
+    "주민등록번호 수집",
+    "주민번호 보관",
+    "생년월일 뒷자리",
+    "resident number"
    ],
    "items": {
     "별표7": [
@@ -2362,7 +2549,13 @@
     "처리 현황",
     "보유 현황",
     "PI inventory",
-    "record of processing"
+    "record of processing",
+    "고객 명단",
+    "고객 목록",
+    "회원 명단",
+    "명단 파일",
+    "개인정보 파일 관리",
+    "customer list"
    ],
    "items": {
     "별표7": [
@@ -2386,9 +2579,11 @@
     "최신성",
     "품질",
     "오류 정보",
-    "정정",
     "accuracy",
-    "data quality"
+    "data quality",
+    "정보 정정",
+    "오류 수정",
+    "데이터 정확"
    ],
    "items": {
     "별표7": [
@@ -2411,13 +2606,15 @@
    "keywords": [
     "앱 접근 권한",
     "앱 권한",
-    "접근권한",
     "카메라 권한",
     "주소록",
     "위치 권한",
     "스마트폰 앱",
     "app permission",
-    "device permission"
+    "device permission",
+    "앱 접근권한",
+    "앱이 요구",
+    "스마트폰 권한"
    ],
    "items": {
     "별표7": [
@@ -2552,13 +2749,14 @@
    "topic_en": "business transfer and merger",
    "keywords": [
     "영업 양도",
-    "양도",
-    "양수",
     "합병",
     "이전 통지",
-    "transfer of business",
     "merger",
-    "acquisition"
+    "acquisition",
+    "영업 양수",
+    "사업 양도",
+    "business transfer",
+    "transfer of business"
    ],
    "items": {
     "별표7": [
@@ -2615,11 +2813,14 @@
     "보유 기간",
     "보유기간",
     "기간 경과",
-    "삭제",
     "복구 불가",
     "destroy",
     "destruction",
-    "erase"
+    "erase",
+    "개인정보 삭제",
+    "영구 삭제",
+    "파기 기록",
+    "파기 확인"
    ],
    "items": {
     "별표7": [
@@ -2693,8 +2894,6 @@
    "topic_en": "data subject rights",
    "keywords": [
     "정보주체",
-    "열람",
-    "정정",
     "삭제 요구",
     "처리 정지",
     "동의 철회",
@@ -2703,7 +2902,12 @@
     "data subject",
     "access request",
     "erasure",
-    "withdraw"
+    "withdraw",
+    "열람 요구",
+    "열람 청구",
+    "정정 요구",
+    "삭제 요청",
+    "권리 보장"
    ],
    "items": {
     "별표7": [
@@ -2747,6 +2951,177 @@
      "2.11.3"
     ]
    }
+  },
+  {
+   "topic_ko": "파일 공유, 공유 폴더, 공용 드라이브, 파일서버, 문서 접근 통제",
+   "topic_en": "file sharing, shared folders and drives, file servers, document access",
+   "keywords": [
+    "공용 드라이브",
+    "공유 드라이브",
+    "공유 폴더",
+    "공유폴더",
+    "파일 서버",
+    "파일서버",
+    "NAS",
+    "문서 공유",
+    "공유 문서",
+    "전 직원이",
+    "모든 직원이",
+    "누구나",
+    "아무나",
+    "열 수 있",
+    "볼 수 있",
+    "접근 가능",
+    "shared drive",
+    "shared folder",
+    "file server",
+    "network share",
+    "anyone can",
+    "all staff can"
+   ],
+   "items": {
+    "별표7": [
+     "2.4.7",
+     "2.10.6",
+     "2.6.2",
+     "2.5.1",
+     "2.5.6",
+     "2.10.2"
+    ],
+    "별표7의2": [
+     "2.3.4",
+     "2.9.4",
+     "2.5.2",
+     "2.4.1",
+     "2.9.2"
+    ],
+    "별표7의3": [
+     "2.4.2",
+     "2.10.2",
+     "2.6.2",
+     "2.5.1"
+    ]
+   }
+  },
+  {
+   "topic_ko": "이메일 사용, 개인 메일, 첨부 파일 전송",
+   "topic_en": "email use, personal mail accounts, attachments",
+   "keywords": [
+    "이메일",
+    "메일",
+    "웹메일",
+    "개인 메일",
+    "Gmail",
+    "지메일",
+    "네이버 메일",
+    "첨부",
+    "첨부파일",
+    "메일로 보냄",
+    "메일로 전송",
+    "email",
+    "e-mail",
+    "gmail",
+    "webmail",
+    "attachment",
+    "mail out"
+   ],
+   "items": {
+    "별표7": [
+     "2.10.5",
+     "2.6.7",
+     "2.10.6",
+     "2.7.1",
+     "2.9.4"
+    ],
+    "별표7의2": [
+     "2.5.4",
+     "2.9.4",
+     "2.6.1",
+     "2.8.3"
+    ],
+    "별표7의3": [
+     "2.6.4",
+     "2.10.2",
+     "2.7.1",
+     "2.9.3"
+    ]
+   }
+  },
+  {
+   "topic_ko": "기록 부재, 이력 없음, 증적 미보관",
+   "topic_en": "no record kept, missing history or evidence",
+   "keywords": [
+    "기록이 없",
+    "기록을 남기지",
+    "이력이 없",
+    "남기지 않",
+    "기록하지 않",
+    "증적이 없",
+    "확인할 수 없",
+    "no record",
+    "not recorded",
+    "nobody keeps",
+    "no log",
+    "not documented"
+   ],
+   "items": {
+    "별표7": [
+     "2.9.4",
+     "1.3.3",
+     "2.9.1",
+     "2.5.1",
+     "2.5.6"
+    ],
+    "별표7의2": [
+     "2.8.3",
+     "1.3.1",
+     "2.8.1",
+     "2.4.1"
+    ],
+    "별표7의3": [
+     "2.9.3",
+     "1.3.1",
+     "2.9.1",
+     "2.5.1"
+    ]
+   }
+  },
+  {
+   "topic_ko": "외부 공개, 인터넷 노출, 누구나 접속",
+   "topic_en": "exposed to the internet, reachable by anyone",
+   "keywords": [
+    "인터넷에서 접속",
+    "외부에서 접속",
+    "외부 공개",
+    "인터넷에 노출",
+    "공개되어",
+    "누구나 접속",
+    "IP 제한 없",
+    "reachable from the internet",
+    "exposed",
+    "publicly accessible",
+    "open to the internet"
+   ],
+   "items": {
+    "별표7": [
+     "2.6.3",
+     "2.10.3",
+     "2.6.1",
+     "2.6.6",
+     "2.5.3"
+    ],
+    "별표7의2": [
+     "2.9.3",
+     "2.5.1",
+     "2.5.3",
+     "2.4.3"
+    ],
+    "별표7의3": [
+     "2.6.1",
+     "2.6.3",
+     "2.5.3"
+    ]
+   }
   }
  ],
  "out_of_scope": {
@@ -2774,18 +3149,23 @@
     "topic_ko": "2026 인증제도 개편, 3단계(간편/표준/강화) 인증기준, 새 의무 대상",
     "topic_en": "the 2026 scheme overhaul, three-tier criteria, new mandatory targets",
     "keywords": [
+     "2026",
      "개편",
      "3단계",
-     "강화 인증",
-     "표준 인증",
-     "간편 인증",
-     "2026년 기준",
-     "새 기준",
+     "세 단계",
+     "단계별 인증",
+     "강화 인증기준",
+     "표준 인증기준",
+     "간편 인증기준",
+     "새 인증기준",
+     "인증 실효성",
      "overhaul",
      "three tier",
-     "new criteria"
+     "three-tier",
+     "new criteria",
+     "enhanced tier"
     ],
-    "route": "Not in the corpus. Say the pinned annexes are 별표 7 (2023.10.5) and 별표 7의2/7의3 (2024.7.24) and point at UPDATES.md section 2.3 and an external check."
+    "route": "Not in the corpus. Say the pinned annexes are 별표 7 (2023.10.5) and 별표 7의2/7의3 (2024.7.24) and point at UPDATES.md section 2.3 and an external check. Note the word 간편인증 alone means the CURRENT 인증 특례 track (별표 7의2 or 7의3, in force), not the 2026 간편 tier; treat it as the 2026 scheme only when the user also names 2026, 개편, 3단계, or the 강화/표준 tiers."
    },
    {
     "topic_ko": "인증 의무 대상 여부, 신청 절차, 심사 일정, 수수료",

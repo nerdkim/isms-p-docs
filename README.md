@@ -53,6 +53,7 @@ skill/
   isms-p-review/         Claude Code skill: review submitted content against the criteria (scenario S8)
     SKILL.md             the procedure (routing, reading, verdicts, report format)
     topic-index.json     routing table from everyday words to item numbers, per set
+    derive_relaxed_lists.py  re-derive the relaxed-set lists from the 대응(별표7) rows after editing a topic
 ```
 
 All paths are ASCII, so there are no URL-encoding surprises for consumers.

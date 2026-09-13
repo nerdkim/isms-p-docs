@@ -42,8 +42,10 @@ this repository. See the managed block at the bottom.
   to content a user hands over (scenario S8 of `extended/README.md`), and reports nonconformity
   candidates, open questions, and clean results with citations into `docs/`. `SKILL.md` is the
   procedure and `topic-index.json` is its routing table (everyday Korean and English words to item
-  numbers, per set; the relaxed-set lists follow the `대응(별표7)` rows, and check [18] of
-  `check_corpus.py` verifies that every item of every set appears in at least one topic). It is
+  numbers, per set; the relaxed-set lists are derived from the `대응(별표7)` rows by
+  `derive_relaxed_lists.py` next to it, run after editing a topic's Annex 7 list, and check [18] of
+  `check_corpus.py` verifies that every item of every set appears in at least one topic and that
+  the derived lists are current). It is
   installed by symlinking the directory into `~/.claude/skills/`, so the corpus root resolves from
   the symlink when the skill is invoked from another project. `SKILL.md` is English prose under the
   docs/16 conventions; the Korean report template inside it is a fenced block.

@@ -2,6 +2,7 @@
 name: isms-p-review
 description: Assess content the user hands over (a policy or procedure excerpt, a description of how something is done, a system or configuration note, a screenshot description, an incident write-up, a vendor contract clause) against the ISMS-P certification criteria using the isms-p-docs corpus, and report which items it touches, what is a nonconformity candidate, what needs more information, and what is fine. The answer may be that nothing is wrong. Use when the user asks whether something is a problem, a defect, a gap, or a nonconformity under ISMS-P, ISMS, KISA certification, or the 인증기준, or pastes content and mentions ISMS-P. Do not use for a whole-organization self-assessment survey, for drafting a policy, for editing the corpus, or for ISO 27001 questions (that is iso-27001-review).
 argument-hint: <content, or a file path, or empty to assess the content pasted above> [별표7 | 별표7의2 | 별표7의3]
+allowed-tools: Read, Grep, Glob, Bash
 ---
 
 # ISMS-P review
@@ -21,21 +22,24 @@ unless asked.
 
 ## 1. Locate the corpus
 
-The corpus is the `isms-p-docs` repository. Find its root, in this order, and stop at the first
-hit. Verify the hit by checking that `extended/manifest.json` exists under it and carries
-`"id": "isms-p"`.
+The corpus is the `isms-p-docs` repository. Resolve its root into `$root`, in this order,
+stopping at the first candidate that passes the check (the manifest exists under it and carries
+the standard id `isms-p`). Every path in sections 3 and 4 is relative to `$root`; citations in
+the report use the repository-relative form (`docs/...`).
 
 ```bash
+ok() { [ -n "$1" ] && grep -qE '"id"[[:space:]]*:[[:space:]]*"isms-p"' "$1/extended/manifest.json" 2>/dev/null; }
 # 1. the current project is the corpus itself (or a directory inside it)
-root="$(git rev-parse --show-toplevel 2>/dev/null)"
-[ -f "$root/extended/manifest.json" ] && grep -q '"id": "isms-p"' "$root/extended/manifest.json" && echo "$root"
+c="$(git rev-parse --show-toplevel 2>/dev/null)"; ok "$c" && root="$c"
 # 2. this skill is a symlink into the repository at skill/isms-p-review, two levels up
-d="$(readlink -f "$HOME/.claude/skills/isms-p-review")"; echo "${d%/skill/isms-p-review}"
+[ -z "${root:-}" ] && d="$(readlink -f "$HOME/.claude/skills/isms-p-review" 2>/dev/null)" && c="${d%/skill/isms-p-review}" && ok "$c" && root="$c"
 # 3. an explicit override
-echo "${ISMS_P_DOCS_ROOT:-}"
+[ -z "${root:-}" ] && ok "${ISMS_P_DOCS_ROOT:-}" && root="$ISMS_P_DOCS_ROOT"
+echo "${root:-NOT FOUND}"
 ```
 
-If none resolves, ask the user for the path. Do not answer from memory of the criteria. Read
+If the result is `NOT FOUND`, ask the user for the path. Do not answer from memory of the
+criteria. Read
 `extended/USAGE.md` once per session; its rules (read-only corpus, manifest first, citation on
 every claim, human gate, DLP, currency boundary) bind this skill and section 8 restates them.
 
@@ -57,8 +61,13 @@ content the user pasted above. Then normalise it before you route:
   and ask for a description or metadata instead.
 
 **Choose the set.** Use the set the user names. Otherwise 간편인증, 인증 특례, 중소기업, or a
-매출액 300억 threshold point at 별표 7의2 or 7의3; say which you chose and why. With no hint,
-use 별표 7 and state the assumption in the report header. The 3.x items (개인정보 처리단계별
+매출액 300억 threshold point at 별표 7의2 or 7의3; say which you chose and why (under 300억
+of ICT-service revenue is 7의2; at or above it without major ICT facilities is 7의3; if the
+revenue is given but the facilities are not, take 7의2 below the threshold and say the other
+condition was assumed). 간편인증 on its own means this current 인증 특례 track, which is in
+force; it refers to the 2026 three-tier scheme only when the user also says 2026, 개편, 3단계,
+or names the 강화 or 표준 tier, and then section 6 applies. With no hint, use 별표 7 and state
+the assumption in the report header. The 3.x items (개인정보 처리단계별
 요구사항) apply to ISMS-P only: for an ISMS-only applicant report them as 범위 외 rather than
 judging them.
 
@@ -70,18 +79,33 @@ say so and stop.
 
 Do not read all 228 documents. Route first:
 
-1. Read `skill/isms-p-review/topic-index.json` (next to this file). Match each assertion
-   against the `keywords` of every topic (Korean and English; match on substrings, not exact
-   words) and collect the `items` of the topics that hit **for the chosen set**. An empty list
-   for a relaxed set means that set has no counterpart item: report the topic as 범위 외 for
-   that set, and say which Annex 7 item covers it in the full set.
+1. Read `skill/isms-p-review/topic-index.json` (next to this file) and match each assertion
+   against every topic, then collect the `items` of the topics that hit **for the chosen set**.
+   The keywords are a vocabulary, not literal strings to grep for, so match this way:
+   - A keyword hits when its content words appear in the assertion in any order, ignoring
+     Korean particles and verb endings and English inflection ("계정을 비활성화한 뒤" hits
+     "계정 비활성화"; "개발 서버와 운영 서버가 같은 장비" hits "개발 서버" and "같은 장비";
+     "sent from personal Gmail" hits "personal email"). Read `topic_ko` and `topic_en` as
+     keywords too.
+   - Then make one pass in the other direction: for each assertion ask which topics it is
+     about, even if no keyword fired. A user's everyday sentence ("운영 DB를 그대로 복사해서
+     테스트 서버에 넣어") often names no index word yet clearly belongs to a topic (시험 데이터). <!-- conventions-allow: quotes user phrasing or a corpus term verbatim -->
+   - Discard a hit that rests on one short or generic word inside a longer word or in another
+     sense ("로그" inside "로그인", "복구" in "복구 테스트" hitting 사고 복구, "admin" in a URL <!-- conventions-allow: quotes user phrasing or a corpus term verbatim -->
+     hitting 관리자 계정 rather than 관리자 페이지, "소화" inside "최소화"). A hit needs either
+     a specific keyword or two keywords of the same topic.
+   An empty `items` list for a relaxed set means that set has no counterpart item: report the
+   topic as 범위 외 for that set, and say which Annex 7 item covers it in the full set.
 2. Confirm and widen with `extended/manifest.json`: keep `lang == "ko"` and `section` equal to
    the chosen set, scan the `name` and `subgroup` of every item for words in the assertions,
    and add neighbours the topic index lists for the same theme when an assertion clearly spans
    them. For 별표 7 you may also grep `extended/index/defect-rulebook.json` (per-item
    nonconformity examples) for the assertion's words.
 3. Keep at most about 8 **primary** items, the ones a checkpoint would directly test. List the
-   rest as **secondary** in the report so nothing is silently dropped.
+   rest as **secondary** in the report so nothing is silently dropped. If the routing table
+   had no words for something the user said, say so in one line of the report's 관련 항목
+   section, so the maintainer can add them (the table is hand-authored; its 별표7의2 and 7의3
+   lists are derived by `derive_relaxed_lists.py` next to it).
 4. Check the `out_of_scope` block of the topic index. Legal interpretation, the 2026 scheme
    overhaul, certification obligation and procedure, and ISO 27001 are handled as it says.
 
@@ -122,9 +146,14 @@ Then give the item one **verdict**:
 - **범위 외** (out of scope): the concern is real but the corpus does not decide it. See
   section 6.
 
-Absence of information is never 문제 없음; it is 확인 필요 with the missing fact named. A verdict
-of 결함 후보 needs a quoted checkpoint or a quoted 결함사례; if you cannot quote one, it is not a
-finding. Never grade a candidate as 중결함 or 경결함: that is the auditor's call, and the corpus
+Absence of information is never 문제 없음; it is 확인 필요 with the missing fact named. The
+mirror rule holds too: a practice that covers part of what a checkpoint asks is 충족 근거 for
+that part and 정보 부족 for the rest, not 미충족. "Every quarter we reconcile the account list
+against the HR roster" is evidence of a periodic review; whether rights are also checked for
+appropriateness is a question to ask, not a defect to record. Mark 미충족 only when an assertion
+states a practice contrary to the checkpoint, states that the checkpoint's activity does not
+happen ("복구 테스트는 한 번도 해본 적이 없습니다"), or matches a 결함사례. A verdict of 결함 후보 <!-- conventions-allow: quotes user phrasing or a corpus term verbatim -->
+needs a quoted checkpoint or a quoted 결함사례; if you cannot quote one, it is not a finding. Never grade a candidate as 중결함 or 경결함: that is the auditor's call, and the corpus
 does not classify its examples. Numbers (a retention period, a password length, a review
 interval) are stated only when the item's own text gives them, with the citation; otherwise
 write `[확인필요]` and point at the item's `관련 법규` line.
@@ -162,7 +191,7 @@ dash and no middle dot anywhere in the report; use a comma, colon, slash, parent
 
 > 상태: AI 생성 초안 / 검토 전 | 적용 세트: 별표 7(추정) | 생성: 2026-09-13 | 자료집 기준: 세부점검항목 2023.10.31 및 2024.7.24, 인증기준 안내서 2023.11.23
 
-**한 줄 결론**: 결함 후보 N건, 확인 필요 N건, 문제 없음 N건(검토한 항목 M개, 관련 항목 K개 추가)
+**한 줄 결론**: 결함 후보 N건, 확인 필요 N건, 문제 없음 N건(검토한 항목 M개, 관련 항목 K개 추가). 전달 내용이 충족 근거를 보여 준 확인사항 J개.
 
 | 항목 | 판정 | 전달 내용 중 근거 | 대응 확인사항 / 결함사례 | 출처 |
 |---|---|---|---|---|
@@ -187,7 +216,10 @@ Citation form: `docs/ko/<set>/<no>.md > <섹션명>`. Every row of the table and
 under 판정 근거 carries one. A statement you cannot cite does not go in the report.
 
 When the verdict is 문제 없음 for everything, the table still lists the items you tested and the
-checkpoints they met, so the user can see what was checked rather than a bare "fine".
+checkpoints they met, so the user can see what was checked rather than a bare "fine". When most
+items are 확인 필요 only because the content is silent on some checkpoint, the one-line
+conclusion must still say that nothing described is a 결함 후보 and how many checkpoints the
+content did meet; a well-run practice must read as well run.
 
 If the user asks to keep a record, save the report as
 `extended/outputs/spot-checks/spot-check-<topic>-<YYYY-MM-DD>.md` under the corpus root

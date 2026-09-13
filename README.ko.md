@@ -49,6 +49,7 @@ skill/
   isms-p-review/         Claude Code skill: 전달받은 내용을 인증기준에 대조해 점검(시나리오 S8)
     SKILL.md             절차(routing, 읽기, 판정, 보고 양식)
     topic-index.json     일상 어휘를 세트별 항목 번호로 잇는 routing 표
+    derive_relaxed_lists.py  topic 수정 뒤 대응(별표7) 행에서 완화 세트 목록을 다시 유도
 ```
 
 경로는 전부 ASCII라 소비자 쪽에서 URL 인코딩 문제가 생기지 않습니다.
