@@ -31,13 +31,22 @@ this repository. See the managed block at the bottom.
   root. How to use the corpus is described in `extended/README.md` (the plan) and
   `extended/USAGE.md` (operating rules).
 - `tools/` : `build_index.py` regenerates every derived index from `docs/`; `check_corpus.py` runs
-  17 read-only integrity checks; `test_check_corpus.py` proves each of those checks actually fails on
+  18 read-only integrity checks; `test_check_corpus.py` proves each of those checks actually fails on
   the mutation it exists to catch, so run it after touching either tool. All three are
   dependency-free (Python standard library only).
 - `harness/` : the playbook guard set (documentation conventions checker, git hooks). `core.hooksPath`
   is local `.git/config` state and does not travel with a clone, and this repository has no
   `package.json` to hang a `prepare` script on, so the wiring is `bash harness/install-hooks.sh`,
   run once per clone. It is idempotent and writes nothing outside `.git/config`.
+- `skill/isms-p-review/` : a Claude Code skill that applies the operating rules of `extended/USAGE.md`
+  to content a user hands over (scenario S8 of `extended/README.md`), and reports nonconformity
+  candidates, open questions, and clean results with citations into `docs/`. `SKILL.md` is the
+  procedure and `topic-index.json` is its routing table (everyday Korean and English words to item
+  numbers, per set; the relaxed-set lists follow the `대응(별표7)` rows, and check [18] of
+  `check_corpus.py` verifies that every item of every set appears in at least one topic). It is
+  installed by symlinking the directory into `~/.claude/skills/`, so the corpus root resolves from
+  the symlink when the skill is invoked from another project. `SKILL.md` is English prose under the
+  docs/16 conventions; the Korean report template inside it is a fenced block.
 - `README.md` / `README.ko.md` : repository introduction (English default, Korean companion).
 - `UPDATES.md` / `UPDATES.ko.md` : the source pin **and the known-divergence register**. It records
   which official edition each part of the corpus is based on, and which upstream legal changes are

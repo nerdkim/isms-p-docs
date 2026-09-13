@@ -23,7 +23,7 @@ import sys
 import tempfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-COPY_DIRS = ("docs", "extended", "tools")
+COPY_DIRS = ("docs", "extended", "tools", "skill")
 COPY_FILES = ("README.md", "README.ko.md", "UPDATES.md", "UPDATES.ko.md", "CLAUDE.md",
               "LICENSE", "LICENSE-CONTENT", "NOTICE")
 
@@ -290,6 +290,48 @@ def main():
 
     case("a deleted criteria item is rejected even after a rebuild",
          delete_item_and_rebuild, "defines")
+
+    print("== [18] the skill routing table ==")
+
+    def topic_path(work):
+        return os.path.join(work, "skill", "isms-p-review", "topic-index.json")
+
+    def unroute_item(work):
+        # Remove 1.1.4 from every topic and every set: the skill could never reach it.
+        idx = json.loads(read(topic_path(work)))
+        for topic in idx["topics"]:
+            topic["items"]["별표7"] = [n for n in topic["items"]["별표7"] if n != "1.1.4"]
+            for set_id in ("별표7의2", "별표7의3"):
+                topic["items"][set_id] = [n for n in topic["items"][set_id] if n != "1.1.4"]
+        write(topic_path(work), json.dumps(idx, ensure_ascii=False))
+
+    case("[18] an item that no topic routes to is rejected", unroute_item, "appears in no topic")
+
+    def phantom_item(work):
+        idx = json.loads(read(topic_path(work)))
+        idx["topics"][0]["items"]["별표7"].append("9.9.9")
+        write(topic_path(work), json.dumps(idx, ensure_ascii=False))
+
+    case("[18] a topic pointing at an item that does not exist is rejected", phantom_item,
+         "does not exist in the corpus")
+
+    def drift_relaxed_list(work):
+        # Edit the Annex 7 list of one topic without re-deriving the relaxed lists.
+        idx = json.loads(read(topic_path(work)))
+        for topic in idx["topics"]:
+            if "1.1.1" in topic["items"]["별표7"]:
+                topic["items"]["별표7"] = [n for n in topic["items"]["별표7"] if n != "1.1.1"]
+                break
+        # 1.1.1 stays routable through other topics, so only the derivation fails.
+        write(topic_path(work), json.dumps(idx, ensure_ascii=False))
+
+    case("[18] a relaxed list that no longer follows the 대응(별표7) rows is rejected",
+         drift_relaxed_list, "does not match the 대응(별표7) rows")
+
+    def missing_index(work):
+        os.remove(topic_path(work))
+
+    case("[18] a missing routing table is rejected", missing_index, "topic-index.json is missing")
 
     print("== the crash guard ==")
 

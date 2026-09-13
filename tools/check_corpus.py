@@ -33,6 +33,9 @@ Checks
   [17] each set holds exactly the number of items the official annex defines, so
        a deleted or invented item cannot pass by agreeing with a manifest that
        was regenerated from the same corpus
+  [18] the isms-p-review skill's routing table names every item of every set and
+       only items that exist, and its relaxed-set lists agree with the 대응(별표7)
+       rows, so a topic can never point at nothing and no item is unreachable
 
 Exit code 0 when the corpus is intact, 1 otherwise.
 
@@ -47,6 +50,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DOCS = os.path.join(ROOT, "docs")
 MANIFEST = os.path.join(ROOT, "extended", "manifest.json")
+TOPIC_INDEX = os.path.join(ROOT, "skill", "isms-p-review", "topic-index.json")
 
 LANGS = ("ko", "en")
 
@@ -468,6 +472,69 @@ def check_expected_counts():
                      f"changed the count, record the reflection plan there first)")
 
 
+def check_topic_index(manifest):
+    """[18] the skill's routing table covers every item and points only at real ones.
+
+    skill/isms-p-review/SKILL.md routes a user's words to items through
+    topic-index.json before it reads any document, so an item missing from the
+    table is one the skill can never find, and a number that does not exist sends
+    it to a document that is not there. The 별표7의2 and 별표7의3 lists are derived
+    from the 별표7 list through each relaxed document's 대응(별표7) row; a hand edit
+    that touches one list and not the other leaves the sets disagreeing about
+    what the same topic means, so the derivation is re-done here and compared.
+    """
+    if not os.path.exists(TOPIC_INDEX):
+        fail("skill/isms-p-review/topic-index.json is missing (the isms-p-review skill "
+             "routes through it)")
+        return
+    index = json.load(open(TOPIC_INDEX, encoding="utf-8"))
+    ko_items = {}
+    for it in manifest["items"]:
+        if it["lang"] == "ko":
+            ko_items.setdefault(it["section"], set()).add(it["no"])
+    slug_for = {"별표7의2": "annex7-2", "별표7의3": "annex7-3"}
+    reverse = {set_id: {} for set_id in slug_for}
+    for set_id, slug in slug_for.items():
+        for path in sorted(glob.glob(os.path.join(DOCS, "ko", slug, "*.md"))):
+            name = os.path.basename(path)
+            if name == "INDEX.md":
+                continue
+            text = open(path, encoding="utf-8").read()
+            m = re.search(r"(?m)^\| 대응\(별표7\) \| (.*) \|$", text)
+            row = m.group(1) if m else ""
+            for target in re.findall(r"\(\.\./annex7/([0-9.]+)\.md\)", row):
+                reverse[set_id].setdefault(target, []).append(name[:-3])
+    covered = {set_id: set() for set_id in ko_items}
+    for topic in index.get("topics", []):
+        label = topic.get("topic_ko", "?")
+        items = topic.get("items", {})
+        for set_id, listed in items.items():
+            if set_id not in ko_items:
+                fail(f"topic-index '{label}': unknown set '{set_id}'")
+                continue
+            for no in listed:
+                if no not in ko_items[set_id]:
+                    fail(f"topic-index '{label}': {set_id} {no} does not exist in the corpus")
+            covered[set_id].update(listed)
+        for set_id in slug_for:
+            expected = []
+            for no in items.get("별표7", []):
+                for relaxed in reverse[set_id].get(no, []):
+                    if relaxed not in expected:
+                        expected.append(relaxed)
+            if sorted(items.get(set_id, [])) != sorted(expected):
+                fail(f"topic-index '{label}': {set_id} list {items.get(set_id, [])} does not "
+                     f"match the 대응(별표7) rows, expected {expected}")
+    for set_id, all_items in sorted(ko_items.items()):
+        for no in sorted(all_items - covered[set_id], key=item_key):
+            fail(f"topic-index: {set_id} {no} appears in no topic, so the isms-p-review "
+                 f"skill can never route to it")
+
+
+def item_key(no):
+    return [int(part) for part in no.split(".")]
+
+
 def check_links():
     """[10] every relative markdown link resolves.
 
@@ -547,6 +614,7 @@ def main():
     check_label_consistency()
     check_citation_renderings()
     check_expected_counts()
+    check_topic_index(manifest)
     check_links()
 
     if problems:

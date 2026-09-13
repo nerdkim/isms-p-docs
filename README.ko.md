@@ -40,11 +40,15 @@ extended/                AI agent가 이 자료집을 사용하도록 돕는 계
   outputs/               runtime 산출물 루트(readme 외에는 git에서 제외)
 tools/
   build_index.py         docs/에서 파생 색인 전체를 재생성
-  check_corpus.py        읽기 전용 무결성 검사 17종
+  check_corpus.py        읽기 전용 무결성 검사 18종
   test_check_corpus.py   위 두 도구의 테스트
 harness/
   install-hooks.sh       clone에 git hook을 배선(최초 1회, 설치 절 참고)
   check-conventions.sh   문서 규약 검사기(playbook docs/16)
+skill/
+  isms-p-review/         Claude Code skill: 전달받은 내용을 인증기준에 대조해 점검(시나리오 S8)
+    SKILL.md             절차(routing, 읽기, 판정, 보고 양식)
+    topic-index.json     일상 어휘를 세트별 항목 번호로 잇는 routing 표
 ```
 
 경로는 전부 ASCII라 소비자 쪽에서 URL 인코딩 문제가 생기지 않습니다.

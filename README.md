@@ -44,11 +44,15 @@ extended/                the layer that helps AI agents use this corpus
   outputs/               runtime output root (git-ignored except the readmes)
 tools/
   build_index.py         regenerate every derived index from docs/
-  check_corpus.py        read-only integrity checks (17 of them)
+  check_corpus.py        read-only integrity checks (18 of them)
   test_check_corpus.py   tests for the two guards above
 harness/
   install-hooks.sh       wire this clone to the git hooks (run once, see Setup)
   check-conventions.sh   documentation conventions checker (playbook docs/16)
+skill/
+  isms-p-review/         Claude Code skill: review submitted content against the criteria (scenario S8)
+    SKILL.md             the procedure (routing, reading, verdicts, report format)
+    topic-index.json     routing table from everyday words to item numbers, per set
 ```
 
 All paths are ASCII, so there are no URL-encoding surprises for consumers.

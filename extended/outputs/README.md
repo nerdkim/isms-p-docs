@@ -14,6 +14,7 @@ Subfolders are created as work happens.
 | `remediation/` | Remediation statements/completion confirmations and deadline tracking (by audit round) | S5 |
 | `mock-audit/` | Mock audit Q&A | S6 |
 | `diffs/`, `regwatch/` | Set differences / amendment impact mapping (flags items not in the collection) | S7 |
+| `spot-checks/` | Saved copies of content reviews (per-item verdicts with citations), written only when the user asks for a record | S8 |
 | `review-queue/` | Human review queue for high-risk outputs (legal interpretation / conformity judgment / policy finalization) | Common |
 
 > Everything under `extended/outputs/` is already git-ignored except these two READMEs, which are

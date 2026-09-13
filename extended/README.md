@@ -131,6 +131,7 @@ keep the collection immutable.
 | S5 | Remediation document | Nonconformity report items | Skeleton of a remediation statement/completion confirmation grounded in detailed explanation/evidence + 100-day deadline tracking | `remediation/` | Judge remediation completion |
 | S6 | Mock Q&A | Applicable set + target area | Turn key checkpoints into anticipated questions, with detailed explanation/evidence as the answer basis | `mock-audit/` | Correct against the organization's actual state |
 | S7 | Set/revision impact mapping | Set-transition/revision query | Derive set differences via the set difference of manifest item sets, and flag revisions not in the collection | `diffs/`, `regwatch/` | Compliance officer review |
+| S8 | Review of submitted content | Any content the user hands over (policy excerpt, practice description, configuration, incident, contract clause) + applicable set | Route through the skill's topic index and the manifest, read only the routed items, and give each one verdict: 결함 후보 / 확인 필요 / 문제 없음 / 범위 외, with citations; a clean result is reported as clean | reply; `spot-checks/` only on request | Nonconformity and severity are the auditor's call |
 
 The execution prompts for each scenario are in [`prompts/`](prompts/), and the output formats are in
 [`templates/`](templates/).
@@ -151,9 +152,11 @@ extended/
     defect-rulebook.json        nonconformity-example rulebook for the 101 Annex 7 items (381 entries) - self-diagnosis/mock-Q&A rules
     evidence-dictionary.json    evidence-example dictionary for the 101 Annex 7 items (399 entries) - evidence-mapping basis
   prompts/                      per-scenario execution prompts (shared system-grounding)
-  templates/                    output formats (self-diagnosis/policy draft/remediation/mock Q&A)
+  templates/                    output formats (self-diagnosis/policy draft/remediation/mock Q&A/content review)
   outputs/                      runtime output root (the subdirectories below are created during work)
-    qa-log/ checklists/ drafts/ mappings/ remediation/ mock-audit/ diffs/ regwatch/ review-queue/
+    qa-log/ checklists/ drafts/ mappings/ remediation/ mock-audit/ diffs/ regwatch/ spot-checks/ review-queue/
+skill/
+  isms-p-review/                the Claude Code skill for S8: SKILL.md (procedure) and topic-index.json (routing table)
 ```
 
 To rebuild the indexes: `python3 tools/build_index.py` (reads docs/ and writes extended/ plus the
@@ -200,7 +203,9 @@ generated `docs/{ko,en}/INDEX.md` navigation files).
   spraying grep across all of `docs/`.
 - **Turn into skills**: define S1 to S7 as slash skills (e.g. `/isms-selfcheck`,
   `/isms-evidence-map`, `/isms-remediation`), and include the contents of [`prompts/`](prompts/) in
-  the skill body.
+  the skill body. S8 ships as [`../skill/isms-p-review/SKILL.md`](../skill/isms-p-review/SKILL.md):
+  symlink that directory into `~/.claude/skills/` and it is available from any project, resolving
+  the corpus root from the symlink.
 - **Enforce write guardrails via hooks**: in the PreToolUse hook of `settings.json`, block
   Edit/Write whose path is under `docs/` and allow only `extended/`.
 - **Audit logging**: use Stop/PostToolUse hooks to append the input/used-item paths/model

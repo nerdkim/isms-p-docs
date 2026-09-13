@@ -115,6 +115,7 @@ ISMS 의무도 함께 충족됩니다.
 | S5 | 보완조치 문서 | 결함보고서 항목 | 세부 설명/증적 근거로 보완조치 내역서/완료확인서 골격 + 100일 마감 추적 | `remediation/` | 조치 완료 판정 |
 | S6 | 모의 질의응답 | 적용 세트 + 대상 분야 | 주요 확인사항을 예상 질문으로, 세부 설명/증적을 답변 근거로 | `mock-audit/` | 자사 실태로 교정 |
 | S7 | 세트/개정 영향 mapping | 세트 전환/개정 질의 | manifest 항목 집합 차집합으로 세트 차이 산출, 미수록 개정은 플래그 | `diffs/`, `regwatch/` | 컴플라이언스 책임자 검수 |
+| S8 | 제출 내용 점검 | 사용자가 전달한 아무 내용(정책 발췌, 실태 설명, 설정, 사고, 계약 조항) + 적용 세트 | skill의 topic index와 manifest로 routing 한 뒤 해당 항목만 읽어 항목마다 판정 하나(결함 후보 / 확인 필요 / 문제 없음 / 범위 외)를 인용과 함께 제시. 문제가 없으면 없다고 답함 | 대화 응답. `spot-checks/`는 요청 시에만 | 결함 여부와 경중은 심사원 판단 |
 
 각 시나리오의 실행 prompt는 [`prompts/`](prompts/), 산출물 양식은 [`templates/`](templates/)에
 있습니다.
@@ -135,9 +136,11 @@ extended/
     defect-rulebook.json        별표7 101개 항목 결함사례 룰북(381건) - 셀프 진단/모의 질의 룰
     evidence-dictionary.json    별표7 101개 항목 증적 예시 사전(399건) - 증적 mapping 기준
   prompts/                      시나리오별 실행 prompt(system-grounding 공통)
-  templates/                    산출물 양식(셀프 진단/정책 초안/보완조치/모의 질의)
+  templates/                    산출물 양식(셀프 진단/정책 초안/보완조치/모의 질의/제출 내용 점검)
   outputs/                      runtime 산출물 루트(아래 하위는 작업 시 생성)
-    qa-log/ checklists/ drafts/ mappings/ remediation/ mock-audit/ diffs/ regwatch/ review-queue/
+    qa-log/ checklists/ drafts/ mappings/ remediation/ mock-audit/ diffs/ regwatch/ spot-checks/ review-queue/
+skill/
+  isms-p-review/                S8용 Claude Code skill: SKILL.md(절차)와 topic-index.json(routing 표)
 ```
 
 색인을 다시 만들려면: `python3 tools/build_index.py` (docs/를 읽고 extended/와 생성 대상인
@@ -176,7 +179,9 @@ extended/
 - **항상 manifest 우선**: 자연어 질문이 오면 먼저 `extended/manifest.json`을 읽어 관련 `path`로 좁힌
   뒤 그 항목 `.md`만 Read 합니다. `docs/` 전체 grep 난사를 피합니다.
 - **스킬화**: S1~S7을 슬래시 스킬(예: `/isms-selfcheck`, `/isms-evidence-map`,
-  `/isms-remediation`)로 정의하고, 스킬 본문에 [`prompts/`](prompts/) 내용을 포함합니다.
+  `/isms-remediation`)로 정의하고, 스킬 본문에 [`prompts/`](prompts/) 내용을 포함합니다. S8은
+  [`../skill/isms-p-review/SKILL.md`](../skill/isms-p-review/SKILL.md)로 함께 제공됩니다. 그 directory를
+  `~/.claude/skills/`에 symlink 하면 어느 project에서든 쓸 수 있고, 자료집 root는 symlink에서 찾습니다.
 - **쓰기 가드레일을 훅으로 강제**: `settings.json`의 PreToolUse 훅에서 Edit/Write의 경로가 `docs/`
   하위면 차단하고 `extended/`만 허용합니다.
 - **감사 로깅**: Stop/PostToolUse 훅으로 입력/사용 항목 경로/모델 버전/타임스탬프를
