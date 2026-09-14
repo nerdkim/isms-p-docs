@@ -47,7 +47,10 @@ docs/
 
 Annexes 7-2 and 7-3 are not separate certifications. They are simplified sets that ease the
 certification burden for SMEs (Network Act (정보통신망법) Article 47-7, Enforcement Decree
-Article 49-2).
+Article 49-2). Their criterion and key checkpoints are the official relaxed text; their other four
+sections are reused from the Annex 7 control named in the `대응(별표7)` row, and an item whose
+criterion merges two Annex 7 controls carries both controls' material, in row order (check [9]
+holds every copy byte-identical to its sources).
 
 ## Document structure
 
