@@ -57,8 +57,10 @@ content the user pasted above. Then normalise it before you route:
 - **Personal data gate.** If the content carries what looks like real personal data (주민등록번호,
   phone numbers, email addresses, card or account numbers, names tied to such identifiers),
   never repeat it in the report; write `[masked]` in its place and say how many values you
-  masked. Judge the practice, not the people. If the content is mostly raw personal data, stop
-  and ask for a description or metadata instead.
+  masked. Judge the practice, not the people. A pasted list plus one sentence about where it
+  sits and who can open it is a practice to judge: the sentence is the assertion, and the list is
+  summarised as evidence of what the file holds ("n rows with 이름, 주민등록번호, 전화번호,
+  이메일"). Stop and ask only when no practice is described at all.
 
 **Choose the set.** Use the set the user names. Otherwise 간편인증, 인증 특례, 중소기업, or a
 매출액 300억 threshold point at 별표 7의2 or 7의3; say which you chose and why (under 300억
@@ -92,7 +94,9 @@ Do not read all 228 documents. Route first:
      테스트 서버에 넣어") often names no index word yet clearly belongs to a topic (시험 데이터). <!-- conventions-allow: quotes user phrasing or a corpus term verbatim -->
    - Discard a hit that rests on one short or generic word inside a longer word or in another
      sense ("로그" inside "로그인", "복구" in "복구 테스트" hitting 사고 복구, "admin" in a URL <!-- conventions-allow: quotes user phrasing or a corpus term verbatim -->
-     hitting 관리자 계정 rather than 관리자 페이지, "소화" inside "최소화"). A hit needs either
+     hitting 관리자 계정 rather than 관리자 페이지, "소화" inside "최소화", "열람" meaning staff
+     opening a file rather than a data subject's access request, "공유" of a file rather than of a
+     protection measure or an account). A hit needs either
      a specific keyword or two keywords of the same topic.
    An empty `items` list for a relaxed set means that set has no counterpart item: report the
    topic as 범위 외 for that set, and say which Annex 7 item covers it in the full set.
@@ -100,9 +104,11 @@ Do not read all 228 documents. Route first:
    the chosen set, scan the `name` and `subgroup` of every item for words in the assertions,
    and add neighbours the topic index lists for the same theme when an assertion clearly spans
    them. For 별표 7 you may also grep `extended/index/defect-rulebook.json` (per-item
-   nonconformity examples) for the assertion's words.
-3. Keep at most about 8 **primary** items, the ones a checkpoint would directly test. List the
-   rest as **secondary** in the report so nothing is silently dropped. If the routing table
+   nonconformity examples) for the assertion's words, but that grep confirms a route; it does
+   not create a primary item on its own, and the same generic-word filter applies to it.
+3. Keep at most about 8 **primary** items, the ones a checkpoint would directly test. List every
+   other routed item as **secondary** in the report's 관련 항목 section, by number and title,
+   even the marginal ones, so nothing is silently dropped. If the routing table
    had no words for something the user said, say so in one line of the report's 관련 항목
    section, so the maintainer can add them (the table is hand-authored; its 별표7의2 and 7의3
    lists are derived by `derive_relaxed_lists.py` next to it).
@@ -120,7 +126,9 @@ the user works in English or when the exact wording of a checkpoint matters. Eve
 the manifest, so never guess one. `extended/index/defect-rulebook.json` and
 `extended/index/evidence-dictionary.json` hold the 별표 7 lists alone and are enough when you
 only need those; for 별표 7의2 and 7의3 take the lists from each item's own document, because
-those sets renumber and the index files key on bare numbers.
+those sets renumber and the index files key on bare numbers. In 별표 7의2 and 7의3 the 세부 설명,
+관련 법규, 증적자료 and 결함사례 are imported from the Annex 7 counterpart, as each document's
+banner says; they are quotable as that item's own text, cited at the relaxed item's own path.
 
 ## 5. Assess
 
@@ -141,8 +149,10 @@ Then give the item one **verdict**:
   it is a candidate in one or two sentences of your own.
 - **확인 필요** (needs information): nothing is 미충족 but at least one relevant checkpoint is
   정보 부족. List the evidence that would settle it.
-- **문제 없음** (no issue found): every relevant checkpoint is 충족 근거 있음 or 해당 없음. Say
-  so plainly. Do not invent a concern to have something to report.
+- **문제 없음** (no issue found): at least one relevant checkpoint is 충족 근거 있음 and the rest
+  are 해당 없음. Say so plainly. Do not invent a concern to have something to report. An item
+  whose every checkpoint reads 해당 없음 was not tested: move it to 관련 항목 with one line saying
+  why it does not apply, give it no verdict, and do not count it among 검토한 항목.
 - **범위 외** (out of scope): the concern is real but the corpus does not decide it. See
   section 6.
 
@@ -152,8 +162,26 @@ that part and 정보 부족 for the rest, not 미충족. "Every quarter we recon
 against the HR roster" is evidence of a periodic review; whether rights are also checked for
 appropriateness is a question to ask, not a defect to record. Mark 미충족 only when an assertion
 states a practice contrary to the checkpoint, states that the checkpoint's activity does not
-happen ("복구 테스트는 한 번도 해본 적이 없습니다"), or matches a 결함사례. A verdict of 결함 후보 <!-- conventions-allow: quotes user phrasing or a corpus term verbatim -->
-needs a quoted checkpoint or a quoted 결함사례; if you cannot quote one, it is not a finding. Never grade a candidate as 중결함 or 경결함: that is the auditor's call, and the corpus
+happen ("복구 테스트는 한 번도 해본 적이 없습니다"), or matches a 결함사례 in kind, not merely in shape (the example must describe the same sort of <!-- conventions-allow: quotes user phrasing or a corpus term verbatim -->
+practice, not just the same sort of gap; when it only resembles the description, the verdict
+rests on the checkpoint alone). A verdict of 결함 후보 needs a quoted checkpoint or a quoted
+결함사례, copied character for character from the document; shorten only with an explicit
+ellipsis (...) and never paraphrase inside quotation marks. If you cannot quote one, it is not a
+finding. One fact is 미충족 only for the checkpoint that asks about it directly; the neighbouring
+items the same fact routed to are usually 정보 부족, because they ask about something else (영역
+분리, 공개서버 보호대책) that the content did not describe. When an assertion describes what people
+can actually do and the checkpoint asks about a formal act (지정, 등록, 승인, 분류), the assertion
+alone is 정보 부족 for that checkpoint, not 미충족. When a checkpoint's applicability itself turns
+on a fact the content did not give (the encryption table of 2.7.1 depends on which fields the copy
+holds), mark it 정보 부족 and say which fact would turn it into 미충족.
+Some items carry their own exception route: a first checkpoint asks whether something is done
+(개발과 운영 환경의 분리) and a later one asks, where that is unavoidable, whether compensating
+controls are in place (상호 검토, 상급자 모니터링, 변경 승인, 책임추적성). An assertion that fails
+the first checkpoint alone leaves the item **확인 필요**, with a sentence saying it becomes a
+결함 후보 if the compensating records turn out to be missing (that is what the item's 결함사례
+describes); it is 결함 후보 only when the content also shows the exception unmet. A figure
+printed in the item's own document, including a 세부 설명 borrowed from Annex 7, counts as the
+item's text and may be stated with its citation. Never grade a candidate as 중결함 or 경결함: that is the auditor's call, and the corpus
 does not classify its examples. Numbers (a retention period, a password length, a review
 interval) are stated only when the item's own text gives them, with the citation; otherwise
 write `[확인필요]` and point at the item's `관련 법규` line.
@@ -193,6 +221,8 @@ dash and no middle dot anywhere in the report; use a comma, colon, slash, parent
 
 **한 줄 결론**: 결함 후보 N건, 확인 필요 N건, 문제 없음 N건(검토한 항목 M개, 관련 항목 K개 추가). 전달 내용이 충족 근거를 보여 준 확인사항 J개.
 
+**개인정보 처리 안내(해당 시)**: 전달 내용의 개인정보 값 N개를 `[masked]`로 처리했고 보고서, 인용문, 저장 파일 어디에도 옮겨 적지 않았습니다.
+
 | 항목 | 판정 | 전달 내용 중 근거 | 대응 확인사항 / 결함사례 | 출처 |
 |---|---|---|---|---|
 | 2.5.2 사용자 식별 | 결함 후보 | "운영 DB 관리자 계정 하나를 개발자 3명이 공유" | 확인사항 2(공유 시 사유와 타당성 검토, 보완대책, 책임자 승인), 결함사례 "개발자가 개인정보처리시스템 계정을 공용으로 사용하고 있으나, 타당성 검토 또는 책임자의 승인 등이 없이 ..." | docs/ko/annex7/2.5.2.md > 주요 확인사항, 결함사례 |
@@ -211,6 +241,20 @@ dash and no middle dot anywhere in the report; use a comma, colon, slash, parent
 
 > 이 결과는 인증기준 안내서(2023.11.23)의 확인사항과 결함사례에 근거한 후보 판정입니다. 결함 여부와 경중의 최종 판단은 심사원과 담당자가 합니다. 관련 법규는 자료집 기준일의 표기이며 이후 개정은 반영되어 있지 않습니다.
 ```
+
+For an English report use the same structure with these headings: "ISMS-P review result",
+the status line ("Status: AI-generated draft / not reviewed | Set applied: ... | Generated: ...
+| Corpus basis: ..."), "One-line conclusion", table columns "Item | Verdict | Basis in the
+content | Matching checkpoint / nonconformity example | Source", then "Basis of each verdict",
+"Information and evidence needed", "Out of scope, or not covered by this corpus", "Related
+items (not tested directly)", and the same footer in English. Keep the four verdict labels in
+Korean with an English gloss on first use (결함 후보 = nonconformity candidate, 확인 필요 =
+needs information, 문제 없음 = no issue found, 범위 외 = out of scope), and keep citation
+section names Korean, because they are the headings that exist in the cited files.
+
+J counts every checkpoint that carries at least one 충족 근거 mark, including one that is part
+충족 근거 and part 정보 부족(name the met part in the table); a checkpoint that is only 정보 부족 or
+해당 없음 is not counted. The 개인정보 처리 안내 line appears only when something was masked.
 
 Citation form: `docs/ko/<set>/<no>.md > <섹션명>`. Every row of the table and every bullet
 under 판정 근거 carries one. A statement you cannot cite does not go in the report.

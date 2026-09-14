@@ -4,7 +4,9 @@
 
 > Status: AI-generated draft / not reviewed | Applied set: {{Annex 7 (assumed) / 7-2 / 7-3}} | Generated: {{YYYY-MM-DD}} | Collection reference: detailed inspection items 2023.10.31 and 2024.7.24, Certification Criteria Guide 2023.11.23
 
-**One-line conclusion**: {{N}} nonconformity candidates, {{N}} needing information, {{N}} no issue ({{M}} items tested, {{K}} related items listed)
+**One-line conclusion**: {{N}} nonconformity candidates, {{N}} needing information, {{N}} no issue ({{M}} items tested, {{K}} related items listed). {{J}} checkpoints for which the content shows they are met.
+
+**Personal data notice (when applicable)**: {{N}} personal data values in the content were replaced with `[masked]` and appear nowhere in this report, its quotations, or any saved file.
 
 | Item | Verdict | Basis in the submitted content | Matching checkpoint / nonconformity example | Source |
 |---|---|---|---|---|
