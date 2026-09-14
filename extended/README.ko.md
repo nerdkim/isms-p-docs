@@ -214,7 +214,6 @@ skill/
 
 ## 출처
 
-- KISA ISMS-P 인증대상: https://isms.kisa.or.kr/main/ispims/target/
 - ISMS-P 누리집 인증대상: https://isms-p.or.kr/cert/aply/selectCertTrgtDetail.do
 - ISMS-P 인증제도 안내서(2024.07), ISMS-P 인증기준 안내서(2023.11.23) (references/)
 - 정보통신망법 제47조, 제47조의7, 제76조 / 개인정보 보호법 제32조의2

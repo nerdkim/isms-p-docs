@@ -244,7 +244,6 @@ nonconformity is it, and what are the basis and evidence?"
 
 ## Sources
 
-- KISA ISMS-P certification targets: https://isms.kisa.or.kr/main/ispims/target/
 - ISMS-P portal certification targets: https://isms-p.or.kr/cert/aply/selectCertTrgtDetail.do
 - ISMS-P Certification Scheme Guide (2024.07), ISMS-P Certification Criteria Guide (2023.11.23)
   (references/)
