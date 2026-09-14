@@ -2408,8 +2408,8 @@
    "path": "docs/ko/annex7-2/1.4.1.md",
    "counts": {
     "checkpoints": 2,
-    "evidence": 3,
-    "defects": 3,
+    "evidence": 6,
+    "defects": 7,
     "hasLaws": true
    }
   },
@@ -2492,8 +2492,8 @@
    "path": "docs/ko/annex7-2/2.3.1.md",
    "counts": {
     "checkpoints": 4,
-    "evidence": 4,
-    "defects": 2,
+    "evidence": 8,
+    "defects": 5,
     "hasLaws": true
    }
   },
@@ -2534,8 +2534,8 @@
    "path": "docs/ko/annex7-2/2.3.3.md",
    "counts": {
     "checkpoints": 4,
-    "evidence": 3,
-    "defects": 2,
+    "evidence": 6,
+    "defects": 4,
     "hasLaws": true
    }
   },
@@ -2660,8 +2660,8 @@
    "path": "docs/ko/annex7-2/2.5.1.md",
    "counts": {
     "checkpoints": 7,
-    "evidence": 4,
-    "defects": 5,
+    "evidence": 7,
+    "defects": 8,
     "hasLaws": true
    }
   },
@@ -2744,8 +2744,8 @@
    "path": "docs/ko/annex7-2/2.6.1.md",
    "counts": {
     "checkpoints": 4,
-    "evidence": 4,
-    "defects": 5,
+    "evidence": 6,
+    "defects": 8,
     "hasLaws": true
    }
   },
@@ -2891,8 +2891,8 @@
    "path": "docs/ko/annex7-2/2.8.3.md",
    "counts": {
     "checkpoints": 6,
-    "evidence": 4,
-    "defects": 6,
+    "evidence": 9,
+    "defects": 10,
     "hasLaws": true
    }
   },
@@ -4151,8 +4151,8 @@
    "path": "docs/ko/annex7-3/2.7.1.md",
    "counts": {
     "checkpoints": 4,
-    "evidence": 4,
-    "defects": 5,
+    "evidence": 6,
+    "defects": 8,
     "hasLaws": true
    }
   },
@@ -7133,8 +7133,8 @@
    "path": "docs/en/annex7-2/1.4.1.md",
    "counts": {
     "checkpoints": 2,
-    "evidence": 3,
-    "defects": 3,
+    "evidence": 6,
+    "defects": 7,
     "hasLaws": true
    }
   },
@@ -7217,8 +7217,8 @@
    "path": "docs/en/annex7-2/2.3.1.md",
    "counts": {
     "checkpoints": 4,
-    "evidence": 4,
-    "defects": 2,
+    "evidence": 8,
+    "defects": 5,
     "hasLaws": true
    }
   },
@@ -7259,8 +7259,8 @@
    "path": "docs/en/annex7-2/2.3.3.md",
    "counts": {
     "checkpoints": 4,
-    "evidence": 3,
-    "defects": 2,
+    "evidence": 6,
+    "defects": 4,
     "hasLaws": true
    }
   },
@@ -7385,8 +7385,8 @@
    "path": "docs/en/annex7-2/2.5.1.md",
    "counts": {
     "checkpoints": 7,
-    "evidence": 4,
-    "defects": 5,
+    "evidence": 7,
+    "defects": 8,
     "hasLaws": true
    }
   },
@@ -7469,8 +7469,8 @@
    "path": "docs/en/annex7-2/2.6.1.md",
    "counts": {
     "checkpoints": 4,
-    "evidence": 4,
-    "defects": 5,
+    "evidence": 6,
+    "defects": 8,
     "hasLaws": true
    }
   },
@@ -7616,8 +7616,8 @@
    "path": "docs/en/annex7-2/2.8.3.md",
    "counts": {
     "checkpoints": 6,
-    "evidence": 4,
-    "defects": 6,
+    "evidence": 9,
+    "defects": 10,
     "hasLaws": true
    }
   },
@@ -8876,8 +8876,8 @@
    "path": "docs/en/annex7-3/2.7.1.md",
    "counts": {
     "checkpoints": 4,
-    "evidence": 4,
-    "defects": 5,
+    "evidence": 6,
+    "defects": 8,
     "hasLaws": true
    }
   },

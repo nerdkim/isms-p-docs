@@ -333,6 +333,35 @@ def main():
 
     case("[18] a missing routing table is rejected", missing_index, "topic-index.json is missing")
 
+    print("== [9] merged relaxed items ==")
+
+    def drop_second_source(work):
+        # 별표 7의2 2.3.1 merges Annex 7 2.4.1 and 2.4.2; deleting 2.4.2's evidence bullets
+        # leaves the item consistent with 2.4.1 alone, which used to pass.
+        p = os.path.join(work, "docs", "ko", "annex7-2", "2.3.1.md")
+        src = read(os.path.join(work, "docs", "ko", "annex7", "2.4.2.md"))
+        ev = re.search(r"(?ms)^## 증적자료[^\n]*\n(.*?)(?=^## )", src).group(1)
+        t = read(p)
+        for line in ev.strip().split("\n"):
+            if line.startswith("- "):
+                t = t.replace(line + "\n", "", 1)
+        write(p, t)
+
+    case("[9] a merged relaxed item that drops its second source's material is rejected",
+         drop_second_source, "borrowed '증적자료' differs")
+
+    print("== [19] one English rendering per Korean checkpoint ==")
+
+    def diverge_checkpoint(work):
+        # 별표 7의2 2.4.2 keeps Annex 7 2.5.2's checkpoints verbatim in Korean.
+        p = os.path.join(work, "docs", "en", "annex7-2", "2.4.2.md")
+        t = read(p)
+        t = re.sub(r"(?m)^1\. (.+)$", lambda m: "1. " + m.group(1).replace("identifier", "ID", 1), t, count=1)
+        write(p, t)
+
+    case("[19] an identical Korean checkpoint rendered differently in English is rejected",
+         diverge_checkpoint, "one English rendering per Korean checkpoint")
+
     print("== the crash guard ==")
 
     def dangling_mapping(work):
