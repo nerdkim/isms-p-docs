@@ -250,17 +250,44 @@ def _merged_body(lang, targets, heading):
         bodies = real or bodies[:1]
     if heading == BORROWED[lang][0]:
         return "\n\n".join(bodies)
-    seen, out = set(), []
+    kept, out = [], []
     for body in bodies:
         for line in body.split("\n"):
             key = line.strip()
             if key.startswith("- "):
-                if key in seen:
+                if any(_covers(k, key) for k in kept):
                     continue
-                seen.add(key)
+                kept.append(key)
+            elif not key:
+                continue
             out.append(line)
-        out.append("")
     return "\n".join(out).strip()
+
+
+_ARTICLE_RE = {
+    "ko": re.compile(r"제\d+조(?:의\d+)?(?:\([^)]*\))?"),
+    "en": re.compile(r"Article \d+(?:-\d+)?(?: \([^)]*\))?"),
+}
+
+
+def _covers(kept, candidate):
+    """True when a kept 관련 법규 bullet already cites everything the candidate cites.
+
+    Annex 7 2.7.1 writes '개인정보 보호법 제24조의2(...), 제29조(안전조치의무)' in one bullet
+    and 2.7.2 writes '개인정보 보호법 제29조(안전조치의무)' alone; the second adds nothing
+    to a merged list, but it is not a byte-identical line.
+    """
+    if kept == candidate:
+        return True
+    for lang, pattern in _ARTICLE_RE.items():
+        ka, ca = pattern.findall(kept), pattern.findall(candidate)
+        if not ca or not ka:
+            continue
+        kprefix = kept[: kept.find(ka[0])].strip()
+        cprefix = candidate[: candidate.find(ca[0])].strip()
+        if kprefix == cprefix and set(ca) <= set(ka):
+            return True
+    return False
 
 
 def _targets(text):
