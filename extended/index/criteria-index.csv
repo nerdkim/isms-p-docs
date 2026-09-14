@@ -241,7 +241,7 @@ en,별표7,1.3.1,Implementation of Protection Measures,Establishment and Operati
 en,별표7,1.3.2,Sharing of Protective Measures,Establishment and Operation of the Management System,Management System Operation,ISMS/ISMS-P,2,N,2,1,docs/en/annex7/1.3.2.md
 en,별표7,1.3.3,Management of Operational Status,Establishment and Operation of the Management System,Management System Operation,ISMS/ISMS-P,2,Y,3,2,docs/en/annex7/1.3.3.md
 en,별표7,1.4.1,Review of Compliance with Legal Requirements,Establishment and Operation of the Management System,Management System Inspection and Improvement,ISMS/ISMS-P,2,Y,6,7,docs/en/annex7/1.4.1.md
-en,별표7,1.4.2,Management System Review,Establishment and Operation of the Management System,Management System Inspection and Improvement,ISMS/ISMS-P,2,Y,3,3,docs/en/annex7/1.4.2.md
+en,별표7,1.4.2,Management System Inspection,Establishment and Operation of the Management System,Management System Inspection and Improvement,ISMS/ISMS-P,2,Y,3,3,docs/en/annex7/1.4.2.md
 en,별표7,1.4.3,Management System Improvement,Establishment and Operation of the Management System,Management System Inspection and Improvement,ISMS/ISMS-P,2,Y,4,4,docs/en/annex7/1.4.3.md
 en,별표7,2.1.1,Policy Maintenance,Protective Measure Requirements,"Policy, Organization, and Asset Management",ISMS/ISMS-P,4,Y,4,5,docs/en/annex7/2.1.1.md
 en,별표7,2.1.2,Maintenance of the Organization,Protective Measure Requirements,"Policy, Organization, and Asset Management",ISMS/ISMS-P,3,Y,7,4,docs/en/annex7/2.1.2.md
@@ -250,13 +250,13 @@ en,별표7,2.2.1,Designation and Management of Key Personnel,Protective Measure 
 en,별표7,2.2.2,Separation of Duties,Protective Measure Requirements,Human Resource Security,ISMS/ISMS-P,2,N,3,2,docs/en/annex7/2.2.2.md
 en,별표7,2.2.3,Security Pledge,Protective Measure Requirements,Human Resource Security,ISMS/ISMS-P,4,N,2,4,docs/en/annex7/2.2.3.md
 en,별표7,2.2.4,Awareness Raising and Education/Training,Protective Measure Requirements,Human Resource Security,ISMS/ISMS-P,5,Y,4,6,docs/en/annex7/2.2.4.md
-en,별표7,2.2.5,Management of Retirement and Job Change,Protective Measure Requirements,Human Resource Security,ISMS/ISMS-P,2,Y,3,4,docs/en/annex7/2.2.5.md
+en,별표7,2.2.5,Management of Departure and Job Change,Protective Measure Requirements,Human Resource Security,ISMS/ISMS-P,2,Y,3,4,docs/en/annex7/2.2.5.md
 en,별표7,2.2.6,Actions in Case of Security Violations,Protective Measure Requirements,Human Resource Security,ISMS/ISMS-P,2,N,3,2,docs/en/annex7/2.2.6.md
 en,별표7,2.3.1,Management of the Status of External Parties,Protective Measure Requirements,External Party Security,ISMS/ISMS-P,2,Y,4,2,docs/en/annex7/2.3.1.md
 en,별표7,2.3.2,Security When Contracting with External Parties,Protective Measure Requirements,External Party Security,ISMS/ISMS-P,3,Y,4,3,docs/en/annex7/2.3.2.md
 en,별표7,2.3.3,Management of External Party Security Implementation,Protective Measure Requirements,External Party Security,ISMS/ISMS-P,3,Y,4,5,docs/en/annex7/2.3.3.md
 en,별표7,2.3.4,Security upon Change or Termination of External Party Contracts,Protective Measure Requirements,External Party Security,ISMS/ISMS-P,2,Y,4,3,docs/en/annex7/2.3.4.md
-en,별표7,2.4.1,Designation of Protection Zones,Protective Measure Requirements,Physical Security,ISMS/ISMS-P,2,Y,4,2,docs/en/annex7/2.4.1.md
+en,별표7,2.4.1,Designation of Protected Areas,Protective Measure Requirements,Physical Security,ISMS/ISMS-P,2,Y,4,2,docs/en/annex7/2.4.1.md
 en,별표7,2.4.2,Access Control,Protective Measure Requirements,Physical Security,ISMS/ISMS-P,2,Y,4,3,docs/en/annex7/2.4.2.md
 en,별표7,2.4.3,Information System Protection,Protective Measure Requirements,Physical Security,ISMS/ISMS-P,3,N,3,2,docs/en/annex7/2.4.3.md
 en,별표7,2.4.4,Operation of Protective Facilities,Protective Measure Requirements,Physical Security,ISMS/ISMS-P,2,Y,3,3,docs/en/annex7/2.4.4.md
@@ -280,7 +280,7 @@ en,별표7,2.7.1,Application of Cryptographic Policy,Protective Measure Requirem
 en,별표7,2.7.2,Cryptographic Key Management,Protective Measure Requirements,Application of Encryption,ISMS/ISMS-P,2,Y,2,3,docs/en/annex7/2.7.2.md
 en,별표7,2.8.1,Definition of Security Requirements,Protective Measure Requirements,Information System Introduction and Development Security,ISMS/ISMS-P,3,N,4,4,docs/en/annex7/2.8.1.md
 en,별표7,2.8.2,Review and Testing of Security Requirements,Protective Measure Requirements,Information System Introduction and Development Security,ISMS/ISMS-P,4,Y,6,6,docs/en/annex7/2.8.2.md
-en,별표7,2.8.3,Separation of Test and Production Environments,Protective Measure Requirements,Information System Introduction and Development Security,ISMS/ISMS-P,2,N,2,3,docs/en/annex7/2.8.3.md
+en,별표7,2.8.3,Separation of Test and Operational Environments,Protective Measure Requirements,Information System Introduction and Development Security,ISMS/ISMS-P,2,N,2,3,docs/en/annex7/2.8.3.md
 en,별표7,2.8.4,Test Data Security,Protective Measure Requirements,Information System Introduction and Development Security,ISMS/ISMS-P,2,N,3,4,docs/en/annex7/2.8.4.md
 en,별표7,2.8.5,Source Program Management,Protective Measure Requirements,Information System Introduction and Development Security,ISMS/ISMS-P,3,N,2,3,docs/en/annex7/2.8.5.md
 en,별표7,2.8.6,Transition to the Operational Environment,Protective Measure Requirements,Information System Introduction and Development Security,ISMS/ISMS-P,3,N,2,4,docs/en/annex7/2.8.6.md
@@ -335,11 +335,11 @@ en,별표7의2,1.1.4,Scope Definition,Establishment and Operation of the Managem
 en,별표7의2,1.1.5,Policy Establishment,Establishment and Operation of the Management System,Laying the Foundation for the Management System,ISMS/ISMS-P,4,Y,5,3,docs/en/annex7-2/1.1.5.md
 en,별표7의2,1.2.1,Information Asset Identification,Establishment and Operation of the Management System,Risk Management,ISMS/ISMS-P,3,N,5,5,docs/en/annex7-2/1.2.1.md
 en,별표7의2,1.3.1,Management of Operational Status,Establishment and Operation of the Management System,Management System Operation,ISMS/ISMS-P,2,Y,3,2,docs/en/annex7-2/1.3.1.md
-en,별표7의2,1.4.1,Management System Review,Establishment and Operation of the Management System,Management System Inspection and Improvement,ISMS/ISMS-P,2,Y,6,7,docs/en/annex7-2/1.4.1.md
+en,별표7의2,1.4.1,Management System Inspection,Establishment and Operation of the Management System,Management System Inspection and Improvement,ISMS/ISMS-P,2,Y,6,7,docs/en/annex7-2/1.4.1.md
 en,별표7의2,2.1.1,Security Pledge,Protective Measure Requirements,Human Resource Security,ISMS/ISMS-P,4,N,2,4,docs/en/annex7-2/2.1.1.md
 en,별표7의2,2.1.2,Awareness Raising and Education/Training,Protective Measure Requirements,Human Resource Security,ISMS/ISMS-P,5,Y,4,6,docs/en/annex7-2/2.1.2.md
 en,별표7의2,2.2.1,Security When Contracting with External Parties,Protective Measure Requirements,External Party Security,ISMS/ISMS-P,3,Y,4,3,docs/en/annex7-2/2.2.1.md
-en,별표7의2,2.3.1,Designation of Protection Zones,Protective Measure Requirements,Physical Security,ISMS/ISMS-P,4,Y,8,5,docs/en/annex7-2/2.3.1.md
+en,별표7의2,2.3.1,Designation of Protected Areas,Protective Measure Requirements,Physical Security,ISMS/ISMS-P,4,Y,8,5,docs/en/annex7-2/2.3.1.md
 en,별표7의2,2.3.2,Information System Protection,Protective Measure Requirements,Physical Security,ISMS/ISMS-P,3,N,3,2,docs/en/annex7-2/2.3.2.md
 en,별표7의2,2.3.3,Control of Devices Brought In and Out,Protective Measure Requirements,Physical Security,ISMS/ISMS-P,4,Y,6,4,docs/en/annex7-2/2.3.3.md
 en,별표7의2,2.3.4,Work Environment Security,Protective Measure Requirements,Physical Security,ISMS/ISMS-P,4,Y,4,4,docs/en/annex7-2/2.3.4.md
@@ -353,7 +353,7 @@ en,별표7의2,2.5.3,Remote Access Control,Protective Measure Requirements,Acces
 en,별표7의2,2.5.4,Internet Access Control,Protective Measure Requirements,Access Control,ISMS/ISMS-P,3,Y,5,5,docs/en/annex7-2/2.5.4.md
 en,별표7의2,2.6.1,Application of Cryptographic Policy,Protective Measure Requirements,Application of Encryption,ISMS/ISMS-P,4,Y,6,8,docs/en/annex7-2/2.6.1.md
 en,별표7의2,2.7.1,Definition of Security Requirements,Protective Measure Requirements,Information System Introduction and Development Security,ISMS/ISMS-P,3,N,4,4,docs/en/annex7-2/2.7.1.md
-en,별표7의2,2.7.2,Separation of Test and Production Environments,Protective Measure Requirements,Information System Introduction and Development Security,ISMS/ISMS-P,2,N,2,3,docs/en/annex7-2/2.7.2.md
+en,별표7의2,2.7.2,Separation of Test and Operational Environments,Protective Measure Requirements,Information System Introduction and Development Security,ISMS/ISMS-P,2,N,2,3,docs/en/annex7-2/2.7.2.md
 en,별표7의2,2.7.3,Test Data Security,Protective Measure Requirements,Information System Introduction and Development Security,ISMS/ISMS-P,2,N,3,4,docs/en/annex7-2/2.7.3.md
 en,별표7의2,2.7.4,Source Program Management,Protective Measure Requirements,Information System Introduction and Development Security,ISMS/ISMS-P,3,N,2,3,docs/en/annex7-2/2.7.4.md
 en,별표7의2,2.8.1,Change Management,Protective Measure Requirements,System and Service Operation Management,ISMS/ISMS-P,2,N,3,3,docs/en/annex7-2/2.8.1.md
@@ -399,7 +399,7 @@ en,별표7의3,1.2.1,Information Asset Identification,Establishment and Operatio
 en,별표7의3,1.2.2,Status and Flow Analysis,Establishment and Operation of the Management System,Risk Management,ISMS/ISMS-P,2,N,4,3,docs/en/annex7-3/1.2.2.md
 en,별표7의3,1.3.1,Management of Operational Status,Establishment and Operation of the Management System,Management System Operation,ISMS/ISMS-P,2,Y,3,2,docs/en/annex7-3/1.3.1.md
 en,별표7의3,1.4.1,Review of Compliance with Legal Requirements,Establishment and Operation of the Management System,Management System Inspection and Improvement,ISMS/ISMS-P,2,Y,6,7,docs/en/annex7-3/1.4.1.md
-en,별표7의3,1.4.2,Management System Review,Establishment and Operation of the Management System,Management System Inspection and Improvement,ISMS/ISMS-P,2,Y,3,3,docs/en/annex7-3/1.4.2.md
+en,별표7의3,1.4.2,Management System Inspection,Establishment and Operation of the Management System,Management System Inspection and Improvement,ISMS/ISMS-P,2,Y,3,3,docs/en/annex7-3/1.4.2.md
 en,별표7의3,1.4.3,Management System Improvement,Establishment and Operation of the Management System,Management System Inspection and Improvement,ISMS/ISMS-P,2,Y,4,4,docs/en/annex7-3/1.4.3.md
 en,별표7의3,2.1.1,Policy Maintenance,Protective Measure Requirements,"Policy, Organization, and Asset Management",ISMS/ISMS-P,4,Y,4,5,docs/en/annex7-3/2.1.1.md
 en,별표7의3,2.1.2,Maintenance of the Organization,Protective Measure Requirements,"Policy, Organization, and Asset Management",ISMS/ISMS-P,3,Y,7,4,docs/en/annex7-3/2.1.2.md
@@ -407,7 +407,7 @@ en,별표7의3,2.1.3,Information Asset Management,Protective Measure Requirement
 en,별표7의3,2.2.1,Designation and Management of Key Personnel,Protective Measure Requirements,Human Resource Security,ISMS/ISMS-P,4,Y,5,4,docs/en/annex7-3/2.2.1.md
 en,별표7의3,2.2.2,Security Pledge,Protective Measure Requirements,Human Resource Security,ISMS/ISMS-P,4,N,2,4,docs/en/annex7-3/2.2.2.md
 en,별표7의3,2.2.3,Awareness Raising and Education/Training,Protective Measure Requirements,Human Resource Security,ISMS/ISMS-P,5,Y,4,6,docs/en/annex7-3/2.2.3.md
-en,별표7의3,2.2.4,Management of Retirement and Job Change,Protective Measure Requirements,Human Resource Security,ISMS/ISMS-P,2,Y,3,4,docs/en/annex7-3/2.2.4.md
+en,별표7의3,2.2.4,Management of Departure and Job Change,Protective Measure Requirements,Human Resource Security,ISMS/ISMS-P,2,Y,3,4,docs/en/annex7-3/2.2.4.md
 en,별표7의3,2.3.1,Security When Contracting with External Parties,Protective Measure Requirements,External Party Security,ISMS/ISMS-P,3,Y,4,3,docs/en/annex7-3/2.3.1.md
 en,별표7의3,2.4.1,Access Control,Protective Measure Requirements,Physical Security,ISMS/ISMS-P,2,Y,4,3,docs/en/annex7-3/2.4.1.md
 en,별표7의3,2.4.2,Work Environment Security,Protective Measure Requirements,Physical Security,ISMS/ISMS-P,4,Y,4,4,docs/en/annex7-3/2.4.2.md
