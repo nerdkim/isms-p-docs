@@ -13,8 +13,9 @@ Checks
   [7] each document's own Domain/Section (영역/분야) row equals what the manifest
       publishes for that item, so the contract and the document cannot disagree
   [8] the source footer has exactly one form per (set, language)
-  [9] Annexes 7-2/7-3 borrow the guide sections verbatim from their Annex 7 source,
-      in BOTH languages
+  [9] Annexes 7-2/7-3 borrow the guide sections verbatim from every Annex 7 source
+      named in the 대응(별표7) row, in BOTH languages; an item that merges two Annex 7
+      controls carries both sources' material, in row order
   [10] every relative markdown link resolves on disk
   [11] no required section is empty, so deleting a section's body cannot pass
   [12] Korean and English agree on content shape: the same bullet count in each
@@ -33,6 +34,12 @@ Checks
   [17] each set holds exactly the number of items the official annex defines, so
        a deleted or invented item cannot pass by agreeing with a manifest that
        was regenerated from the same corpus
+  [18] the isms-p-review skill's routing table names every item of every set and
+       only items that exist, and its relaxed-set lists agree with the 대응(별표7)
+       rows, so a topic can never point at nothing and no item is unreachable
+  [19] one Korean checkpoint sentence gets one English sentence across the corpus,
+       line by line, so a relaxed item that keeps an Annex 7 checkpoint verbatim
+       cannot render it differently from the Annex 7 document
 
 Exit code 0 when the corpus is intact, 1 otherwise.
 
@@ -47,6 +54,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DOCS = os.path.join(ROOT, "docs")
 MANIFEST = os.path.join(ROOT, "extended", "manifest.json")
+TOPIC_INDEX = os.path.join(ROOT, "skill", "isms-p-review", "topic-index.json")
 
 LANGS = ("ko", "en")
 
@@ -211,48 +219,124 @@ def check_footers():
                      f"{os.path.relpath(first[1], ROOT)} (one form per set and language)")
 
 
+def _source_body(lang, no, heading):
+    """One Annex 7 document's section body, footer removed; None when the document is missing."""
+    cpath = os.path.join(DOCS, lang, "annex7", no + ".md")
+    if not os.path.exists(cpath):
+        return None
+    body = _body(open(cpath, encoding="utf-8").read(), heading)
+    return _strip_footer(body or "").strip()
+
+
+def _merged_body(lang, targets, heading):
+    """What a relaxed item borrows for one section: its Annex 7 sources in 대응(별표7) order.
+
+    One source: that body as it stands. Several sources (a relaxed item whose criterion
+    and checkpoints merge two Annex 7 controls): the bodies concatenated in row order, so
+    the guide material behind every borrowed checkpoint is present; a 관련 법규 placeholder
+    gives way to a source that cites laws; a bullet an earlier source already contributed
+    is not repeated. Returns None when a source document is missing.
+    """
+    bodies = []
+    for no in targets:
+        body = _source_body(lang, no, heading)
+        if body is None:
+            return None
+        bodies.append(body)
+    if len(bodies) == 1:
+        return bodies[0]
+    if heading == BORROWED[lang][1]:
+        real = [b for b in bodies if not b.startswith("_")]
+        bodies = real or bodies[:1]
+    if heading == BORROWED[lang][0]:
+        return "\n\n".join(bodies)
+    kept, out = [], []
+    for body in bodies:
+        for line in body.split("\n"):
+            key = line.strip()
+            if key.startswith("- "):
+                if any(_covers(k, key) for k in kept):
+                    continue
+                kept.append(key)
+            elif not key:
+                continue
+            out.append(line)
+    return "\n".join(out).strip()
+
+
+_ARTICLE_RE = {
+    "ko": re.compile(r"제\d+조(?:의\d+)?(?:\([^)]*\))?"),
+    "en": re.compile(r"Article \d+(?:-\d+)?(?: \([^)]*\))?"),
+}
+
+
+def _covers(kept, candidate):
+    """True when a kept 관련 법규 bullet already cites everything the candidate cites.
+
+    Annex 7 2.7.1 writes '개인정보 보호법 제24조의2(...), 제29조(안전조치의무)' in one bullet
+    and 2.7.2 writes '개인정보 보호법 제29조(안전조치의무)' alone; the second adds nothing
+    to a merged list, but it is not a byte-identical line.
+    """
+    if kept == candidate:
+        return True
+    for lang, pattern in _ARTICLE_RE.items():
+        ka, ca = pattern.findall(kept), pattern.findall(candidate)
+        if not ca or not ka:
+            continue
+        kprefix = kept[: kept.find(ka[0])].strip()
+        cprefix = candidate[: candidate.find(ca[0])].strip()
+        if kprefix == cprefix and set(ca) <= set(ka):
+            return True
+    return False
+
+
+def _targets(text):
+    row = re.search(r"(?m)^\|\s*대응\(별표7\)\s*\|\s*(.+?)\s*\|", text)
+    if not row:
+        return None
+    return re.findall(r"\]\(\.\./annex7/([0-9.]+)\.md\)", row.group(1))
+
+
 def check_borrowed():
-    """[9] relaxed sets borrow the guide sections verbatim, in both languages."""
+    """[9] relaxed sets borrow the guide sections verbatim from every named Annex 7 source.
+
+    The expected body is _merged_body over the 대응(별표7) targets, so a single-source item
+    must equal its source and a merged item must carry both sources' material. Both
+    languages are checked against their own Annex 7 documents.
+    """
     for kp in sorted(glob.glob(os.path.join(DOCS, "ko", "annex7-*", "*.md"))):
         if os.path.basename(kp) == "INDEX.md":
             continue
         kt = open(kp, encoding="utf-8").read()
-        row = re.search(r"(?m)^\|\s*대응\(별표7\)\s*\|\s*(.+?)\s*\|", kt)
-        if not row:
+        targets = _targets(kt)
+        if targets is None:
             fail(f"{os.path.relpath(kp, ROOT)}: no 대응(별표7) row")
             continue
-        targets = re.findall(r"\]\(\.\./annex7/([0-9.]+)\.md\)", row.group(1))
-        src = None
-        for cand in targets:
-            cpath = os.path.join(DOCS, "ko", "annex7", cand + ".md")
-            if not os.path.exists(cpath):
-                fail(f"{os.path.relpath(kp, ROOT)}: 대응(별표7) target {cand}.md does not exist")
-                continue
-            ct = open(cpath, encoding="utf-8").read()
-            if _norm(_body(ct, "세부 설명")) == _norm(_strip_disclaimer(_body(kt, "세부 설명"))):
-                src = cand
-                break
-        if src is None:
-            fail(f"{os.path.relpath(kp, ROOT)}: borrowed 세부 설명 matches none of {targets}")
+        missing = [c for c in targets
+                   if not os.path.exists(os.path.join(DOCS, "ko", "annex7", c + ".md"))]
+        for cand in missing:
+            fail(f"{os.path.relpath(kp, ROOT)}: 대응(별표7) target {cand}.md does not exist")
+        if missing or not targets:
             continue
         for lang in LANGS:
             path = kp.replace(os.sep + "ko" + os.sep, os.sep + lang + os.sep)
-            spath = os.path.join(DOCS, lang, "annex7", src + ".md")
-            if not os.path.exists(path) or not os.path.exists(spath):
-                missing = path if not os.path.exists(path) else spath
-                fail(f"{os.path.relpath(missing, ROOT)}: expected document is missing")
+            if not os.path.exists(path):
+                fail(f"{os.path.relpath(path, ROOT)}: expected document is missing")
                 continue
             text = open(path, encoding="utf-8").read()
-            stext = open(spath, encoding="utf-8").read()
             for i, name in enumerate(BORROWED[lang]):
-                a, b = _body(text, name), _body(stext, name)
+                expected = _merged_body(lang, targets, name)
+                if expected is None:
+                    fail(f"{os.path.relpath(path, ROOT)}: an Annex 7 source of '{name}' is missing")
+                    continue
+                actual = _body(text, name) or ""
                 if i == 0:
-                    a = _strip_disclaimer(a)
+                    actual = _strip_disclaimer(actual)
                 if i == 3:
-                    a, b = _strip_footer(a), _strip_footer(b)
-                if _norm(a) != _norm(b):
+                    actual = _strip_footer(actual)
+                if _norm(actual) != _norm(expected):
                     fail(f"{os.path.relpath(path, ROOT)}: borrowed '{name}' differs from "
-                         f"its source {src}")
+                         f"its source {', '.join(targets)}")
 
 
 BULLET_RE = re.compile(r"(?m)^\s*(?:[-*]|\d+\.)\s+\S")
@@ -447,6 +531,32 @@ def check_citation_renderings():
                      f"(one English rendering per Korean citation)")
 
 
+def _numbered(body):
+    return [m.group(1).strip() for m in re.finditer(r"(?m)^\s*\d+\.\s+(.+?)\s*$", body or "")]
+
+
+def check_checkpoint_renderings():
+    """[19] one Korean checkpoint sentence gets one English sentence across the corpus.
+
+    [14] compares whole checkpoint lists, so a relaxed item that keeps three of four
+    Annex 7 checkpoints verbatim and relaxes the fourth escapes it while rendering the
+    three differently in English. This check works line by line and holds the whole
+    corpus to one English sentence per Korean sentence.
+    """
+    renderings = {}
+    for slug, name, kt, et in _item_pairs():
+        klines = _numbered(_body(kt, "주요 확인사항"))
+        elines = _numbered(_body(et, "Key checkpoints"))
+        if len(klines) != len(elines):
+            continue  # [12] reports the count mismatch
+        for korean, english in zip(klines, elines):
+            first = renderings.setdefault(korean, (english, f"{slug}/{name}"))
+            if english != first[0]:
+                fail(f"docs/en/{slug}/{name}: checkpoint '{korean[:30]}...' is rendered "
+                     f"differently from docs/en/{first[1]} (one English rendering per "
+                     f"Korean checkpoint)")
+
+
 def check_expected_counts():
     """[17] each set must hold exactly the number of items its official annex defines.
 
@@ -466,6 +576,69 @@ def check_expected_counts():
                 fail(f"docs/{lang}/{slug}: holds {len(paths)} items but {set_id} defines "
                      f"{expected} (see UPDATES.md section 1; if an amended annex really "
                      f"changed the count, record the reflection plan there first)")
+
+
+def check_topic_index(manifest):
+    """[18] the skill's routing table covers every item and points only at real ones.
+
+    skill/isms-p-review/SKILL.md routes a user's words to items through
+    topic-index.json before it reads any document, so an item missing from the
+    table is one the skill can never find, and a number that does not exist sends
+    it to a document that is not there. The 별표7의2 and 별표7의3 lists are derived
+    from the 별표7 list through each relaxed document's 대응(별표7) row; a hand edit
+    that touches one list and not the other leaves the sets disagreeing about
+    what the same topic means, so the derivation is re-done here and compared.
+    """
+    if not os.path.exists(TOPIC_INDEX):
+        fail("skill/isms-p-review/topic-index.json is missing (the isms-p-review skill "
+             "routes through it)")
+        return
+    index = json.load(open(TOPIC_INDEX, encoding="utf-8"))
+    ko_items = {}
+    for it in manifest["items"]:
+        if it["lang"] == "ko":
+            ko_items.setdefault(it["section"], set()).add(it["no"])
+    slug_for = {"별표7의2": "annex7-2", "별표7의3": "annex7-3"}
+    reverse = {set_id: {} for set_id in slug_for}
+    for set_id, slug in slug_for.items():
+        for path in sorted(glob.glob(os.path.join(DOCS, "ko", slug, "*.md"))):
+            name = os.path.basename(path)
+            if name == "INDEX.md":
+                continue
+            text = open(path, encoding="utf-8").read()
+            m = re.search(r"(?m)^\| 대응\(별표7\) \| (.*) \|$", text)
+            row = m.group(1) if m else ""
+            for target in re.findall(r"\(\.\./annex7/([0-9.]+)\.md\)", row):
+                reverse[set_id].setdefault(target, []).append(name[:-3])
+    covered = {set_id: set() for set_id in ko_items}
+    for topic in index.get("topics", []):
+        label = topic.get("topic_ko", "?")
+        items = topic.get("items", {})
+        for set_id, listed in items.items():
+            if set_id not in ko_items:
+                fail(f"topic-index '{label}': unknown set '{set_id}'")
+                continue
+            for no in listed:
+                if no not in ko_items[set_id]:
+                    fail(f"topic-index '{label}': {set_id} {no} does not exist in the corpus")
+            covered[set_id].update(listed)
+        for set_id in slug_for:
+            expected = []
+            for no in items.get("별표7", []):
+                for relaxed in reverse[set_id].get(no, []):
+                    if relaxed not in expected:
+                        expected.append(relaxed)
+            if sorted(items.get(set_id, [])) != sorted(expected):
+                fail(f"topic-index '{label}': {set_id} list {items.get(set_id, [])} does not "
+                     f"match the 대응(별표7) rows, expected {expected}")
+    for set_id, all_items in sorted(ko_items.items()):
+        for no in sorted(all_items - covered[set_id], key=item_key):
+            fail(f"topic-index: {set_id} {no} appears in no topic, so the isms-p-review "
+                 f"skill can never route to it")
+
+
+def item_key(no):
+    return [int(part) for part in no.split(".")]
 
 
 def check_links():
@@ -547,6 +720,8 @@ def main():
     check_label_consistency()
     check_citation_renderings()
     check_expected_counts()
+    check_topic_index(manifest)
+    check_checkpoint_renderings()
     check_links()
 
     if problems:

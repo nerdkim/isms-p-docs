@@ -40,11 +40,18 @@ extended/                AI agent가 이 자료집을 사용하도록 돕는 계
   outputs/               runtime 산출물 루트(readme 외에는 git에서 제외)
 tools/
   build_index.py         docs/에서 파생 색인 전체를 재생성
-  check_corpus.py        읽기 전용 무결성 검사 17종
+  check_corpus.py        읽기 전용 무결성 검사 19종
   test_check_corpus.py   위 두 도구의 테스트
 harness/
   install-hooks.sh       clone에 git hook을 배선(최초 1회, 설치 절 참고)
   check-conventions.sh   문서 규약 검사기(playbook docs/16)
+skill/
+  isms-p-review/         Codex와 Claude Code 공용 review skill(시나리오 S8)
+    SKILL.md             절차(routing, 읽기, 판정, 보고 양식)
+    topic-index.json     일상 어휘를 세트별 항목 번호로 잇는 routing 표
+    derive_relaxed_lists.py  topic 수정 뒤 대응(별표7) 행에서 완화 세트 목록을 다시 유도
+.agents/skills/
+  isms-p-review         Codex가 발견하는 skill/isms-p-review/ symlink
 ```
 
 경로는 전부 ASCII라 소비자 쪽에서 URL 인코딩 문제가 생기지 않습니다.
@@ -108,6 +115,21 @@ bash harness/install-hooks.sh
 편의 guardrail이고, 정본 게이트는 같은 검사기를 돌리는 CI(`.github/workflows/docs.yml`)입니다.
 
 나머지는 Python 3(표준 라이브러리만)와 bash만 있으면 됩니다.
+
+## Codex로 작업하기
+
+Codex에서 이 repository를 열면 [AGENTS.md](AGENTS.md)를 읽습니다. 이 파일은 공통 규칙 원본인
+`CLAUDE.md`를 가리킵니다. 유지보수 전 `playbook/docs/README.md`를 읽으십시오. local playbook clone은
+작업에 필요한 참조본이므로 임시 파일로 취급해 삭제하지 않습니다.
+
+review skill은 `.agents/skills/isms-p-review` symlink로 발견됩니다. `$isms-p-review` 뒤에 점검할
+내용이나 파일 경로를 지정하십시오. 새 skill이 표시되지 않으면 Codex를 다시 시작하십시오.
+자료집 유지보수는 `AGENTS.md`를 따르고, 내용 점검은 [extended/USAGE.ko.md](extended/USAGE.ko.md)를
+따르며 인증기준 원문을 수정하지 않습니다.
+
+다른 project에서도 사용하려면 이 checkout의 `skill/isms-p-review/`를
+`~/.agents/skills/isms-p-review`로 연결하십시오. skill 사본은 하나만 유지하고 symlink의 실제
+경로로 자료집을 찾습니다. [사용 계획](extended/README.ko.md#7-openai-codex-사용법)을 참고하십시오.
 
 ## 유지보수
 

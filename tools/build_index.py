@@ -276,7 +276,12 @@ def parse_item(path, lang, ko_by_key):
         bun = re.match(r"^(\d+\.\d+)\s+(.*)$", meta_row(text, "분야"))
         subgroup_no = bun.group(1) if bun else ".".join(no.split(".")[:2])
         subgroup = bun.group(2).strip() if bun else ""
-        applies = ["ISMS-P"] if group_no == "3" else ["ISMS", "ISMS-P"]
+        marks = meta_row(text, "적용 인증")
+        if marks:
+            applies = [n for n, pat in (("ISMS", r"ISMS\s*`([^`]*)`"), ("ISMS-P", r"ISMS-P\s*`([^`]*)`"))
+                       if (m := re.search(pat, marks)) and m.group(1) == "●"]
+        else:
+            applies = ["ISMS-P"] if group_no == "3" else ["ISMS", "ISMS-P"]
     else:
         # English items mirror the Korean structure one-to-one, keyed by (set, no).
         # The English LABEL is read from the English document, exactly as the Korean

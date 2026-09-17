@@ -28,7 +28,7 @@
 #### 1.4 Management System Inspection and Improvement
 
 - [1.4.1 Review of Compliance with Legal Requirements](annex7/1.4.1.md)
-- [1.4.2 Management System Review](annex7/1.4.2.md)
+- [1.4.2 Management System Inspection](annex7/1.4.2.md)
 - [1.4.3 Management System Improvement](annex7/1.4.3.md)
 ### 2. Protective Measure Requirements
 
@@ -43,7 +43,7 @@
 - [2.2.2 Separation of Duties](annex7/2.2.2.md)
 - [2.2.3 Security Pledge](annex7/2.2.3.md)
 - [2.2.4 Awareness Raising and Education/Training](annex7/2.2.4.md)
-- [2.2.5 Management of Retirement and Job Change](annex7/2.2.5.md)
+- [2.2.5 Management of Departure and Job Change](annex7/2.2.5.md)
 - [2.2.6 Actions in Case of Security Violations](annex7/2.2.6.md)
 #### 2.3 External Party Security
 
@@ -53,7 +53,7 @@
 - [2.3.4 Security upon Change or Termination of External Party Contracts](annex7/2.3.4.md)
 #### 2.4 Physical Security
 
-- [2.4.1 Designation of Protection Zones](annex7/2.4.1.md)
+- [2.4.1 Designation of Protected Areas](annex7/2.4.1.md)
 - [2.4.2 Access Control](annex7/2.4.2.md)
 - [2.4.3 Information System Protection](annex7/2.4.3.md)
 - [2.4.4 Operation of Protective Facilities](annex7/2.4.4.md)
@@ -85,7 +85,7 @@
 
 - [2.8.1 Definition of Security Requirements](annex7/2.8.1.md)
 - [2.8.2 Review and Testing of Security Requirements](annex7/2.8.2.md)
-- [2.8.3 Separation of Test and Production Environments](annex7/2.8.3.md)
+- [2.8.3 Separation of Test and Operational Environments](annex7/2.8.3.md)
 - [2.8.4 Test Data Security](annex7/2.8.4.md)
 - [2.8.5 Source Program Management](annex7/2.8.5.md)
 - [2.8.6 Transition to the Operational Environment](annex7/2.8.6.md)
@@ -173,7 +173,7 @@
 - [1.3.1 Management of Operational Status](annex7-2/1.3.1.md)
 #### 1.4 Management System Inspection and Improvement
 
-- [1.4.1 Management System Review](annex7-2/1.4.1.md)
+- [1.4.1 Management System Inspection](annex7-2/1.4.1.md)
 ### 2. Protective Measure Requirements
 
 #### 2.1 Human Resource Security
@@ -185,7 +185,7 @@
 - [2.2.1 Security When Contracting with External Parties](annex7-2/2.2.1.md)
 #### 2.3 Physical Security
 
-- [2.3.1 Designation of Protection Zones](annex7-2/2.3.1.md)
+- [2.3.1 Designation of Protected Areas](annex7-2/2.3.1.md)
 - [2.3.2 Information System Protection](annex7-2/2.3.2.md)
 - [2.3.3 Control of Devices Brought In and Out](annex7-2/2.3.3.md)
 - [2.3.4 Work Environment Security](annex7-2/2.3.4.md)
@@ -207,7 +207,7 @@
 #### 2.7 Information System Introduction and Development Security
 
 - [2.7.1 Definition of Security Requirements](annex7-2/2.7.1.md)
-- [2.7.2 Separation of Test and Production Environments](annex7-2/2.7.2.md)
+- [2.7.2 Separation of Test and Operational Environments](annex7-2/2.7.2.md)
 - [2.7.3 Test Data Security](annex7-2/2.7.3.md)
 - [2.7.4 Source Program Management](annex7-2/2.7.4.md)
 #### 2.8 System and Service Operation Management
@@ -284,7 +284,7 @@
 #### 1.4 Management System Inspection and Improvement
 
 - [1.4.1 Review of Compliance with Legal Requirements](annex7-3/1.4.1.md)
-- [1.4.2 Management System Review](annex7-3/1.4.2.md)
+- [1.4.2 Management System Inspection](annex7-3/1.4.2.md)
 - [1.4.3 Management System Improvement](annex7-3/1.4.3.md)
 ### 2. Protective Measure Requirements
 
@@ -298,7 +298,7 @@
 - [2.2.1 Designation and Management of Key Personnel](annex7-3/2.2.1.md)
 - [2.2.2 Security Pledge](annex7-3/2.2.2.md)
 - [2.2.3 Awareness Raising and Education/Training](annex7-3/2.2.3.md)
-- [2.2.4 Management of Retirement and Job Change](annex7-3/2.2.4.md)
+- [2.2.4 Management of Departure and Job Change](annex7-3/2.2.4.md)
 #### 2.3 External Party Security
 
 - [2.3.1 Security When Contracting with External Parties](annex7-3/2.3.1.md)

@@ -23,8 +23,8 @@ import sys
 import tempfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-COPY_DIRS = ("docs", "extended", "tools")
-COPY_FILES = ("README.md", "README.ko.md", "UPDATES.md", "UPDATES.ko.md", "CLAUDE.md",
+COPY_DIRS = ("docs", "extended", "tools", "skill")
+COPY_FILES = ("README.md", "README.ko.md", "UPDATES.md", "UPDATES.ko.md", "CLAUDE.md", "AGENTS.md",
               "LICENSE", "LICENSE-CONTENT", "NOTICE")
 
 passed = 0
@@ -49,7 +49,7 @@ def make_corpus(tmp):
     for name in COPY_FILES:
         src = os.path.join(ROOT, name)
         if os.path.exists(src):
-            shutil.copy2(src, os.path.join(work, name))
+            shutil.copy2(src, os.path.join(work, name), follow_symlinks=False)
     return work
 
 
@@ -290,6 +290,77 @@ def main():
 
     case("a deleted criteria item is rejected even after a rebuild",
          delete_item_and_rebuild, "defines")
+
+    print("== [18] the skill routing table ==")
+
+    def topic_path(work):
+        return os.path.join(work, "skill", "isms-p-review", "topic-index.json")
+
+    def unroute_item(work):
+        # Remove 1.1.4 from every topic and every set: the skill could never reach it.
+        idx = json.loads(read(topic_path(work)))
+        for topic in idx["topics"]:
+            topic["items"]["별표7"] = [n for n in topic["items"]["별표7"] if n != "1.1.4"]
+            for set_id in ("별표7의2", "별표7의3"):
+                topic["items"][set_id] = [n for n in topic["items"][set_id] if n != "1.1.4"]
+        write(topic_path(work), json.dumps(idx, ensure_ascii=False))
+
+    case("[18] an item that no topic routes to is rejected", unroute_item, "appears in no topic")
+
+    def phantom_item(work):
+        idx = json.loads(read(topic_path(work)))
+        idx["topics"][0]["items"]["별표7"].append("9.9.9")
+        write(topic_path(work), json.dumps(idx, ensure_ascii=False))
+
+    case("[18] a topic pointing at an item that does not exist is rejected", phantom_item,
+         "does not exist in the corpus")
+
+    def drift_relaxed_list(work):
+        # Edit the Annex 7 list of one topic without re-deriving the relaxed lists.
+        idx = json.loads(read(topic_path(work)))
+        for topic in idx["topics"]:
+            if "1.1.1" in topic["items"]["별표7"]:
+                topic["items"]["별표7"] = [n for n in topic["items"]["별표7"] if n != "1.1.1"]
+                break
+        # 1.1.1 stays routable through other topics, so only the derivation fails.
+        write(topic_path(work), json.dumps(idx, ensure_ascii=False))
+
+    case("[18] a relaxed list that no longer follows the 대응(별표7) rows is rejected",
+         drift_relaxed_list, "does not match the 대응(별표7) rows")
+
+    def missing_index(work):
+        os.remove(topic_path(work))
+
+    case("[18] a missing routing table is rejected", missing_index, "topic-index.json is missing")
+
+    print("== [9] merged relaxed items ==")
+
+    def drop_second_source(work):
+        # 별표 7의2 2.3.1 merges Annex 7 2.4.1 and 2.4.2; deleting 2.4.2's evidence bullets
+        # leaves the item consistent with 2.4.1 alone, which used to pass.
+        p = os.path.join(work, "docs", "ko", "annex7-2", "2.3.1.md")
+        src = read(os.path.join(work, "docs", "ko", "annex7", "2.4.2.md"))
+        ev = re.search(r"(?ms)^## 증적자료[^\n]*\n(.*?)(?=^## )", src).group(1)
+        t = read(p)
+        for line in ev.strip().split("\n"):
+            if line.startswith("- "):
+                t = t.replace(line + "\n", "", 1)
+        write(p, t)
+
+    case("[9] a merged relaxed item that drops its second source's material is rejected",
+         drop_second_source, "borrowed '증적자료' differs")
+
+    print("== [19] one English rendering per Korean checkpoint ==")
+
+    def diverge_checkpoint(work):
+        # 별표 7의2 2.4.2 keeps Annex 7 2.5.2's checkpoints verbatim in Korean.
+        p = os.path.join(work, "docs", "en", "annex7-2", "2.4.2.md")
+        t = read(p)
+        t = re.sub(r"(?m)^1\. (.+)$", lambda m: "1. " + m.group(1).replace("identifier", "ID", 1), t, count=1)
+        write(p, t)
+
+    case("[19] an identical Korean checkpoint rendered differently in English is rejected",
+         diverge_checkpoint, "one English rendering per Korean checkpoint")
 
     print("== the crash guard ==")
 

@@ -10,7 +10,10 @@ This document does two things:
 
 Read part 2 before "fixing" a citation that looks out of date. It probably is not a defect.
 
-Last checked: 2026-09-10.
+Last checked: 2026-09-17.
+
+This review rechecked the KISA publication list, the certification notice, and all three official
+checklist workbooks. It does not re-date the earlier statutory review in sections 2.2 and 2.3.
 
 ## 1. Source versions
 
@@ -46,7 +49,8 @@ Since then:
 | PIPC Notice 2026-9 (개인정보보호위원회 고시 제2026-9호), the current version of the notice | 2026.7.1 | No |
 | Personal Information Protection Act (법률 제20897호): the domestic representative must be a domestic corporation the processor established or controls, with a new education and supervision duty (Article 31-2(3)) and matching 과태료 in Article 75. Cited by items 3.5.1 and 1.4.1 | 2025.10.2 | No |
 | Enforcement Decree (대통령령 제36121호): Article 42-2(1) who must transmit (its subparagraph 1, the large private-sector class, deferred to 2027.2.20), Article 42-4(1) the scope of self-transmission information, and Article 42-6(3) to (5) the transmission methods, giving content to the standards left to Presidential Decree in Article 35-2. Subject matter of item 3.5.2 | 2026.8.20 | No |
-| Personal Information Protection Act, its Enforcement Decree and the related notices: board resolution and filing for the Chief Privacy Officer, notification within 72 hours on the *possibility* of a leak, a new 10 percent of total turnover ceiling for repeated or serious violations (Article 64-2(2)) alongside the retained 3 percent general ceiling (Article 64-2(1)), and ISMS-P certification made mandatory above a size threshold | 2026.9.11 | No |
+| Personal Information Protection Act (법률 제21445호, promulgated 2026.3.10), its Enforcement Decree (대통령령 제36671호, promulgated 2026.9.10) and the related notices take effect: board resolution and filing for the Chief Privacy Officer, notification without delay (지체 없이) on the *possibility* of a leak (Article 34(2); the 72-hour deadline of the Decree applies to a confirmed leak), a new 10 percent of total turnover ceiling for repeated or serious violations (Article 64-2(2)) alongside the retained 3 percent general ceiling (Article 64-2(1)) | 2026.9.11 | No |
+| The same Act's proviso to Article 32-2(1) makes ISMS-P certification mandatory above a size threshold; it carries its own later commencement date, and the Enforcement Decree amendment that fixes the scope was pre-announced (입법예고) from 2026.6.2 to 2026.7.13 | 2027.7.1 (not yet in force) | No |
 
 Also promulgated but not yet in force, so not a divergence yet: 개인정보 보호법 법률 제21910호
 (promulgated 2026.9.8, effective 2027.3.9).
@@ -71,14 +75,16 @@ cite, so it belongs in this register and not only in `extended/README.md`.
 |---|---|---|
 | The PIPC and the MSIT announce measures to strengthen the effectiveness of the certification scheme (인증 실효성 강화 방안), presenting a notice amendment for the first quarter of 2026 | 2025.12.6 | No |
 | The two agencies publish the plan (정보보호 및 개인정보보호 관리체계 인증제 실효성 강화방안): the single criteria set is to be reorganized into three tiers (간편, 표준, 강화), the enhanced tier adding 20 criteria and 76 detailed inspection items, and document-centered audit is to give way to technical review and on-site demonstration | 2026.4.10 | No |
+| The plan's own timeline: the post-certification measures (상시 점검 강화, 인증취소 기준) from the second half of 2026; the wider mandatory scope and the differentiated three-tier scheme from 2027, with the notice and decree amendments named as follow-up work | 2026.4.10 (plan) | No |
 
 **Decision: keep the current text. This is not yet a divergence in the criteria at all.** The
-planned notice amendment has not been issued. Re-checked on 2026-09-10, the Notice on certification
+planned notice amendment has not been issued. Re-checked on 2026-09-14, the Notice on certification
 (정보보호 및 개인정보보호 관리체계 인증 등에 관한 고시) is still the 2024.7.24 version (개인정보위
 고시 제2024-8호 / 과기정통부 고시 제2024-30호) in the 국가법령정보센터 record, so 별표 7, 별표 7의2
 and 별표 7의3 are unchanged and the corpus still matches the current authoritative annexes. The
-first-quarter-2026 amendment did not land and the published plan works toward a later commencement,
-so treat the three-tier restructuring as announced but not in force, and do not pre-empt it.
+first-quarter-2026 amendment did not land, the published plan puts the three-tier scheme in 2027, and
+no 행정예고 of an amending notice was open on 2026-09-14, so treat the three-tier restructuring as
+announced but not in force, and do not pre-empt it.
 
 The trigger for this corpus is unchanged: a re-issue of the 인증기준 안내서, per section 3. When
 amended annexes are promulgated the item counts (101 / 62 / 65) are what move first, so record the
@@ -88,9 +94,11 @@ reflection plan here **before** touching `docs/`.
 
 | Item | Status |
 |---|---|
-| ISMS-P Certification Criteria Guide (인증기준 안내서) | 2023.11.23 is the latest published edition; no later re-issue confirmed, re-checked 2026-09-10 against the KISA and PIPC repositories. The corpus content is current. |
-| Notice on certification (정보보호 및 개인정보보호 관리체계 인증 등에 관한 고시) | The 2024.7.24 version (개인정보위 고시 제2024-8호 / 과기정통부 고시 제2024-30호) is the current one in the 국가법령정보센터 record, re-checked 2026-09-10. 별표 7, 별표 7의2 and 별표 7의3 are unamended, so the pinned annexes are current. |
-| Annex 7-2, 7-3 detailed inspection items | The 2024.7.24 revision is fully reflected; the item structure matches 62 and 65. Based on the edition published on the Public Data Portal (공공데이터포털). <!-- conventions-allow: 공식 표준 용어(데이터, 네트워크) 원문 보존 --> |
+| ISMS-P Certification Criteria Guide (인증기준 안내서) | KISA still lists the 2023.11.23 edition; no later general criteria guide was found on 2026-09-17. This confirms the source edition, not a new line-by-line audit of every explanation or translation. |
+| Notice on certification (정보보호 및 개인정보보호 관리체계 인증 등에 관한 고시) | The national law database still lists the 2024.7.24 version (개인정보위 고시 제2024-8호 / 과기정통부 고시 제2024-30호); no later issued version was found on 2026-09-17. |
+| Annex 7-2, 7-3 detailed inspection items | Downloaded KISA's 2024.7.24 workbooks on 2026-09-17: 62 / 65 items and 232 / 222 checkpoints. Compared the Korean criteria and checkpoints with the corpus, allowing whitespace and separator normalization. Recorded the source discrepancies and correction below. |
+| ISMS-P Certification Scheme Guide (인증제도 안내서) | KISA still lists the 2024.07 edition (posted 2024.7.24), cited by `extended/README.md`; no later edition found on 2026-09-17. |
+| Annex 7 detailed inspection items | Downloaded KISA's 2023.10.31 workbook on 2026-09-17: 101 items and 328 checkpoints, compared as above. Dataset 15106182 is an Annex 7-3 workbook, not a newer Annex 7 edition; the previous open check is resolved in section 2.7. |
 
 ### 2.5 Resolved: the Annex 7 date in the source footer
 
@@ -139,6 +147,36 @@ reuse Annex 7's two checkpoints verbatim for 1.1.2, including the reference to �
 and the detailed inspection items for the key checkpoints, which is the correct precedence. Do not
 "fix" the checkpoints to match the narrowed criterion; they are what the official checklist says.
 
+### 2.7 Resolved: dataset 15106182 was misidentified
+
+On 2026-09-17, the attachment from [dataset 15106182](https://www.data.go.kr/data/15106182/fileData.do)
+was downloaded and compared with KISA's Annex 7-3 workbook. The files are byte-identical:
+39,734 bytes, SHA-256 `d93e6223d08ee2e4e131beae4dcd849ea2100839d4d1c8b30197deaac1cb83dc`.
+The workbook contains 65 items and 222 checkpoints. Its portal title ends in `20240725`, and the
+portal reports 225 rows; neither is evidence of a new 101-item Annex 7 edition. The earlier
+unverified statement that this dataset described 101 items is withdrawn. Keep the existing pins.
+
+### 2.8 Resolved: checklist transcription and recorded source differences (2026-09-17)
+
+Before editing the corpus, the comparison of all 228 Korean criteria and 782 checkpoints identified
+one transcription issue: checkpoint 1 of item 1.1.2 omits `보호` from `개인정보보호 처리` in all
+three sets. Both the official workbooks and the 2023.11.23 guide include it. The plan recorded
+before editing was to restore the phrase in all three Korean documents, update the matching
+English sentences to refer to personal information protection activities, and regenerate the
+indexes in the same change. The six documents now carry that correction.
+
+Keep these source discrepancies as recorded exceptions:
+
+- Annex 7 checkpoint 2 of 2.9.2: the workbook has the typo `수립/이하고`; the guide prints
+  `수립/이행하고`. Keep the corpus's guide-supported spelling.
+- Annex 7-2 criterion 2.9.2: the workbook duplicates `행하여야 한다.` at the end. Keep the
+  unduplicated criterion.
+- Annex 7-2 criterion 1.1.2: keep the gazette wording, as explained in section 2.6.
+
+This comparison covers criteria and checkpoints. The 19 integrity checks cover all 456 documents,
+their structure, shared text, links, and generated metadata; they do not establish the semantic
+accuracy of every English sentence or re-verify all legal interpretations.
+
 ## 3. Operating principle
 
 - The corpus follows the **current ISMS-P criteria and guide**, not the newest upstream statute.
@@ -153,8 +191,17 @@ and the detailed inspection items for the key checkpoints, which is the correct 
 
 ## 4. Sources checked
 
+- [KISA ISMS-P publication list](https://isms-p.or.kr/ntcn/rcsrm/selectGnrlRcsrmList.do): general
+  criteria guide, scheme guide, and all three checklist attachments (downloaded 2026-09-17).
+- [Certification notice, 2024.7.24](https://law.go.kr/LSW/admRulInfoP.do?admRulSeq=2100000244750&chrClsCd=010201).
+- [Public Data Portal dataset 15106182](https://www.data.go.kr/data/15106182/fileData.do): attachment
+  identity confirmed against KISA by SHA-256 on 2026-09-17.
+
 - ISMS-P certification criteria and the Certification Criteria Guide (인증기준 안내서): the official
-  repositories of the PIPC (개인정보보호위원회) and of KISA (한국인터넷진흥원)
+  repositories of the PIPC (개인정보보호위원회) and of KISA (한국인터넷진흥원); the ISMS-P portal is
+  isms-p.or.kr (the former isms.kisa.or.kr host no longer resolves)
+- Statutory changes and the 2026 plan: the government press releases on korea.kr (정책브리핑) and the
+  국가법령정보센터 open data for the texts in force on each date
 - Annex 7-2, 7-3 detailed inspection items: the Public Data Portal (공공데이터포털), provided by KISA <!-- conventions-allow: 공식 표준 용어(데이터, 네트워크) 원문 보존 -->
 - The 2026 overhaul of the certification scheme: the PIPC and MSIT announcement (2025.12.6) and the
   published plan (2026.4.10), with the 국가법령정보센터 record of the certification notice used to

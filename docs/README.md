@@ -11,9 +11,9 @@ guard them.
 ## Read-only
 
 Treat this directory as **immutable while using the corpus**. `tools/build_index.py` and
-`tools/check_corpus.py` only read from here, and an agent answering questions with the corpus must
-never create, edit, or delete anything under `docs/`. Derived output belongs in the consuming
-workspace, or under `extended/outputs/`.
+`tools/check_corpus.py` leave item documents untouched. During maintenance the builder regenerates
+`docs/ko/INDEX.md` and `docs/en/INDEX.md`. An agent answering questions with the corpus must never
+create, edit, or delete anything under `docs/`; save assessment outputs under `extended/outputs/`.
 
 Maintainers do edit these files, of course. That is a different activity, and it comes with its own
 rules: see [../CLAUDE.md](../CLAUDE.md) and the bilingual-parity rule below.
@@ -47,7 +47,10 @@ docs/
 
 Annexes 7-2 and 7-3 are not separate certifications. They are simplified sets that ease the
 certification burden for SMEs (Network Act (정보통신망법) Article 47-7, Enforcement Decree
-Article 49-2).
+Article 49-2). Their criterion and key checkpoints are the official relaxed text; their other four
+sections are reused from the Annex 7 control named in the `대응(별표7)` row, and an item whose
+criterion merges two Annex 7 controls carries both controls' material, in row order (check [9]
+holds every copy byte-identical to its sources).
 
 ## Document structure
 

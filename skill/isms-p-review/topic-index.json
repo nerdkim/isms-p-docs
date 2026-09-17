@@ -1,0 +1,3245 @@
+{
+ "schema": "isms-p-review-topic-index/v1",
+ "description": "Routing table for the isms-p-review skill. Each topic maps everyday Korean and English words to the ISMS-P criteria items whose key checkpoints test that topic, per set. The first item in each list is the primary one. The 별표7의2 and 별표7의3 lists are derived from the 별표7 list through the 대응(별표7) row of each relaxed-set document, so an empty list means the relaxed set has no counterpart item and the topic is outside that set. This is a lookup aid written by this project; it is not part of the official criteria. derive_relaxed_lists.py next to this file rewrites the relaxed lists after a 별표7 list is edited, and tools/check_corpus.py check [18] verifies that every item of every set appears in at least one topic, that every listed number exists, and that the relaxed lists agree with the 대응(별표7) rows.",
+ "sets": {
+  "별표7": "docs/ko/annex7",
+  "별표7의2": "docs/ko/annex7-2",
+  "별표7의3": "docs/ko/annex7-3"
+ },
+ "topics": [
+  {
+   "topic_ko": "경영진 참여, 보고 체계, 위원회",
+   "topic_en": "executive participation, reporting, committee",
+   "keywords": [
+    "경영진",
+    "임원",
+    "위원회",
+    "의사결정",
+    "management",
+    "executive",
+    "committee",
+    "report",
+    "경영진 보고",
+    "경영진에게 보고",
+    "대표에게 보고",
+    "임원 보고"
+   ],
+   "items": {
+    "별표7": [
+     "1.1.1",
+     "1.1.6",
+     "1.3.3"
+    ],
+    "별표7의2": [
+     "1.1.1",
+     "1.3.1"
+    ],
+    "별표7의3": [
+     "1.1.1",
+     "1.3.1"
+    ]
+   }
+  },
+  {
+   "topic_ko": "최고책임자 지정(CISO, CPO), 신고, 겸직",
+   "topic_en": "CISO and CPO designation, filing, dual roles",
+   "keywords": [
+    "CISO",
+    "CPO",
+    "최고책임자",
+    "보호책임자",
+    "정보보호 최고",
+    "임명",
+    "신고",
+    "겸직",
+    "designat",
+    "officer"
+   ],
+   "items": {
+    "별표7": [
+     "1.1.2",
+     "1.1.3"
+    ],
+    "별표7의2": [
+     "1.1.2",
+     "1.1.3"
+    ],
+    "별표7의3": [
+     "1.1.2",
+     "1.1.3"
+    ]
+   }
+  },
+  {
+   "topic_ko": "정보보호 조직, 실무 조직, 담당자 배정",
+   "topic_en": "security organization, working-level team, assignment",
+   "keywords": [
+    "전담",
+    "보안팀",
+    "organization",
+    "보안 조직",
+    "정보보호 조직",
+    "실무 조직",
+    "보안 담당자",
+    "전담 인력",
+    "security team",
+    "security organization"
+   ],
+   "items": {
+    "별표7": [
+     "1.1.3",
+     "2.1.2",
+     "1.1.6"
+    ],
+    "별표7의2": [
+     "1.1.3"
+    ],
+    "별표7의3": [
+     "1.1.3",
+     "2.1.2"
+    ]
+   }
+  },
+  {
+   "topic_ko": "인증 범위, 서비스 범위, 범위 누락",
+   "topic_en": "certification scope, services in scope",
+   "keywords": [
+    "범위",
+    "인증 범위",
+    "대상 서비스",
+    "scope",
+    "in scope",
+    "out of scope",
+    "범위에서 제외",
+    "범위 누락",
+    "인증 대상 서비스"
+   ],
+   "items": {
+    "별표7": [
+     "1.1.4",
+     "1.2.1"
+    ],
+    "별표7의2": [
+     "1.1.4",
+     "1.2.1"
+    ],
+    "별표7의3": [
+     "1.1.4",
+     "1.2.1"
+    ]
+   }
+  },
+  {
+   "topic_ko": "정책과 지침의 수립, 승인, 개정",
+   "topic_en": "policy and guideline establishment, approval, revision",
+   "keywords": [
+    "정책",
+    "지침",
+    "규정",
+    "절차서",
+    "policy",
+    "guideline",
+    "procedure",
+    "approv",
+    "정책 승인",
+    "정책 개정",
+    "지침 개정",
+    "정책 제정",
+    "정책 수립"
+   ],
+   "items": {
+    "별표7": [
+     "1.1.5",
+     "2.1.1"
+    ],
+    "별표7의2": [
+     "1.1.5"
+    ],
+    "별표7의3": [
+     "1.1.5",
+     "2.1.1"
+    ]
+   }
+  },
+  {
+   "topic_ko": "예산, 인력, 자원 할당",
+   "topic_en": "budget, staffing, resources",
+   "keywords": [
+    "예산",
+    "자원",
+    "budget",
+    "resource",
+    "headcount",
+    "보안 예산",
+    "보안 인력",
+    "자원 부족",
+    "예산 부족"
+   ],
+   "items": {
+    "별표7": [
+     "1.1.6",
+     "1.1.1"
+    ],
+    "별표7의2": [
+     "1.1.1"
+    ],
+    "별표7의3": [
+     "1.1.1"
+    ]
+   }
+  },
+  {
+   "topic_ko": "정보자산 목록, 자산 식별, 중요도, 자산 관리",
+   "topic_en": "asset inventory, identification, classification, ownership",
+   "keywords": [
+    "자산",
+    "자산 목록",
+    "자산 관리",
+    "중요도",
+    "등급",
+    "책임자",
+    "소유자",
+    "asset",
+    "inventory",
+    "classif",
+    "owner"
+   ],
+   "items": {
+    "별표7": [
+     "1.2.1",
+     "2.1.3"
+    ],
+    "별표7의2": [
+     "1.2.1"
+    ],
+    "별표7의3": [
+     "1.2.1",
+     "2.1.3"
+    ]
+   }
+  },
+  {
+   "topic_ko": "개인정보 흐름도, 처리 현황, 흐름 분석",
+   "topic_en": "personal information flow diagram and current-state analysis",
+   "keywords": [
+    "흐름도",
+    "흐름",
+    "현황 분석",
+    "처리 흐름",
+    "업무 흐름",
+    "flow",
+    "data flow",
+    "diagram"
+   ],
+   "items": {
+    "별표7": [
+     "1.2.2",
+     "3.2.1"
+    ],
+    "별표7의2": [
+     "3.2.1"
+    ],
+    "별표7의3": [
+     "1.2.2",
+     "3.2.1"
+    ]
+   }
+  },
+  {
+   "topic_ko": "위험 평가, 위험 분석, 수용 수준, 위험 관리",
+   "topic_en": "risk assessment, risk analysis, acceptance level",
+   "keywords": [
+    "위험",
+    "위험 평가",
+    "위험 분석",
+    "리스크",
+    "수용",
+    "DoA",
+    "risk",
+    "assessment",
+    "acceptance"
+   ],
+   "items": {
+    "별표7": [
+     "1.2.3",
+     "1.2.4"
+    ],
+    "별표7의2": [],
+    "별표7의3": []
+   }
+  },
+  {
+   "topic_ko": "보호대책 선정, 이행 계획",
+   "topic_en": "selection of protection measures, implementation plan",
+   "keywords": [
+    "보호대책",
+    "이행계획",
+    "대책 선정",
+    "통제 선정",
+    "control selection",
+    "treatment plan"
+   ],
+   "items": {
+    "별표7": [
+     "1.2.4",
+     "1.3.1"
+    ],
+    "별표7의2": [],
+    "별표7의3": []
+   }
+  },
+  {
+   "topic_ko": "보호대책 구현, 이행 결과 확인",
+   "topic_en": "implementation of protection measures",
+   "keywords": [
+    "이행 결과",
+    "적용 결과",
+    "implement",
+    "deployed control",
+    "보호대책 구현",
+    "대책 이행",
+    "구현 결과"
+   ],
+   "items": {
+    "별표7": [
+     "1.3.1",
+     "1.3.2"
+    ],
+    "별표7의2": [],
+    "별표7의3": []
+   }
+  },
+  {
+   "topic_ko": "보호대책 공유, 담당자 전달",
+   "topic_en": "sharing protection measures with operators",
+   "keywords": [
+    "숙지",
+    "share",
+    "communicate",
+    "보호대책 공유",
+    "대책 공유",
+    "대책 전달",
+    "담당자에게 안내"
+   ],
+   "items": {
+    "별표7": [
+     "1.3.2",
+     "2.2.4"
+    ],
+    "별표7의2": [
+     "2.1.2"
+    ],
+    "별표7의3": [
+     "2.2.3"
+    ]
+   }
+  },
+  {
+   "topic_ko": "운영 현황 관리, 운영 명세서, 주기적 활동 관리",
+   "topic_en": "operational status management, periodic activities",
+   "keywords": [
+    "운영현황",
+    "운영 명세",
+    "주기적",
+    "정기",
+    "현황 관리",
+    "status",
+    "periodic",
+    "recurring"
+   ],
+   "items": {
+    "별표7": [
+     "1.3.3",
+     "1.4.2"
+    ],
+    "별표7의2": [
+     "1.3.1",
+     "1.4.1"
+    ],
+    "별표7의3": [
+     "1.3.1",
+     "1.4.2"
+    ]
+   }
+  },
+  {
+   "topic_ko": "법적 요구사항 검토, 법규 준수, 컴플라이언스 점검",
+   "topic_en": "legal requirements review, compliance",
+   "keywords": [
+    "법적 요구",
+    "법규",
+    "법령",
+    "준수",
+    "컴플라이언스",
+    "legal",
+    "regulat",
+    "compliance",
+    "법적 의무",
+    "법 개정 반영",
+    "준수 검토",
+    "legal requirement",
+    "regulatory change"
+   ],
+   "items": {
+    "별표7": [
+     "1.4.1",
+     "3.5.1"
+    ],
+    "별표7의2": [
+     "3.5.1"
+    ],
+    "별표7의3": [
+     "1.4.1",
+     "3.5.1"
+    ]
+   }
+  },
+  {
+   "topic_ko": "내부 점검, 내부 감사, 관리체계 점검",
+   "topic_en": "internal audit, management system review",
+   "keywords": [
+    "내부 점검",
+    "내부 감사",
+    "자체 점검",
+    "점검 결과",
+    "internal audit",
+    "self-assessment",
+    "내부감사",
+    "보안 감사",
+    "점검 계획",
+    "management system review",
+    "internal check"
+   ],
+   "items": {
+    "별표7": [
+     "1.4.2",
+     "1.4.3"
+    ],
+    "별표7의2": [
+     "1.4.1"
+    ],
+    "별표7의3": [
+     "1.4.2",
+     "1.4.3"
+    ]
+   }
+  },
+  {
+   "topic_ko": "개선, 재발 방지, 근본 원인",
+   "topic_en": "improvement, corrective action, root cause",
+   "keywords": [
+    "개선",
+    "재발",
+    "근본 원인",
+    "시정",
+    "조치 결과",
+    "improve",
+    "corrective",
+    "root cause"
+   ],
+   "items": {
+    "별표7": [
+     "1.4.3",
+     "2.11.4"
+    ],
+    "별표7의2": [
+     "1.4.1"
+    ],
+    "별표7의3": [
+     "1.4.3"
+    ]
+   }
+  },
+  {
+   "topic_ko": "주요 직무자, 개인정보취급자 지정과 최소화",
+   "topic_en": "key-role personnel and personal-information handlers",
+   "keywords": [
+    "주요 직무",
+    "취급자",
+    "개인정보취급자",
+    "권한자",
+    "최소화",
+    "privileged staff",
+    "handler",
+    "key personnel"
+   ],
+   "items": {
+    "별표7": [
+     "2.2.1",
+     "2.5.5",
+     "2.5.6"
+    ],
+    "별표7의2": [],
+    "별표7의3": [
+     "2.2.1"
+    ]
+   }
+  },
+  {
+   "topic_ko": "직무 분리, 겸직, 개발과 운영의 분리",
+   "topic_en": "segregation of duties",
+   "keywords": [
+    "직무 분리",
+    "겸직",
+    "한 사람이",
+    "혼자",
+    "개발자가 운영",
+    "segregation",
+    "same person",
+    "dual role"
+   ],
+   "items": {
+    "별표7": [
+     "2.2.2",
+     "2.8.3"
+    ],
+    "별표7의2": [
+     "2.7.2"
+    ],
+    "별표7의3": []
+   }
+  },
+  {
+   "topic_ko": "보안 서약서, 비밀 유지 서약",
+   "topic_en": "confidentiality and security pledge",
+   "keywords": [
+    "서약",
+    "서약서",
+    "비밀유지",
+    "NDA",
+    "pledge",
+    "confidentiality agreement"
+   ],
+   "items": {
+    "별표7": [
+     "2.2.3",
+     "2.3.2"
+    ],
+    "별표7의2": [
+     "2.1.1",
+     "2.2.1"
+    ],
+    "별표7의3": [
+     "2.2.2",
+     "2.3.1"
+    ]
+   }
+  },
+  {
+   "topic_ko": "교육, 훈련, 인식 제고",
+   "topic_en": "awareness and training",
+   "keywords": [
+    "교육",
+    "훈련",
+    "인식",
+    "이수",
+    "교육 이력",
+    "training",
+    "awareness",
+    "education"
+   ],
+   "items": {
+    "별표7": [
+     "2.2.4",
+     "1.3.2"
+    ],
+    "별표7의2": [
+     "2.1.2"
+    ],
+    "별표7의3": [
+     "2.2.3"
+    ]
+   }
+  },
+  {
+   "topic_ko": "퇴직, 전보, 직무 변경, 계정과 권한 회수",
+   "topic_en": "termination, transfer, job change, revocation",
+   "keywords": [
+    "퇴직",
+    "퇴사",
+    "전보",
+    "직무 변경",
+    "인사 이동",
+    "회수",
+    "반납",
+    "termination",
+    "leaver",
+    "offboard",
+    "퇴직자",
+    "퇴사자",
+    "비활성화",
+    "계정 잠금",
+    "계정 회수",
+    "권한 회수",
+    "통보",
+    "인사 명단",
+    "job transfer",
+    "leaving employee",
+    "deactivat"
+   ],
+   "items": {
+    "별표7": [
+     "2.2.5",
+     "2.5.1",
+     "2.5.6"
+    ],
+    "별표7의2": [
+     "2.4.1"
+    ],
+    "별표7의3": [
+     "2.2.4",
+     "2.5.1"
+    ]
+   }
+  },
+  {
+   "topic_ko": "보안 위반, 징계, 상벌",
+   "topic_en": "security violation and disciplinary action",
+   "keywords": [
+    "징계",
+    "상벌",
+    "처벌",
+    "violation",
+    "disciplin",
+    "sanction",
+    "보안 위반",
+    "규정 위반",
+    "징계 절차",
+    "위반자 조치"
+   ],
+   "items": {
+    "별표7": [
+     "2.2.6",
+     "2.2.3"
+    ],
+    "별표7의2": [
+     "2.1.1"
+    ],
+    "별표7의3": [
+     "2.2.2"
+    ]
+   }
+  },
+  {
+   "topic_ko": "외부자, 수탁자, 협력업체, 파견 인력 현황",
+   "topic_en": "third parties, contractors, outsourcing status",
+   "keywords": [
+    "외부자",
+    "외주",
+    "협력업체",
+    "용역",
+    "파견",
+    "수탁",
+    "외부 인력",
+    "third party",
+    "vendor",
+    "contractor",
+    "outsourc"
+   ],
+   "items": {
+    "별표7": [
+     "2.3.1",
+     "3.3.2"
+    ],
+    "별표7의2": [
+     "3.3.2"
+    ],
+    "별표7의3": [
+     "3.3.2"
+    ]
+   }
+  },
+  {
+   "topic_ko": "외부자 계약, 위탁 계약서, 계약상 보안 요구사항",
+   "topic_en": "contracts with third parties, security clauses",
+   "keywords": [
+    "계약서",
+    "위탁계약",
+    "보안 조항",
+    "SLA",
+    "contract",
+    "외주 계약",
+    "용역 계약",
+    "보안 요구사항 계약",
+    "contract clause",
+    "vendor agreement"
+   ],
+   "items": {
+    "별표7": [
+     "2.3.2",
+     "3.3.2",
+     "2.8.1"
+    ],
+    "별표7의2": [
+     "2.2.1",
+     "3.3.2",
+     "2.7.1"
+    ],
+    "별표7의3": [
+     "2.3.1",
+     "3.3.2",
+     "2.8.1"
+    ]
+   }
+  },
+  {
+   "topic_ko": "외부자 점검, 수탁자 관리 감독, 외부자 교육",
+   "topic_en": "monitoring and auditing third parties",
+   "keywords": [
+    "외부자 점검",
+    "수탁자 점검",
+    "관리 감독",
+    "이행 점검",
+    "외부자 교육",
+    "vendor audit",
+    "oversight",
+    "supervis"
+   ],
+   "items": {
+    "별표7": [
+     "2.3.3",
+     "3.3.2"
+    ],
+    "별표7의2": [
+     "3.3.2"
+    ],
+    "별표7의3": [
+     "3.3.2"
+    ]
+   }
+  },
+  {
+   "topic_ko": "외부자 계약 만료, 변경, 자산 반납, 계정 삭제",
+   "topic_en": "contract expiry or change, return of assets, account removal",
+   "keywords": [
+    "계약 만료",
+    "계약 종료",
+    "계약 변경",
+    "반납",
+    "외부자 계정",
+    "expiry",
+    "offboarding vendor",
+    "contract end"
+   ],
+   "items": {
+    "별표7": [
+     "2.3.4",
+     "2.2.5"
+    ],
+    "별표7의2": [],
+    "별표7의3": [
+     "2.2.4"
+    ]
+   }
+  },
+  {
+   "topic_ko": "보호구역, 통제구역, 전산실, 서버룸, 데이터센터",
+   "topic_en": "secure areas, server room, data center",
+   "keywords": [
+    "보호구역",
+    "통제구역",
+    "제한구역",
+    "전산실",
+    "서버룸",
+    "서버실",
+    "IDC",
+    "데이터센터",
+    "secure area",
+    "server room",
+    "data center"
+   ],
+   "items": {
+    "별표7": [
+     "2.4.1",
+     "2.4.2",
+     "2.4.5"
+    ],
+    "별표7의2": [
+     "2.3.1",
+     "2.3.3"
+    ],
+    "별표7의3": [
+     "2.4.1"
+    ]
+   }
+  },
+  {
+   "topic_ko": "출입 통제, 출입 기록, 방문자 관리",
+   "topic_en": "physical access control, visitor management",
+   "keywords": [
+    "출입",
+    "출입 기록",
+    "출입증",
+    "방문자",
+    "방문객",
+    "카드키",
+    "entry",
+    "badge",
+    "visitor",
+    "physical access"
+   ],
+   "items": {
+    "별표7": [
+     "2.4.2",
+     "2.4.5"
+    ],
+    "별표7의2": [
+     "2.3.1",
+     "2.3.3"
+    ],
+    "별표7의3": [
+     "2.4.1"
+    ]
+   }
+  },
+  {
+   "topic_ko": "장비 배치, 케이블, 정보시스템 물리 보호",
+   "topic_en": "equipment siting, cabling, protection of systems",
+   "keywords": [
+    "케이블",
+    "배선",
+    "장비 배치",
+    "랙",
+    "시스템 보호",
+    "cabling",
+    "rack",
+    "siting"
+   ],
+   "items": {
+    "별표7": [
+     "2.4.3",
+     "2.4.4"
+    ],
+    "별표7의2": [
+     "2.3.2"
+    ],
+    "별표7의3": []
+   }
+  },
+  {
+   "topic_ko": "항온항습, UPS, 소방, 보호 설비",
+   "topic_en": "environmental controls: HVAC, UPS, fire",
+   "keywords": [
+    "항온항습",
+    "UPS",
+    "소방",
+    "온도",
+    "습도",
+    "누수",
+    "HVAC",
+    "소화기",
+    "소화 설비",
+    "소방 설비",
+    "전원 공급",
+    "정전",
+    "fire suppression",
+    "power supply"
+   ],
+   "items": {
+    "별표7": [
+     "2.4.4",
+     "2.12.1"
+    ],
+    "별표7의2": [],
+    "별표7의3": []
+   }
+  },
+  {
+   "topic_ko": "보호구역 내 작업, 작업 기록",
+   "topic_en": "work inside secure areas",
+   "keywords": [
+    "작업 기록",
+    "보호구역 작업",
+    "유지보수 작업",
+    "작업 승인",
+    "work log",
+    "maintenance work"
+   ],
+   "items": {
+    "별표7": [
+     "2.4.5",
+     "2.4.2"
+    ],
+    "별표7의2": [
+     "2.3.3",
+     "2.3.1"
+    ],
+    "별표7의3": [
+     "2.4.1"
+    ]
+   }
+  },
+  {
+   "topic_ko": "기기 반출입, 노트북 반입, 장비 반출",
+   "topic_en": "bringing devices in and out",
+   "keywords": [
+    "반출입",
+    "반출",
+    "반입",
+    "기기 반입",
+    "장비 반출",
+    "carry in",
+    "carry out",
+    "removal of equipment"
+   ],
+   "items": {
+    "별표7": [
+     "2.4.6",
+     "2.10.7"
+    ],
+    "별표7의2": [
+     "2.3.3",
+     "2.9.5"
+    ],
+    "별표7의3": [
+     "2.10.3"
+    ]
+   }
+  },
+  {
+   "topic_ko": "사무실 보안, 클린 데스크, 화면 보호기, 공용 PC, 출력물",
+   "topic_en": "office security, clear desk, shared PCs, printouts",
+   "keywords": [
+    "클린데스크",
+    "화면보호기",
+    "자리 비움",
+    "출력물",
+    "프린터",
+    "공용 PC",
+    "사무실",
+    "clear desk",
+    "screen lock",
+    "printout",
+    "공용 드라이브",
+    "공유 드라이브",
+    "공유 폴더",
+    "공유폴더",
+    "파일 서버",
+    "파일서버",
+    "문서 공유",
+    "명단 파일",
+    "전 직원이 열",
+    "누구나 볼 수",
+    "아무나 접근",
+    "shared drive",
+    "shared folder",
+    "file server",
+    "everyone can open"
+   ],
+   "items": {
+    "별표7": [
+     "2.4.7",
+     "2.10.6"
+    ],
+    "별표7의2": [
+     "2.3.4",
+     "2.9.4"
+    ],
+    "별표7의3": [
+     "2.4.2",
+     "2.10.2"
+    ]
+   }
+  },
+  {
+   "topic_ko": "계정 생성, 변경, 삭제, 휴면 계정, 장기 미사용 계정",
+   "topic_en": "account lifecycle, dormant accounts",
+   "keywords": [
+    "계정 생성",
+    "계정 발급",
+    "계정 삭제",
+    "휴면",
+    "미사용",
+    "장기 미접속",
+    "계정 관리",
+    "dormant",
+    "inactive",
+    "provision",
+    "계정 비활성화",
+    "계정 정지",
+    "계정 잠금",
+    "계정 신청",
+    "user account",
+    "account deletion",
+    "dormant account",
+    "티켓",
+    "ticket",
+    "계정 처리 결과",
+    "티켓 시스템",
+    "ITSM",
+    "전자결재",
+    "결재 시스템",
+    "관리대장"
+   ],
+   "items": {
+    "별표7": [
+     "2.5.1",
+     "2.5.6",
+     "2.2.5"
+    ],
+    "별표7의2": [
+     "2.4.1"
+    ],
+    "별표7의3": [
+     "2.5.1",
+     "2.2.4"
+    ]
+   }
+  },
+  {
+   "topic_ko": "공용 계정, 계정 공유, 식별자 유일성, 기본 관리자 계정",
+   "topic_en": "shared accounts, unique identifiers, default accounts",
+   "keywords": [
+    "공용 계정",
+    "공유 계정",
+    "계정 공유",
+    "같은 계정",
+    "기본 계정",
+    "default account",
+    "shared account",
+    "unique id",
+    "계정 하나를",
+    "여러 명이 사용",
+    "여러 사람이 사용",
+    "함께 쓰는 계정",
+    "공유해서 사용",
+    "share one account",
+    "shared login"
+   ],
+   "items": {
+    "별표7": [
+     "2.5.2",
+     "2.5.1"
+    ],
+    "별표7의2": [
+     "2.4.2",
+     "2.4.1"
+    ],
+    "별표7의3": [
+     "2.5.2",
+     "2.5.1"
+    ]
+   }
+  },
+  {
+   "topic_ko": "로그인, 사용자 인증, 2차 인증, MFA, 로그인 실패, 세션 관리",
+   "topic_en": "authentication, MFA, login failure, sessions",
+   "keywords": [
+    "로그인",
+    "인증 수단",
+    "2차 인증",
+    "2단계",
+    "OTP",
+    "MFA",
+    "인증서",
+    "로그인 실패",
+    "세션",
+    "자동 로그아웃",
+    "login",
+    "authentication",
+    "session",
+    "로그인 실패 횟수",
+    "실패 제한",
+    "계정 잠금 정책",
+    "ID와 비밀번호만",
+    "아이디 비밀번호만",
+    "single factor",
+    "two-factor"
+   ],
+   "items": {
+    "별표7": [
+     "2.5.3",
+     "2.6.6",
+     "2.6.3"
+    ],
+    "별표7의2": [
+     "2.4.3",
+     "2.5.3"
+    ],
+    "별표7의3": [
+     "2.5.3",
+     "2.6.3"
+    ]
+   }
+  },
+  {
+   "topic_ko": "비밀번호 규칙, 변경 주기, 초기 비밀번호, 인증 수단 관리",
+   "topic_en": "password rules, change cycle, initial passwords",
+   "keywords": [
+    "비밀번호",
+    "패스워드",
+    "암호 규칙",
+    "변경 주기",
+    "초기 비밀번호",
+    "임시 비밀번호",
+    "password",
+    "passphrase"
+   ],
+   "items": {
+    "별표7": [
+     "2.5.4",
+     "2.5.3"
+    ],
+    "별표7의2": [
+     "2.4.4",
+     "2.4.3"
+    ],
+    "별표7의3": [
+     "2.5.4",
+     "2.5.3"
+    ]
+   }
+  },
+  {
+   "topic_ko": "관리자 계정, 특수 권한, root, 권한 부여",
+   "topic_en": "privileged and special accounts",
+   "keywords": [
+    "관리자 계정",
+    "특수 계정",
+    "특수 권한",
+    "root",
+    "admin",
+    "슈퍼",
+    "최고 권한",
+    "권한 부여",
+    "privileged",
+    "superuser",
+    "관리자 권한",
+    "권한 승인",
+    "권한 부여 내역",
+    "특권",
+    "티켓",
+    "티켓 시스템",
+    "ticket",
+    "ITSM",
+    "전자결재",
+    "결재 시스템",
+    "관리대장"
+   ],
+   "items": {
+    "별표7": [
+     "2.5.5",
+     "2.5.1",
+     "2.5.6"
+    ],
+    "별표7의2": [
+     "2.4.1"
+    ],
+    "별표7의3": [
+     "2.5.1"
+    ]
+   }
+  },
+  {
+   "topic_ko": "접근 권한 검토, 권한 점검 주기, 과다 권한",
+   "topic_en": "access rights review, excessive rights",
+   "keywords": [
+    "권한 검토",
+    "권한 점검",
+    "권한 현황",
+    "과다 권한",
+    "불필요한 권한",
+    "access review",
+    "recertif",
+    "entitlement",
+    "대사",
+    "계정 대사",
+    "계정 현황",
+    "계정 목록",
+    "권한 현황 점검",
+    "분기 점검",
+    "정기 검토",
+    "권한 적정성",
+    "access recertification",
+    "account reconciliation",
+    "티켓",
+    "티켓 시스템",
+    "ticket",
+    "ITSM",
+    "전자결재",
+    "결재 시스템",
+    "관리대장"
+   ],
+   "items": {
+    "별표7": [
+     "2.5.6",
+     "2.9.5"
+    ],
+    "별표7의2": [
+     "2.8.3"
+    ],
+    "별표7의3": []
+   }
+  },
+  {
+   "topic_ko": "네트워크 분리, 망 분리, 방화벽, VLAN, DMZ, IP 관리",
+   "topic_en": "network segmentation, firewall, DMZ, IP management",
+   "keywords": [
+    "네트워크",
+    "망 분리",
+    "망분리",
+    "방화벽",
+    "VLAN",
+    "DMZ",
+    "IP 관리",
+    "내부망",
+    "외부망",
+    "segment",
+    "firewall",
+    "subnet"
+   ],
+   "items": {
+    "별표7": [
+     "2.6.1",
+     "2.10.1",
+     "2.6.7"
+    ],
+    "별표7의2": [
+     "2.5.1",
+     "2.9.1",
+     "2.5.4"
+    ],
+    "별표7의3": [
+     "2.6.1",
+     "2.10.1",
+     "2.6.4"
+    ]
+   }
+  },
+  {
+   "topic_ko": "서버 접근, 터미널 접근, SSH, 세션 타임아웃, 불필요 서비스",
+   "topic_en": "server and OS access control",
+   "keywords": [
+    "서버 접근",
+    "서버 접속",
+    "SSH",
+    "텔넷",
+    "터미널",
+    "타임아웃",
+    "불필요 서비스",
+    "포트",
+    "OS 접근",
+    "server access",
+    "shell"
+   ],
+   "items": {
+    "별표7": [
+     "2.6.2",
+     "2.5.5",
+     "2.10.8"
+    ],
+    "별표7의2": [
+     "2.5.2",
+     "2.9.6"
+    ],
+    "별표7의3": [
+     "2.6.2",
+     "2.10.4"
+    ]
+   }
+  },
+  {
+   "topic_ko": "응용프로그램 접근, 관리자 페이지, 화면 권한, 대량 조회와 다운로드",
+   "topic_en": "application access, admin pages, bulk download",
+   "keywords": [
+    "응용프로그램",
+    "어플리케이션",
+    "관리자 페이지",
+    "어드민",
+    "화면 권한",
+    "메뉴 권한",
+    "대량 조회",
+    "다운로드",
+    "마스킹",
+    "application access",
+    "admin page",
+    "bulk download",
+    "admin",
+    "/admin",
+    "관리자 화면",
+    "관리 콘솔",
+    "백오피스",
+    "백엔드 관리",
+    "외부에서 접속"
+   ],
+   "items": {
+    "별표7": [
+     "2.6.3",
+     "2.5.5",
+     "2.9.4"
+    ],
+    "별표7의2": [
+     "2.8.3"
+    ],
+    "별표7의3": [
+     "2.9.3"
+    ]
+   }
+  },
+  {
+   "topic_ko": "DB 접근, DB 접근 제어, 테이블 권한, 직접 접속",
+   "topic_en": "database access control",
+   "keywords": [
+    "DB",
+    "데이터베이스",
+    "DBMS",
+    "DB 접근",
+    "테이블",
+    "쿼리",
+    "직접 접속",
+    "DBA",
+    "database",
+    "SQL"
+   ],
+   "items": {
+    "별표7": [
+     "2.6.4",
+     "2.5.5",
+     "2.7.1"
+    ],
+    "별표7의2": [
+     "2.6.1"
+    ],
+    "별표7의3": [
+     "2.7.1"
+    ]
+   }
+  },
+  {
+   "topic_ko": "무선 네트워크, 와이파이, AP",
+   "topic_en": "wireless network security",
+   "keywords": [
+    "무선",
+    "와이파이",
+    "Wi-Fi",
+    "WiFi",
+    "AP",
+    "공유기",
+    "wireless",
+    "access point"
+   ],
+   "items": {
+    "별표7": [
+     "2.6.5",
+     "2.6.1"
+    ],
+    "별표7의2": [
+     "2.5.1"
+    ],
+    "별표7의3": [
+     "2.6.1"
+    ]
+   }
+  },
+  {
+   "topic_ko": "원격 접근, VPN, 재택 근무, 외부 접속",
+   "topic_en": "remote access, VPN, working from home",
+   "keywords": [
+    "원격",
+    "VPN",
+    "재택",
+    "외부 접속",
+    "원격 접속",
+    "원격 데스크톱",
+    "RDP",
+    "remote access",
+    "work from home"
+   ],
+   "items": {
+    "별표7": [
+     "2.6.6",
+     "2.5.3",
+     "2.10.6"
+    ],
+    "별표7의2": [
+     "2.5.3",
+     "2.4.3",
+     "2.9.4"
+    ],
+    "별표7의3": [
+     "2.6.3",
+     "2.5.3",
+     "2.10.2"
+    ]
+   }
+  },
+  {
+   "topic_ko": "인터넷 접속 통제, 인터넷망 차단, 웹메일, P2P, 메신저",
+   "topic_en": "internet access control, web filtering",
+   "keywords": [
+    "인터넷 접속",
+    "인터넷망 차단",
+    "웹메일",
+    "P2P",
+    "메신저",
+    "웹 필터",
+    "URL 차단",
+    "internet access",
+    "web filter",
+    "이메일",
+    "메일",
+    "Gmail",
+    "지메일",
+    "개인 메일",
+    "외부 메일",
+    "클라우드 저장소",
+    "email",
+    "gmail",
+    "personal mail",
+    "file sharing site"
+   ],
+   "items": {
+    "별표7": [
+     "2.6.7",
+     "2.6.1"
+    ],
+    "별표7의2": [
+     "2.5.4",
+     "2.5.1"
+    ],
+    "별표7의3": [
+     "2.6.4",
+     "2.6.1"
+    ]
+   }
+  },
+  {
+   "topic_ko": "암호화, 저장 암호화, 전송 구간 암호화, 해시, TLS",
+   "topic_en": "encryption at rest and in transit, hashing",
+   "keywords": [
+    "암호화",
+    "암호 알고리즘",
+    "해시",
+    "SHA",
+    "AES",
+    "TLS",
+    "SSL",
+    "HTTPS",
+    "평문",
+    "복호화",
+    "encrypt",
+    "hash",
+    "plaintext",
+    "암호화되어 있지 않",
+    "암호화 안 함",
+    "암호화 미적용",
+    "unencrypted",
+    "not encrypted",
+    "in clear"
+   ],
+   "items": {
+    "별표7": [
+     "2.7.1",
+     "2.10.5",
+     "2.7.2"
+    ],
+    "별표7의2": [
+     "2.6.1"
+    ],
+    "별표7의3": [
+     "2.7.1"
+    ]
+   }
+  },
+  {
+   "topic_ko": "암호키 관리, 키 생성과 보관과 폐기, KMS",
+   "topic_en": "cryptographic key management",
+   "keywords": [
+    "암호키",
+    "키 관리",
+    "키 보관",
+    "키 폐기",
+    "KMS",
+    "HSM",
+    "key management",
+    "crypto key"
+   ],
+   "items": {
+    "별표7": [
+     "2.7.2",
+     "2.7.1"
+    ],
+    "별표7의2": [
+     "2.6.1"
+    ],
+    "별표7의3": [
+     "2.7.1"
+    ]
+   }
+  },
+  {
+   "topic_ko": "보안 요구사항 정의, 개발 보안, 시큐어 코딩 기준",
+   "topic_en": "security requirements in development",
+   "keywords": [
+    "보안 요구사항",
+    "개발 보안",
+    "시큐어 코딩",
+    "설계 검토",
+    "요구사항 정의",
+    "secure coding",
+    "requirement",
+    "SDLC"
+   ],
+   "items": {
+    "별표7": [
+     "2.8.1",
+     "2.8.2"
+    ],
+    "별표7의2": [
+     "2.7.1"
+    ],
+    "별표7의3": [
+     "2.8.1"
+    ]
+   }
+  },
+  {
+   "topic_ko": "보안 시험, 개발 단계 취약점 진단, 코드 점검",
+   "topic_en": "security testing before release",
+   "keywords": [
+    "보안 시험",
+    "보안 테스트",
+    "코드 점검",
+    "정적 분석",
+    "동적 분석",
+    "취약점 진단 후 반영",
+    "security test",
+    "SAST",
+    "DAST",
+    "코드 리뷰",
+    "code security review"
+   ],
+   "items": {
+    "별표7": [
+     "2.8.2",
+     "2.11.2"
+    ],
+    "별표7의2": [
+     "2.10.2"
+    ],
+    "별표7의3": [
+     "2.11.2"
+    ]
+   }
+  },
+  {
+   "topic_ko": "개발 환경과 운영 환경의 분리, 테스트 서버",
+   "topic_en": "separation of development, test and production",
+   "keywords": [
+    "개발 환경",
+    "운영 환경",
+    "테스트 서버",
+    "스테이징",
+    "환경 분리",
+    "운영 서버에서 개발",
+    "production",
+    "staging",
+    "environment separation",
+    "개발 서버",
+    "운영 서버",
+    "같은 장비",
+    "같은 서버",
+    "한 서버",
+    "동일 서버",
+    "개발과 운영",
+    "dev and prod",
+    "same server",
+    "development server",
+    "production server"
+   ],
+   "items": {
+    "별표7": [
+     "2.8.3",
+     "2.8.6"
+    ],
+    "별표7의2": [
+     "2.7.2"
+    ],
+    "별표7의3": []
+   }
+  },
+  {
+   "topic_ko": "테스트 데이터, 실데이터 사용, 시험 데이터 보호",
+   "topic_en": "test data protection",
+   "keywords": [
+    "테스트 데이터",
+    "시험 데이터",
+    "실데이터",
+    "운영 데이터 복사",
+    "가공",
+    "test data",
+    "production data in test",
+    "운영 DB 복사",
+    "운영 데이터",
+    "그대로 복사",
+    "실 데이터",
+    "고객 데이터로 테스트",
+    "production data",
+    "copy of the production",
+    "test with real data"
+   ],
+   "items": {
+    "별표7": [
+     "2.8.4",
+     "2.8.3"
+    ],
+    "별표7의2": [
+     "2.7.3",
+     "2.7.2"
+    ],
+    "별표7의3": [
+     "2.8.2"
+    ]
+   }
+  },
+  {
+   "topic_ko": "소스 코드 관리, 형상 관리, 소스 접근 통제",
+   "topic_en": "source code management",
+   "keywords": [
+    "소스",
+    "소스 코드",
+    "형상 관리",
+    "Git",
+    "리포지토리",
+    "코드 저장소",
+    "source code",
+    "repository",
+    "version control"
+   ],
+   "items": {
+    "별표7": [
+     "2.8.5",
+     "2.9.1"
+    ],
+    "별표7의2": [
+     "2.7.4",
+     "2.8.1"
+    ],
+    "별표7의3": [
+     "2.8.3",
+     "2.9.1"
+    ]
+   }
+  },
+  {
+   "topic_ko": "운영 이관, 배포 승인, 릴리스 절차",
+   "topic_en": "release and deployment to production",
+   "keywords": [
+    "이관",
+    "배포",
+    "릴리스",
+    "운영 반영",
+    "배포 승인",
+    "deploy",
+    "release",
+    "go-live"
+   ],
+   "items": {
+    "별표7": [
+     "2.8.6",
+     "2.9.1"
+    ],
+    "별표7의2": [
+     "2.8.1"
+    ],
+    "별표7의3": [
+     "2.9.1"
+    ]
+   }
+  },
+  {
+   "topic_ko": "변경 관리, 변경 승인, 변경 이력",
+   "topic_en": "change management",
+   "keywords": [
+    "변경 관리",
+    "변경 승인",
+    "변경 이력",
+    "설정 변경",
+    "change management",
+    "change request",
+    "CAB",
+    "변경 요청",
+    "변경 작업",
+    "구성 변경",
+    "무단 변경",
+    "change approval",
+    "티켓",
+    "ticket",
+    "작업 이력",
+    "티켓 시스템",
+    "ITSM",
+    "전자결재",
+    "결재 시스템",
+    "관리대장"
+   ],
+   "items": {
+    "별표7": [
+     "2.9.1",
+     "2.8.6"
+    ],
+    "별표7의2": [
+     "2.8.1"
+    ],
+    "별표7의3": [
+     "2.9.1"
+    ]
+   }
+  },
+  {
+   "topic_ko": "성능, 용량, 장애 관리, 장애 기록",
+   "topic_en": "performance, capacity and fault management",
+   "keywords": [
+    "성능",
+    "용량",
+    "장애",
+    "응답 지연",
+    "장애 기록",
+    "모니터링",
+    "performance",
+    "capacity",
+    "outage",
+    "fault",
+    "서비스 다운",
+    "다운타임",
+    "장애 발생"
+   ],
+   "items": {
+    "별표7": [
+     "2.9.2",
+     "2.11.5"
+    ],
+    "별표7의2": [
+     "2.10.3"
+    ],
+    "별표7의3": [
+     "2.11.3"
+    ]
+   }
+  },
+  {
+   "topic_ko": "백업, 복구 시험, 소산 보관",
+   "topic_en": "backup, restore test, offsite storage",
+   "keywords": [
+    "백업",
+    "복구",
+    "복원",
+    "소산",
+    "백업 주기",
+    "백업 매체",
+    "backup",
+    "restore",
+    "offsite",
+    "복구 테스트",
+    "복구 시험",
+    "백업 복구",
+    "restore test",
+    "never restored"
+   ],
+   "items": {
+    "별표7": [
+     "2.9.3",
+     "2.12.2"
+    ],
+    "별표7의2": [
+     "2.8.2"
+    ],
+    "별표7의3": [
+     "2.9.2"
+    ]
+   }
+  },
+  {
+   "topic_ko": "로그, 접속 기록, 보관 기간, 로그 보호",
+   "topic_en": "logs and access records, retention, integrity",
+   "keywords": [
+    "접속 기록",
+    "접속기록",
+    "보관 기간",
+    "보존 기간",
+    "로그 보관",
+    "위변조",
+    "audit trail",
+    "retention",
+    "로그 기록",
+    "접속 로그",
+    "기록 보관",
+    "기록이 없",
+    "이력 관리",
+    "record of",
+    "no record",
+    "logging",
+    "history",
+    "티켓",
+    "ticket",
+    "ITSM",
+    "처리 이력",
+    "이력 기록",
+    "records kept"
+   ],
+   "items": {
+    "별표7": [
+     "2.9.4",
+     "2.9.5",
+     "2.6.4"
+    ],
+    "별표7의2": [
+     "2.8.3"
+    ],
+    "별표7의3": [
+     "2.9.3"
+    ]
+   }
+  },
+  {
+   "topic_ko": "로그 점검, 접속 기록 점검, 이상 접속 검토",
+   "topic_en": "log review and access record review",
+   "keywords": [
+    "로그 점검",
+    "접속 기록 점검",
+    "정기 점검",
+    "이상 접속",
+    "점검 결과 보고",
+    "log review",
+    "monitoring review"
+   ],
+   "items": {
+    "별표7": [
+     "2.9.5",
+     "2.11.3"
+    ],
+    "별표7의2": [
+     "2.8.3"
+    ],
+    "별표7의3": []
+   }
+  },
+  {
+   "topic_ko": "시간 동기화, NTP",
+   "topic_en": "time synchronization",
+   "keywords": [
+    "시간 동기화",
+    "NTP",
+    "시각",
+    "타임 서버",
+    "time sync",
+    "clock"
+   ],
+   "items": {
+    "별표7": [
+     "2.9.6",
+     "2.9.4"
+    ],
+    "별표7의2": [
+     "2.8.3"
+    ],
+    "별표7의3": [
+     "2.9.3"
+    ]
+   }
+  },
+  {
+   "topic_ko": "장비와 매체의 폐기, 재사용, 완전 삭제",
+   "topic_en": "secure disposal and reuse of equipment and media",
+   "keywords": [
+    "폐기",
+    "재사용",
+    "완전 삭제",
+    "디가우징",
+    "파쇄",
+    "디스크 폐기",
+    "반납 장비 초기화",
+    "disposal",
+    "wipe",
+    "degauss",
+    "reuse",
+    "장비 폐기",
+    "서버 폐기",
+    "PC 폐기",
+    "중고 판매",
+    "매체 폐기"
+   ],
+   "items": {
+    "별표7": [
+     "2.9.7",
+     "3.4.1",
+     "2.10.7"
+    ],
+    "별표7의2": [
+     "3.4.1",
+     "2.9.5"
+    ],
+    "별표7의3": [
+     "3.4.1",
+     "2.10.3"
+    ]
+   }
+  },
+  {
+   "topic_ko": "보안 시스템 운영, 방화벽 정책, IPS, 룰셋 검토, 예외 정책",
+   "topic_en": "security system operation, firewall rule review",
+   "keywords": [
+    "보안 시스템",
+    "보안 장비",
+    "방화벽 정책",
+    "룰셋",
+    "IPS",
+    "IDS",
+    "WAF",
+    "예외 정책",
+    "정책 검토",
+    "security appliance",
+    "ruleset",
+    "exception rule"
+   ],
+   "items": {
+    "별표7": [
+     "2.10.1",
+     "2.6.1"
+    ],
+    "별표7의2": [
+     "2.9.1",
+     "2.5.1"
+    ],
+    "별표7의3": [
+     "2.10.1",
+     "2.6.1"
+    ]
+   }
+  },
+  {
+   "topic_ko": "클라우드, IaaS, SaaS, 클라우드 설정, 콘솔 권한",
+   "topic_en": "cloud service security",
+   "keywords": [
+    "클라우드",
+    "AWS",
+    "Azure",
+    "GCP",
+    "IaaS",
+    "SaaS",
+    "PaaS",
+    "버킷",
+    "콘솔",
+    "보안 그룹",
+    "cloud",
+    "bucket",
+    "IAM",
+    "S3",
+    "스토리지 공개",
+    "퍼블릭 버킷",
+    "public bucket",
+    "cloud storage",
+    "Google Drive",
+    "Dropbox",
+    "OneDrive"
+   ],
+   "items": {
+    "별표7": [
+     "2.10.2",
+     "2.5.5"
+    ],
+    "별표7의2": [
+     "2.9.2"
+    ],
+    "별표7의3": []
+   }
+  },
+  {
+   "topic_ko": "공개 서버, 웹 서버, 게시판, 웹 취약점, 정보 노출",
+   "topic_en": "public-facing servers and web exposure",
+   "keywords": [
+    "공개 서버",
+    "웹 서버",
+    "홈페이지",
+    "게시판",
+    "웹 취약점",
+    "디렉터리 노출",
+    "정보 노출",
+    "검색 노출",
+    "public server",
+    "web server",
+    "exposure"
+   ],
+   "items": {
+    "별표7": [
+     "2.10.3",
+     "2.11.2"
+    ],
+    "별표7의2": [
+     "2.9.3",
+     "2.10.2"
+    ],
+    "별표7의3": [
+     "2.11.2"
+    ]
+   }
+  },
+  {
+   "topic_ko": "전자 거래, 결제, 핀테크, 전자금융",
+   "topic_en": "e-commerce, payment and fintech security",
+   "keywords": [
+    "전자거래",
+    "결제",
+    "PG",
+    "핀테크",
+    "전자금융",
+    "송금",
+    "거래 정보",
+    "payment",
+    "fintech",
+    "transaction"
+   ],
+   "items": {
+    "별표7": [
+     "2.10.4",
+     "2.10.5"
+    ],
+    "별표7의2": [],
+    "별표7의3": []
+   }
+  },
+  {
+   "topic_ko": "정보 전송, 파일 전송, 외부 연계, API, 전송 보호",
+   "topic_en": "information transfer, interfaces, APIs",
+   "keywords": [
+    "파일 전송",
+    "외부 연계",
+    "API",
+    "FTP",
+    "SFTP",
+    "이메일 전송",
+    "interface",
+    "integration",
+    "정보 전송",
+    "외부 전송",
+    "메일 첨부",
+    "이메일로 보냄",
+    "메일로 전달",
+    "첨부파일",
+    "email attachment",
+    "send by email",
+    "sent to clients",
+    "data transfer",
+    "file transfer"
+   ],
+   "items": {
+    "별표7": [
+     "2.10.5",
+     "2.7.1"
+    ],
+    "별표7의2": [
+     "2.6.1"
+    ],
+    "별표7의3": [
+     "2.7.1"
+    ]
+   }
+  },
+  {
+   "topic_ko": "업무용 단말, PC 보안, 노트북, 모바일 기기, MDM",
+   "topic_en": "endpoint and mobile device security",
+   "keywords": [
+    "단말",
+    "PC",
+    "노트북",
+    "모바일",
+    "스마트폰",
+    "태블릿",
+    "MDM",
+    "BYOD",
+    "개인 기기",
+    "endpoint",
+    "laptop",
+    "mobile device",
+    "개인 메일",
+    "웹메일",
+    "Gmail",
+    "지메일",
+    "개인 계정 사용",
+    "personal email",
+    "personal account",
+    "webmail"
+   ],
+   "items": {
+    "별표7": [
+     "2.10.6",
+     "2.4.7",
+     "2.10.9"
+    ],
+    "별표7의2": [
+     "2.9.4",
+     "2.3.4",
+     "2.9.7"
+    ],
+    "별표7의3": [
+     "2.10.2",
+     "2.4.2",
+     "2.10.5"
+    ]
+   }
+  },
+  {
+   "topic_ko": "USB, 보조 저장 매체, 외장 하드",
+   "topic_en": "removable media",
+   "keywords": [
+    "USB",
+    "보조저장매체",
+    "저장 매체",
+    "외장",
+    "이동식",
+    "CD",
+    "removable media",
+    "thumb drive"
+   ],
+   "items": {
+    "별표7": [
+     "2.10.7",
+     "2.4.6"
+    ],
+    "별표7의2": [
+     "2.9.5",
+     "2.3.3"
+    ],
+    "별표7의3": [
+     "2.10.3"
+    ]
+   }
+  },
+  {
+   "topic_ko": "패치, 보안 업데이트, 지원 종료(EOL)",
+   "topic_en": "patching and end-of-life software",
+   "keywords": [
+    "패치",
+    "업데이트",
+    "보안 업데이트",
+    "지원 종료",
+    "EOL",
+    "구버전",
+    "최신 버전",
+    "patch",
+    "update",
+    "end of life",
+    "legacy"
+   ],
+   "items": {
+    "별표7": [
+     "2.10.8",
+     "2.11.2"
+    ],
+    "별표7의2": [
+     "2.9.6",
+     "2.10.2"
+    ],
+    "별표7의3": [
+     "2.10.4",
+     "2.11.2"
+    ]
+   }
+  },
+  {
+   "topic_ko": "악성 코드, 백신, 랜섬웨어, EDR",
+   "topic_en": "malware protection",
+   "keywords": [
+    "악성코드",
+    "악성 코드",
+    "바이러스",
+    "백신",
+    "안티바이러스",
+    "랜섬웨어",
+    "EDR",
+    "malware",
+    "antivirus",
+    "ransomware"
+   ],
+   "items": {
+    "별표7": [
+     "2.10.9",
+     "2.10.6"
+    ],
+    "별표7의2": [
+     "2.9.7",
+     "2.9.4"
+    ],
+    "별표7의3": [
+     "2.10.5",
+     "2.10.2"
+    ]
+   }
+  },
+  {
+   "topic_ko": "침해 사고 대응 체계, 대응 절차, 신고, 비상 연락",
+   "topic_en": "incident response organization and procedures",
+   "keywords": [
+    "침해사고",
+    "사고 대응",
+    "대응 체계",
+    "대응 절차",
+    "비상 연락",
+    "신고 체계",
+    "incident response",
+    "IR plan",
+    "escalation"
+   ],
+   "items": {
+    "별표7": [
+     "2.11.1",
+     "2.11.5"
+    ],
+    "별표7의2": [
+     "2.10.1",
+     "2.10.3"
+    ],
+    "별표7의3": [
+     "2.11.1",
+     "2.11.3"
+    ]
+   }
+  },
+  {
+   "topic_ko": "취약점 점검, 모의 해킹, 진단 결과 조치",
+   "topic_en": "vulnerability assessment and penetration testing",
+   "keywords": [
+    "취약점",
+    "취약점 점검",
+    "모의 해킹",
+    "모의해킹",
+    "진단",
+    "스캔",
+    "조치 완료",
+    "vulnerability",
+    "pentest",
+    "scan"
+   ],
+   "items": {
+    "별표7": [
+     "2.11.2",
+     "2.10.8"
+    ],
+    "별표7의2": [
+     "2.10.2",
+     "2.9.6"
+    ],
+    "별표7의3": [
+     "2.11.2",
+     "2.10.4"
+    ]
+   }
+  },
+  {
+   "topic_ko": "이상 행위 모니터링, 보안 이벤트 분석, SIEM",
+   "topic_en": "anomaly monitoring and event analysis",
+   "keywords": [
+    "이상 행위",
+    "이상행위",
+    "모니터링",
+    "이벤트 분석",
+    "SIEM",
+    "관제",
+    "경보",
+    "anomaly",
+    "SOC",
+    "alert"
+   ],
+   "items": {
+    "별표7": [
+     "2.11.3",
+     "2.9.5"
+    ],
+    "별표7의2": [
+     "2.8.3"
+    ],
+    "별표7의3": []
+   }
+  },
+  {
+   "topic_ko": "사고 대응 훈련, 모의 훈련",
+   "topic_en": "incident response drills",
+   "keywords": [
+    "모의 훈련",
+    "대응 훈련",
+    "훈련 결과",
+    "시나리오 훈련",
+    "drill",
+    "tabletop",
+    "exercise"
+   ],
+   "items": {
+    "별표7": [
+     "2.11.4",
+     "2.11.1"
+    ],
+    "별표7의2": [
+     "2.10.1"
+    ],
+    "별표7의3": [
+     "2.11.1"
+    ]
+   }
+  },
+  {
+   "topic_ko": "사고 대응과 복구, 유출 신고와 통지, 사고 보고",
+   "topic_en": "incident handling, breach notification",
+   "keywords": [
+    "사고 발생",
+    "유출",
+    "침해",
+    "사고 보고",
+    "원인 분석",
+    "breach",
+    "notification",
+    "incident handling",
+    "사고 복구",
+    "유출 신고",
+    "유출 통지",
+    "사고 신고",
+    "침해 신고",
+    "해킹",
+    "랜섬웨어 감염"
+   ],
+   "items": {
+    "별표7": [
+     "2.11.5",
+     "3.5.3"
+    ],
+    "별표7의2": [
+     "2.10.3",
+     "3.5.3"
+    ],
+    "별표7의3": [
+     "2.11.3",
+     "3.5.3"
+    ]
+   }
+  },
+  {
+   "topic_ko": "재해와 재난 대비, DR, 비상 대응, RTO와 RPO",
+   "topic_en": "disaster preparedness, DR, RTO and RPO",
+   "keywords": [
+    "재해",
+    "재난",
+    "DR",
+    "비상",
+    "복구 목표",
+    "RTO",
+    "RPO",
+    "이중화",
+    "disaster",
+    "business continuity",
+    "failover"
+   ],
+   "items": {
+    "별표7": [
+     "2.12.1",
+     "2.9.3"
+    ],
+    "별표7의2": [
+     "2.8.2"
+    ],
+    "별표7의3": [
+     "2.9.2"
+    ]
+   }
+  },
+  {
+   "topic_ko": "재해 복구 시험, DR 훈련, 복구 계획 개선",
+   "topic_en": "DR testing and improvement",
+   "keywords": [
+    "복구 시험",
+    "DR 시험",
+    "DR 훈련",
+    "복구 훈련",
+    "복구 계획 점검",
+    "DR test",
+    "recovery test",
+    "재해 복구 시험",
+    "DR 리허설"
+   ],
+   "items": {
+    "별표7": [
+     "2.12.2",
+     "2.12.1"
+    ],
+    "별표7의2": [],
+    "별표7의3": []
+   }
+  },
+  {
+   "topic_ko": "개인정보 수집과 이용, 동의, 법정대리인, 만 14세 미만",
+   "topic_en": "collection and use of personal information, consent",
+   "keywords": [
+    "동의",
+    "동의서",
+    "법정대리인",
+    "만 14세",
+    "아동",
+    "수집 근거",
+    "collect",
+    "consent",
+    "lawful basis",
+    "개인정보 수집",
+    "수집 항목",
+    "수집 동의",
+    "이용 동의",
+    "동의 없이"
+   ],
+   "items": {
+    "별표7": [
+     "3.1.1",
+     "3.1.2"
+    ],
+    "별표7의2": [
+     "3.1.1",
+     "3.1.2"
+    ],
+    "별표7의3": [
+     "3.1.1",
+     "3.1.2"
+    ]
+   }
+  },
+  {
+   "topic_ko": "수집 최소화, 필수와 선택 구분, 동의 거부 시 서비스 제한",
+   "topic_en": "minimum collection, required vs optional",
+   "keywords": [
+    "최소 수집",
+    "최소한",
+    "필수 항목",
+    "선택 항목",
+    "필수 선택",
+    "거부",
+    "과다 수집",
+    "minimi",
+    "optional field"
+   ],
+   "items": {
+    "별표7": [
+     "3.1.2",
+     "3.1.1"
+    ],
+    "별표7의2": [
+     "3.1.2",
+     "3.1.1"
+    ],
+    "별표7의3": [
+     "3.1.2",
+     "3.1.1"
+    ]
+   }
+  },
+  {
+   "topic_ko": "주민등록번호, 대체 수단, 아이핀",
+   "topic_en": "resident registration numbers",
+   "keywords": [
+    "주민등록번호",
+    "주민번호",
+    "대체 수단",
+    "아이핀",
+    "i-PIN",
+    "RRN",
+    "resident registration",
+    "주민등록번호 수집",
+    "주민번호 보관",
+    "생년월일 뒷자리",
+    "resident number",
+    "주민등록번호 저장",
+    "주민번호 파일",
+    "명단에 주민등록번호",
+    "주민등록번호가 포함"
+   ],
+   "items": {
+    "별표7": [
+     "3.1.3",
+     "3.1.4",
+     "2.7.1"
+    ],
+    "별표7의2": [
+     "3.1.3",
+     "3.1.4",
+     "2.6.1"
+    ],
+    "별표7의3": [
+     "3.1.3",
+     "3.1.4",
+     "2.7.1"
+    ]
+   }
+  },
+  {
+   "topic_ko": "민감 정보, 고유 식별 정보, 건강 정보, 별도 동의",
+   "topic_en": "sensitive and unique identifying information",
+   "keywords": [
+    "민감정보",
+    "민감 정보",
+    "고유식별",
+    "고유 식별",
+    "건강",
+    "여권 번호",
+    "운전면허",
+    "외국인등록",
+    "별도 동의",
+    "sensitive",
+    "health data",
+    "unique identif"
+   ],
+   "items": {
+    "별표7": [
+     "3.1.4",
+     "3.1.3"
+    ],
+    "별표7의2": [
+     "3.1.4",
+     "3.1.3"
+    ],
+    "별표7의3": [
+     "3.1.4",
+     "3.1.3"
+    ]
+   }
+  },
+  {
+   "topic_ko": "간접 수집, 제3자로부터 수집, 공개된 정보 수집, 크롤링",
+   "topic_en": "indirect collection, from third parties or public sources",
+   "keywords": [
+    "간접 수집",
+    "제3자로부터",
+    "공개된 정보",
+    "크롤링",
+    "스크래핑",
+    "수집 출처",
+    "출처 고지",
+    "indirect",
+    "scrap",
+    "public source"
+   ],
+   "items": {
+    "별표7": [
+     "3.1.5",
+     "3.1.1"
+    ],
+    "별표7의2": [
+     "3.1.5",
+     "3.1.1"
+    ],
+    "별표7의3": [
+     "3.1.5",
+     "3.1.1"
+    ]
+   }
+  },
+  {
+   "topic_ko": "CCTV, 영상 정보 처리 기기, 안내판",
+   "topic_en": "CCTV and video surveillance",
+   "keywords": [
+    "CCTV",
+    "영상정보",
+    "영상 정보",
+    "카메라",
+    "녹화",
+    "안내판",
+    "video",
+    "surveillance",
+    "camera"
+   ],
+   "items": {
+    "별표7": [
+     "3.1.6",
+     "2.4.2"
+    ],
+    "별표7의2": [
+     "3.1.6",
+     "2.3.1"
+    ],
+    "별표7의3": [
+     "3.1.6",
+     "2.4.1"
+    ]
+   }
+  },
+  {
+   "topic_ko": "마케팅, 광고, 홍보, 수신 동의, 야간 광고",
+   "topic_en": "marketing and advertising consent",
+   "keywords": [
+    "마케팅",
+    "광고",
+    "홍보",
+    "프로모션",
+    "수신 동의",
+    "광고성 정보",
+    "야간",
+    "marketing",
+    "advertis",
+    "opt-in"
+   ],
+   "items": {
+    "별표7": [
+     "3.1.7",
+     "3.1.1"
+    ],
+    "별표7의2": [
+     "3.1.7",
+     "3.1.1"
+    ],
+    "별표7의3": [
+     "3.1.7",
+     "3.1.1"
+    ]
+   }
+  },
+  {
+   "topic_ko": "개인정보 현황, 개인정보 파일, 처리 목록",
+   "topic_en": "personal information inventory and files",
+   "keywords": [
+    "개인정보 현황",
+    "개인정보파일",
+    "개인정보 목록",
+    "처리 현황",
+    "보유 현황",
+    "PI inventory",
+    "record of processing",
+    "고객 명단",
+    "고객 목록",
+    "회원 명단",
+    "명단 파일",
+    "개인정보 파일 관리",
+    "customer list"
+   ],
+   "items": {
+    "별표7": [
+     "3.2.1",
+     "1.2.2"
+    ],
+    "별표7의2": [
+     "3.2.1"
+    ],
+    "별표7의3": [
+     "3.2.1",
+     "1.2.2"
+    ]
+   }
+  },
+  {
+   "topic_ko": "개인정보 정확성, 최신성, 품질",
+   "topic_en": "accuracy and quality of personal information",
+   "keywords": [
+    "정확성",
+    "최신성",
+    "품질",
+    "오류 정보",
+    "accuracy",
+    "data quality",
+    "정보 정정",
+    "오류 수정",
+    "데이터 정확"
+   ],
+   "items": {
+    "별표7": [
+     "3.2.2",
+     "3.5.2"
+    ],
+    "별표7의2": [
+     "3.2.2",
+     "3.5.2"
+    ],
+    "별표7의3": [
+     "3.2.2",
+     "3.5.2"
+    ]
+   }
+  },
+  {
+   "topic_ko": "앱 접근 권한, 스마트폰 접근 권한, 카메라와 주소록 권한",
+   "topic_en": "app permissions on user devices",
+   "keywords": [
+    "앱 접근 권한",
+    "앱 권한",
+    "카메라 권한",
+    "주소록",
+    "위치 권한",
+    "스마트폰 앱",
+    "app permission",
+    "device permission",
+    "앱 접근권한",
+    "앱이 요구",
+    "스마트폰 권한"
+   ],
+   "items": {
+    "별표7": [
+     "3.2.3",
+     "3.1.1"
+    ],
+    "별표7의2": [
+     "3.2.3",
+     "3.1.1"
+    ],
+    "별표7의3": [
+     "3.2.3",
+     "3.1.1"
+    ]
+   }
+  },
+  {
+   "topic_ko": "목적 외 이용, 목적 외 제공, 추가 동의",
+   "topic_en": "use or provision beyond the original purpose",
+   "keywords": [
+    "목적 외",
+    "목적외",
+    "다른 목적",
+    "추가 이용",
+    "추가 동의",
+    "purpose limitation",
+    "secondary use"
+   ],
+   "items": {
+    "별표7": [
+     "3.2.4",
+     "3.3.1"
+    ],
+    "별표7의2": [
+     "3.2.4",
+     "3.3.1"
+    ],
+    "별표7의3": [
+     "3.2.4",
+     "3.3.1"
+    ]
+   }
+  },
+  {
+   "topic_ko": "가명 정보, 가명 처리, 결합, 익명 처리",
+   "topic_en": "pseudonymized information",
+   "keywords": [
+    "가명",
+    "가명정보",
+    "가명 처리",
+    "결합",
+    "익명",
+    "비식별",
+    "pseudonym",
+    "anonymi",
+    "de-identif"
+   ],
+   "items": {
+    "별표7": [
+     "3.2.5",
+     "3.2.4"
+    ],
+    "별표7의2": [
+     "3.2.5",
+     "3.2.4"
+    ],
+    "별표7의3": [
+     "3.2.5",
+     "3.2.4"
+    ]
+   }
+  },
+  {
+   "topic_ko": "제3자 제공, 제공 동의, 제공 내역 기록",
+   "topic_en": "provision to third parties",
+   "keywords": [
+    "제3자 제공",
+    "제3자",
+    "제공 동의",
+    "제공 내역",
+    "제공받는 자",
+    "third party provision",
+    "disclos",
+    "share with"
+   ],
+   "items": {
+    "별표7": [
+     "3.3.1",
+     "3.2.4"
+    ],
+    "별표7의2": [
+     "3.3.1",
+     "3.2.4"
+    ],
+    "별표7의3": [
+     "3.3.1",
+     "3.2.4"
+    ]
+   }
+  },
+  {
+   "topic_ko": "개인정보 처리 위탁, 수탁자 공개, 위탁 계약",
+   "topic_en": "outsourcing of personal information processing",
+   "keywords": [
+    "위탁",
+    "수탁",
+    "수탁자",
+    "위탁 업무",
+    "위탁 계약",
+    "위탁 공개",
+    "processor",
+    "outsourc",
+    "subprocessor"
+   ],
+   "items": {
+    "별표7": [
+     "3.3.2",
+     "2.3.2"
+    ],
+    "별표7의2": [
+     "3.3.2",
+     "2.2.1"
+    ],
+    "별표7의3": [
+     "3.3.2",
+     "2.3.1"
+    ]
+   }
+  },
+  {
+   "topic_ko": "영업 양도, 합병, 개인정보 이전 통지",
+   "topic_en": "business transfer and merger",
+   "keywords": [
+    "영업 양도",
+    "합병",
+    "이전 통지",
+    "merger",
+    "acquisition",
+    "영업 양수",
+    "사업 양도",
+    "business transfer",
+    "transfer of business"
+   ],
+   "items": {
+    "별표7": [
+     "3.3.3",
+     "3.5.3"
+    ],
+    "별표7의2": [
+     "3.3.3",
+     "3.5.3"
+    ],
+    "별표7의3": [
+     "3.3.3",
+     "3.5.3"
+    ]
+   }
+  },
+  {
+   "topic_ko": "국외 이전, 해외 서버, 해외 클라우드, 국외 위탁",
+   "topic_en": "cross-border transfer",
+   "keywords": [
+    "국외",
+    "해외",
+    "국외 이전",
+    "해외 서버",
+    "해외 클라우드",
+    "국외 위탁",
+    "cross-border",
+    "overseas",
+    "abroad"
+   ],
+   "items": {
+    "별표7": [
+     "3.3.4",
+     "3.3.2",
+     "2.10.2"
+    ],
+    "별표7의2": [
+     "3.3.4",
+     "3.3.2",
+     "2.9.2"
+    ],
+    "별표7의3": [
+     "3.3.4",
+     "3.3.2"
+    ]
+   }
+  },
+  {
+   "topic_ko": "개인정보 파기, 보유 기간 경과, 파기 절차, 복구 불가",
+   "topic_en": "destruction of personal information",
+   "keywords": [
+    "파기",
+    "파기 절차",
+    "보유 기간",
+    "보유기간",
+    "기간 경과",
+    "복구 불가",
+    "destroy",
+    "destruction",
+    "erase",
+    "개인정보 삭제",
+    "영구 삭제",
+    "파기 기록",
+    "파기 확인"
+   ],
+   "items": {
+    "별표7": [
+     "3.4.1",
+     "2.9.7"
+    ],
+    "별표7의2": [
+     "3.4.1"
+    ],
+    "별표7의3": [
+     "3.4.1"
+    ]
+   }
+  },
+  {
+   "topic_ko": "처리 목적 달성 후 보유, 분리 보관, 법령상 보존",
+   "topic_en": "retention after purpose is met, separate storage",
+   "keywords": [
+    "목적 달성",
+    "분리 보관",
+    "법령 보존",
+    "보존 의무",
+    "별도 보관",
+    "retention after",
+    "legal hold",
+    "separate storage"
+   ],
+   "items": {
+    "별표7": [
+     "3.4.2",
+     "3.4.1"
+    ],
+    "별표7의2": [
+     "3.4.2",
+     "3.4.1"
+    ],
+    "별표7의3": [
+     "3.4.2",
+     "3.4.1"
+    ]
+   }
+  },
+  {
+   "topic_ko": "개인정보 처리 방침, 공개, 개정 이력",
+   "topic_en": "privacy policy publication",
+   "keywords": [
+    "처리방침",
+    "처리 방침",
+    "프라이버시 정책",
+    "공개",
+    "개정 이력",
+    "privacy policy",
+    "privacy notice"
+   ],
+   "items": {
+    "별표7": [
+     "3.5.1",
+     "1.4.1"
+    ],
+    "별표7의2": [
+     "3.5.1"
+    ],
+    "별표7의3": [
+     "3.5.1",
+     "1.4.1"
+    ]
+   }
+  },
+  {
+   "topic_ko": "정보주체 권리, 열람, 정정, 삭제, 처리 정지, 동의 철회, 회원 탈퇴",
+   "topic_en": "data subject rights",
+   "keywords": [
+    "정보주체",
+    "삭제 요구",
+    "처리 정지",
+    "동의 철회",
+    "탈퇴",
+    "권리 행사",
+    "data subject",
+    "access request",
+    "erasure",
+    "withdraw",
+    "열람 요구",
+    "열람 청구",
+    "정정 요구",
+    "삭제 요청",
+    "권리 보장"
+   ],
+   "items": {
+    "별표7": [
+     "3.5.2",
+     "3.4.1"
+    ],
+    "별표7의2": [
+     "3.5.2",
+     "3.4.1"
+    ],
+    "별표7의3": [
+     "3.5.2",
+     "3.4.1"
+    ]
+   }
+  },
+  {
+   "topic_ko": "이용 내역 통지, 정기 통지, 유출 통지",
+   "topic_en": "notification to data subjects",
+   "keywords": [
+    "통지",
+    "이용내역",
+    "이용 내역",
+    "정기 통지",
+    "유출 통지",
+    "안내 메일",
+    "notif",
+    "periodic notice"
+   ],
+   "items": {
+    "별표7": [
+     "3.5.3",
+     "2.11.5"
+    ],
+    "별표7의2": [
+     "3.5.3",
+     "2.10.3"
+    ],
+    "별표7의3": [
+     "3.5.3",
+     "2.11.3"
+    ]
+   }
+  },
+  {
+   "topic_ko": "파일 공유, 공유 폴더, 공용 드라이브, 파일서버, 문서 접근 통제",
+   "topic_en": "file sharing, shared folders and drives, file servers, document access",
+   "keywords": [
+    "공용 드라이브",
+    "공유 드라이브",
+    "공유 폴더",
+    "공유폴더",
+    "파일 서버",
+    "파일서버",
+    "NAS",
+    "문서 공유",
+    "공유 문서",
+    "전 직원이",
+    "모든 직원이",
+    "누구나",
+    "아무나",
+    "열 수 있",
+    "볼 수 있",
+    "접근 가능",
+    "shared drive",
+    "shared folder",
+    "file server",
+    "network share",
+    "anyone can",
+    "all staff can"
+   ],
+   "items": {
+    "별표7": [
+     "2.4.7",
+     "2.10.6",
+     "2.6.2",
+     "2.5.1",
+     "2.5.6",
+     "2.10.2"
+    ],
+    "별표7의2": [
+     "2.3.4",
+     "2.9.4",
+     "2.5.2",
+     "2.4.1",
+     "2.9.2"
+    ],
+    "별표7의3": [
+     "2.4.2",
+     "2.10.2",
+     "2.6.2",
+     "2.5.1"
+    ]
+   }
+  },
+  {
+   "topic_ko": "이메일 사용, 개인 메일, 첨부 파일 전송",
+   "topic_en": "email use, personal mail accounts, attachments",
+   "keywords": [
+    "이메일",
+    "메일",
+    "웹메일",
+    "개인 메일",
+    "Gmail",
+    "지메일",
+    "네이버 메일",
+    "첨부",
+    "첨부파일",
+    "메일로 보냄",
+    "메일로 전송",
+    "email",
+    "e-mail",
+    "gmail",
+    "webmail",
+    "attachment",
+    "mail out"
+   ],
+   "items": {
+    "별표7": [
+     "2.10.5",
+     "2.6.7",
+     "2.10.6",
+     "2.7.1",
+     "2.9.4"
+    ],
+    "별표7의2": [
+     "2.5.4",
+     "2.9.4",
+     "2.6.1",
+     "2.8.3"
+    ],
+    "별표7의3": [
+     "2.6.4",
+     "2.10.2",
+     "2.7.1",
+     "2.9.3"
+    ]
+   }
+  },
+  {
+   "topic_ko": "기록 부재, 이력 없음, 증적 미보관",
+   "topic_en": "no record kept, missing history or evidence",
+   "keywords": [
+    "기록이 없",
+    "기록을 남기지",
+    "이력이 없",
+    "남기지 않",
+    "기록하지 않",
+    "증적이 없",
+    "확인할 수 없",
+    "no record",
+    "not recorded",
+    "nobody keeps",
+    "no log",
+    "not documented"
+   ],
+   "items": {
+    "별표7": [
+     "2.9.4",
+     "1.3.3",
+     "2.9.1",
+     "2.5.1",
+     "2.5.6"
+    ],
+    "별표7의2": [
+     "2.8.3",
+     "1.3.1",
+     "2.8.1",
+     "2.4.1"
+    ],
+    "별표7의3": [
+     "2.9.3",
+     "1.3.1",
+     "2.9.1",
+     "2.5.1"
+    ]
+   }
+  },
+  {
+   "topic_ko": "외부 공개, 인터넷 노출, 누구나 접속",
+   "topic_en": "exposed to the internet, reachable by anyone",
+   "keywords": [
+    "인터넷에서 접속",
+    "외부에서 접속",
+    "외부 공개",
+    "인터넷에 노출",
+    "공개되어",
+    "누구나 접속",
+    "IP 제한 없",
+    "reachable from the internet",
+    "exposed",
+    "publicly accessible",
+    "open to the internet"
+   ],
+   "items": {
+    "별표7": [
+     "2.6.3",
+     "2.10.3",
+     "2.6.1",
+     "2.6.6",
+     "2.5.3"
+    ],
+    "별표7의2": [
+     "2.9.3",
+     "2.5.1",
+     "2.5.3",
+     "2.4.3"
+    ],
+    "별표7의3": [
+     "2.6.1",
+     "2.6.3",
+     "2.5.3"
+    ]
+   }
+  }
+ ],
+ "out_of_scope": {
+  "description": "Matters the corpus does not decide. Report them as 범위 외, say what the corpus does hold on the point, and send the user to the source named here.",
+  "matters": [
+   {
+    "topic_ko": "법규 해석, 법 적용 여부, 과태료와 과징금 금액",
+    "topic_en": "legal interpretation, applicability of a statute, fine amounts",
+    "keywords": [
+     "위법",
+     "불법",
+     "과태료",
+     "과징금",
+     "처벌",
+     "법 위반",
+     "법적으로",
+     "legal",
+     "illegal",
+     "fine",
+     "penalty"
+    ],
+    "route": "Quote the item's 관련 법규 line as it stands, add the currency boundary (인증기준 안내서 2023.11.23), and mark for human legal review. The corpus does not interpret law."
+   },
+   {
+    "topic_ko": "2026 인증제도 개편, 3단계(간편/표준/강화) 인증기준, 새 의무 대상",
+    "topic_en": "the 2026 scheme overhaul, three-tier criteria, new mandatory targets",
+    "keywords": [
+     "2026",
+     "개편",
+     "3단계",
+     "세 단계",
+     "단계별 인증",
+     "강화 인증기준",
+     "표준 인증기준",
+     "간편 인증기준",
+     "새 인증기준",
+     "인증 실효성",
+     "overhaul",
+     "three tier",
+     "three-tier",
+     "new criteria",
+     "enhanced tier"
+    ],
+    "route": "Not in the corpus. Say the pinned annexes are 별표 7 (2023.10.5) and 별표 7의2/7의3 (2024.7.24) and point at UPDATES.md section 2.3 and an external check. Note the word 간편인증 alone means the CURRENT 인증 특례 track (별표 7의2 or 7의3, in force), not the 2026 간편 tier; treat it as the 2026 scheme only when the user also names 2026, 개편, 3단계, or the 강화/표준 tiers."
+   },
+   {
+    "topic_ko": "인증 의무 대상 여부, 신청 절차, 심사 일정, 수수료",
+    "topic_en": "whether certification is mandatory, application procedure, audit schedule, fees",
+    "keywords": [
+     "의무 대상",
+     "의무대상",
+     "신청",
+     "수수료",
+     "심사 일정",
+     "인증 절차",
+     "mandatory",
+     "apply for",
+     "fee",
+     "schedule"
+    ],
+    "route": "The item documents do not cover this. extended/README.md sections 1 and 2 summarize the scheme as of their writing date; cite that summary as a summary, not as criteria, and point at the ISMS-P portal (isms-p.or.kr)."
+   },
+   {
+    "topic_ko": "ISO/IEC 27001 Annex A 대조",
+    "topic_en": "assessment against ISO/IEC 27001 Annex A",
+    "keywords": [
+     "27001",
+     "27002",
+     "Annex A",
+     "ISO"
+    ],
+    "route": "Use the iso-27001-review skill on the iso-27001-docs corpus instead; this corpus is ISMS-P only."
+   }
+  ]
+ }
+}

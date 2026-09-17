@@ -2408,8 +2408,8 @@
    "path": "docs/ko/annex7-2/1.4.1.md",
    "counts": {
     "checkpoints": 2,
-    "evidence": 3,
-    "defects": 3,
+    "evidence": 6,
+    "defects": 7,
     "hasLaws": true
    }
   },
@@ -2492,8 +2492,8 @@
    "path": "docs/ko/annex7-2/2.3.1.md",
    "counts": {
     "checkpoints": 4,
-    "evidence": 4,
-    "defects": 2,
+    "evidence": 8,
+    "defects": 5,
     "hasLaws": true
    }
   },
@@ -2534,8 +2534,8 @@
    "path": "docs/ko/annex7-2/2.3.3.md",
    "counts": {
     "checkpoints": 4,
-    "evidence": 3,
-    "defects": 2,
+    "evidence": 6,
+    "defects": 4,
     "hasLaws": true
    }
   },
@@ -2660,8 +2660,8 @@
    "path": "docs/ko/annex7-2/2.5.1.md",
    "counts": {
     "checkpoints": 7,
-    "evidence": 4,
-    "defects": 5,
+    "evidence": 7,
+    "defects": 8,
     "hasLaws": true
    }
   },
@@ -2744,8 +2744,8 @@
    "path": "docs/ko/annex7-2/2.6.1.md",
    "counts": {
     "checkpoints": 4,
-    "evidence": 4,
-    "defects": 5,
+    "evidence": 6,
+    "defects": 8,
     "hasLaws": true
    }
   },
@@ -2891,8 +2891,8 @@
    "path": "docs/ko/annex7-2/2.8.3.md",
    "counts": {
     "checkpoints": 6,
-    "evidence": 4,
-    "defects": 6,
+    "evidence": 9,
+    "defects": 10,
     "hasLaws": true
    }
   },
@@ -4151,8 +4151,8 @@
    "path": "docs/ko/annex7-3/2.7.1.md",
    "counts": {
     "checkpoints": 4,
-    "evidence": 4,
-    "defects": 5,
+    "evidence": 6,
+    "defects": 8,
     "hasLaws": true
    }
   },
@@ -5168,7 +5168,7 @@
    "lang": "en",
    "section": "별표7",
    "no": "1.4.2",
-   "name": "Management System Review",
+   "name": "Management System Inspection",
    "groupNo": "1",
    "group": "Establishment and Operation of the Management System",
    "subgroupNo": "1.4",
@@ -5357,7 +5357,7 @@
    "lang": "en",
    "section": "별표7",
    "no": "2.2.5",
-   "name": "Management of Retirement and Job Change",
+   "name": "Management of Departure and Job Change",
    "groupNo": "2",
    "group": "Protective Measure Requirements",
    "subgroupNo": "2.2",
@@ -5483,7 +5483,7 @@
    "lang": "en",
    "section": "별표7",
    "no": "2.4.1",
-   "name": "Designation of Protection Zones",
+   "name": "Designation of Protected Areas",
    "groupNo": "2",
    "group": "Protective Measure Requirements",
    "subgroupNo": "2.4",
@@ -5987,7 +5987,7 @@
    "lang": "en",
    "section": "별표7",
    "no": "2.8.3",
-   "name": "Separation of Test and Production Environments",
+   "name": "Separation of Test and Operational Environments",
    "groupNo": "2",
    "group": "Protective Measure Requirements",
    "subgroupNo": "2.8",
@@ -7121,7 +7121,7 @@
    "lang": "en",
    "section": "별표7의2",
    "no": "1.4.1",
-   "name": "Management System Review",
+   "name": "Management System Inspection",
    "groupNo": "1",
    "group": "Establishment and Operation of the Management System",
    "subgroupNo": "1.4",
@@ -7133,8 +7133,8 @@
    "path": "docs/en/annex7-2/1.4.1.md",
    "counts": {
     "checkpoints": 2,
-    "evidence": 3,
-    "defects": 3,
+    "evidence": 6,
+    "defects": 7,
     "hasLaws": true
    }
   },
@@ -7205,7 +7205,7 @@
    "lang": "en",
    "section": "별표7의2",
    "no": "2.3.1",
-   "name": "Designation of Protection Zones",
+   "name": "Designation of Protected Areas",
    "groupNo": "2",
    "group": "Protective Measure Requirements",
    "subgroupNo": "2.3",
@@ -7217,8 +7217,8 @@
    "path": "docs/en/annex7-2/2.3.1.md",
    "counts": {
     "checkpoints": 4,
-    "evidence": 4,
-    "defects": 2,
+    "evidence": 8,
+    "defects": 5,
     "hasLaws": true
    }
   },
@@ -7259,8 +7259,8 @@
    "path": "docs/en/annex7-2/2.3.3.md",
    "counts": {
     "checkpoints": 4,
-    "evidence": 3,
-    "defects": 2,
+    "evidence": 6,
+    "defects": 4,
     "hasLaws": true
    }
   },
@@ -7385,8 +7385,8 @@
    "path": "docs/en/annex7-2/2.5.1.md",
    "counts": {
     "checkpoints": 7,
-    "evidence": 4,
-    "defects": 5,
+    "evidence": 7,
+    "defects": 8,
     "hasLaws": true
    }
   },
@@ -7469,8 +7469,8 @@
    "path": "docs/en/annex7-2/2.6.1.md",
    "counts": {
     "checkpoints": 4,
-    "evidence": 4,
-    "defects": 5,
+    "evidence": 6,
+    "defects": 8,
     "hasLaws": true
    }
   },
@@ -7499,7 +7499,7 @@
    "lang": "en",
    "section": "별표7의2",
    "no": "2.7.2",
-   "name": "Separation of Test and Production Environments",
+   "name": "Separation of Test and Operational Environments",
    "groupNo": "2",
    "group": "Protective Measure Requirements",
    "subgroupNo": "2.7",
@@ -7616,8 +7616,8 @@
    "path": "docs/en/annex7-2/2.8.3.md",
    "counts": {
     "checkpoints": 6,
-    "evidence": 4,
-    "defects": 6,
+    "evidence": 9,
+    "defects": 10,
     "hasLaws": true
    }
   },
@@ -8444,7 +8444,7 @@
    "lang": "en",
    "section": "별표7의3",
    "no": "1.4.2",
-   "name": "Management System Review",
+   "name": "Management System Inspection",
    "groupNo": "1",
    "group": "Establishment and Operation of the Management System",
    "subgroupNo": "1.4",
@@ -8612,7 +8612,7 @@
    "lang": "en",
    "section": "별표7의3",
    "no": "2.2.4",
-   "name": "Management of Retirement and Job Change",
+   "name": "Management of Departure and Job Change",
    "groupNo": "2",
    "group": "Protective Measure Requirements",
    "subgroupNo": "2.2",
@@ -8876,8 +8876,8 @@
    "path": "docs/en/annex7-3/2.7.1.md",
    "counts": {
     "checkpoints": 4,
-    "evidence": 4,
-    "defects": 5,
+    "evidence": 6,
+    "defects": 8,
     "hasLaws": true
    }
   },
