@@ -24,7 +24,7 @@ import tempfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 COPY_DIRS = ("docs", "extended", "tools", "skill")
-COPY_FILES = ("README.md", "README.ko.md", "UPDATES.md", "UPDATES.ko.md", "CLAUDE.md",
+COPY_FILES = ("README.md", "README.ko.md", "UPDATES.md", "UPDATES.ko.md", "CLAUDE.md", "AGENTS.md",
               "LICENSE", "LICENSE-CONTENT", "NOTICE")
 
 passed = 0
@@ -49,7 +49,7 @@ def make_corpus(tmp):
     for name in COPY_FILES:
         src = os.path.join(ROOT, name)
         if os.path.exists(src):
-            shutil.copy2(src, os.path.join(work, name))
+            shutil.copy2(src, os.path.join(work, name), follow_symlinks=False)
     return work
 
 

@@ -11,9 +11,9 @@ guard them.
 ## Read-only
 
 Treat this directory as **immutable while using the corpus**. `tools/build_index.py` and
-`tools/check_corpus.py` only read from here, and an agent answering questions with the corpus must
-never create, edit, or delete anything under `docs/`. Derived output belongs in the consuming
-workspace, or under `extended/outputs/`.
+`tools/check_corpus.py` leave item documents untouched. During maintenance the builder regenerates
+`docs/ko/INDEX.md` and `docs/en/INDEX.md`. An agent answering questions with the corpus must never
+create, edit, or delete anything under `docs/`; save assessment outputs under `extended/outputs/`.
 
 Maintainers do edit these files, of course. That is a different activity, and it comes with its own
 rules: see [../CLAUDE.md](../CLAUDE.md) and the bilingual-parity rule below.

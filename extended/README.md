@@ -2,12 +2,12 @@
 
 > 한국어: [README.ko.md](README.ko.md)
 
-This document sets out **how AI agents such as Claude Code / OpenAI Codex can use the ISMS-P
+This document sets out **how AI agents such as OpenAI Codex / Claude Code can use the ISMS-P
 certification-criteria reference collection built under `docs/` (101 Annex 7 items + 62/65
 special-case items) to help prepare for and respond to an ISMS-P certification audit effectively.**
 
 > Core principle: `docs/` is a **read-only authoritative reference collection** and is never
-  modified. Every output the AI produces is written only under this `extended/` layer.
+  modified during assessment. Every saved assessment is written under `extended/outputs/`.
 
 ---
 
@@ -52,9 +52,9 @@ obligation, (2) managing accountability/reputation risk in the event of a large-
   certification scheme (announced 2025.12.6, plan published 2026.4.10: reorganization into three
   tiers of simplified/standard/enhanced, expansion of mandatory targets, mandatory technical
   review) is **not reflected in the collection**. The notice amendment first presented for Q1 2026
-  had still not been issued when this was last checked on 2026-09-10, so the criteria annexes are
+  was not found in the official records rechecked on 2026-09-17, so the pinned criteria annexes are
   those of the 2024.7.24 notice and the item counts are unchanged. The AI must not assert this area
-  and should confirm it against external sources (see the guardrails in Section 7). The register
+  and should confirm it against external sources (see the guardrails in Section 6). The register
   entry is `UPDATES.md` section 2.3.
 
 ---
@@ -108,21 +108,21 @@ User question/input
        Certification criterion / Key checkpoints / Detailed explanation / Related laws / Evidence / Nonconformity examples
    |
    v
-[3] Generate output with sources (citations) attached  ->  record only under extended/
+[3] Generate output with sources (citations) attached  ->  record only under extended/outputs/
    |
    v
 [4] Route high-risk outputs (legal interpretation/conformity judgment/policy finalization) to review-queue -> human approval
 ```
 
 This structure (a) narrows the search scope via `manifest.json`/`index/` to reduce hallucination,
-(b) enforces a `docs/` path citation on every claim, and (c) isolates outputs into `extended/` to
+(b) enforces a `docs/` path citation on every claim, and (c) isolates outputs into `extended/outputs/` to
 keep the collection immutable.
 
 ---
 
 ## 4. Key utilization scenarios
 
-| ID | Scenario | Input | AI task | Output (extended/) | Human review |
+| ID | Scenario | Input | AI task | Output (extended/outputs/) | Human review |
 |---|---|---|---|---|---|
 | S1 | Criteria-grounded Q&A | Natural-language question | Route to items via manifest, then read only the relevant .md and answer with citations attached | `qa-log/` | Legal-interpretation answers are reviewed |
 | S2 | Advance self-diagnosis | Operating-status survey/summary + applicable set | Compare against nonconformity examples/checkpoints to classify as met/not met/partial/pending, and prioritize frequent-nonconformity areas | `checklists/` | Approve the final met/not met judgment |
@@ -156,7 +156,7 @@ extended/
   outputs/                      runtime output root (the subdirectories below are created during work)
     qa-log/ checklists/ drafts/ mappings/ remediation/ mock-audit/ diffs/ regwatch/ spot-checks/ review-queue/
 skill/
-  isms-p-review/                the Claude Code skill for S8: SKILL.md (procedure) and topic-index.json (routing table)
+  isms-p-review/                the shared Codex / Claude Code skill for S8: procedure and topic routing
 ```
 
 To rebuild the indexes: `python3 tools/build_index.py` (reads docs/ and writes extended/ plus the
@@ -175,8 +175,8 @@ generated `docs/{ko,en}/INDEX.md` navigation files).
    from a clone; that absence is not an error.
    Leave figures not in the collection (retention periods/thresholds, etc.) blank with a `[To
    verify]` placeholder.
-3. **docs/ immutable**: the AI never modifies/creates/deletes `docs/`. All derivatives are written
-   only under `extended/`.
+3. **docs/ immutable during assessment**: the AI never modifies/creates/deletes `docs/` while using
+   the corpus. All assessment outputs are written under `extended/outputs/`.
 4. **Currency boundary**: note the collection's baseline dates (detailed inspection items
    2023.10.31 and 2024.7.24 / Criteria Guide 2023.11.23 / Certification Scheme Guide 2024.07)
    in outputs, and do not assert revisions not in the collection, such as the 2026 overhaul; flag
@@ -193,36 +193,34 @@ generated `docs/{ko,en}/INDEX.md` navigation files).
 
 ---
 
-## 7. How to use it with Claude Code
+## 7. How to use it with OpenAI Codex
 
-- Reflect into the consuming environment's `CLAUDE.md` the conventions "docs/ is a read-only
-  authoritative source, outputs go only into extended/, manifest-first routing, path citation on
-  every claim" (refer to/copy this layer's [`USAGE.md`](USAGE.md)).
-- **Always manifest-first**: when a natural-language question comes in, first read
-  `extended/manifest.json` to narrow to the relevant `path`, then Read only that item's `.md`. Avoid
-  spraying grep across all of `docs/`.
-- **Turn into skills**: define S1 to S7 as slash skills (e.g. `/isms-selfcheck`,
-  `/isms-evidence-map`, `/isms-remediation`), and include the contents of [`prompts/`](prompts/) in
-  the skill body. S8 ships as [`../skill/isms-p-review/SKILL.md`](../skill/isms-p-review/SKILL.md):
-  symlink that directory into `~/.claude/skills/` and it is available from any project, resolving
-  the corpus root from the symlink.
-- **Enforce write guardrails via hooks**: in the PreToolUse hook of `settings.json`, block
-  Edit/Write whose path is under `docs/` and allow only `extended/`.
-- **Audit logging**: use Stop/PostToolUse hooks to append the input/used-item paths/model
-  version/timestamp to `extended/outputs/qa-log/`.
+- **Maintenance**: Codex reads the root `AGENTS.md`, a symlink to the shared `CLAUDE.md`. Follow
+  those maintenance rules and the playbook before changing repository files.
+- **Assessment**: read [`USAGE.md`](USAGE.md). In a consuming project, reference those rules from
+  its `AGENTS.md`. Route through the manifest before reading the relevant criteria. S8 uses its
+  topic index to propose candidates, then confirms them against the manifest.
+- **Review skill**: `.agents/skills/isms-p-review` links to
+  [`../skill/isms-p-review/SKILL.md`](../skill/isms-p-review/SKILL.md). Use `$isms-p-review` with
+  submitted content or a file path. No global install is needed in this repository. For another
+  project, link the canonical skill directory into `~/.agents/skills/isms-p-review`. Restart
+  Codex if it has not discovered the new skill. The loaded skill's real path locates the corpus.
+- **Other scenarios**: S1 to S7 are prompts under [`prompts/`](prompts/), not installed skills.
+  Use held-evidence metadata for S4 and the templates for S3/S5; save generated drafts under
+  `extended/outputs/`, with the required draft status and citations. Never overwrite templates.
+- **Write scope and verification**: an assessment leaves `docs/` untouched. A consuming
+  environment may enforce that with read-only filesystem access. The instructions themselves
+  are not a sandbox. This repository's CI checks corpus integrity and generated indexes; it does
+  not validate git-ignored runtime reports. Check report citations and draft status before use.
 
-## 8. How to use it with OpenAI Codex
+Discovery and invocation follow the [official OpenAI skills documentation](https://learn.chatgpt.com/docs/build-skills).
 
-- Place this layer's [`USAGE.md`](USAGE.md) content in the consuming environment's root `AGENTS.md`
-  so that Codex recognizes it automatically.
-- **Seal off the write scope**: restrict the writable paths to `extended/` via the workspace
-  sandbox, or reject `docs/` changes in pre/post hooks.
-- **Batch processing**: use it for mapping (S4) that compares held-evidence metadata (CSV/JSON) as
-  input against `evidence-dictionary.json`, and for generating policy/remediation drafts (S3/S5)
-  into `templates/` (outputs are always in "pending approval"/watermarked state).
-- **CI gate**: put a lint at the PR stage that checks whether `extended/` outputs carry `docs/` path
-  citations, whether em-dash/middle dots are absent, and whether `git diff -- docs/` is empty
-  (collection immutable).
+## 8. Claude Code compatibility
+
+The same skill remains usable from `~/.claude/skills/isms-p-review` with `/isms-p-review`.
+Keep that as a symlink to the canonical directory, not a separate copy. A consuming project can
+reference [`USAGE.md`](USAGE.md) from its `CLAUDE.md`. The same source, citation, output, and human
+review rules apply in both agents; no Claude-specific hooks are installed by this repository.
 
 ---
 
@@ -245,8 +243,8 @@ nonconformity is it, and what are the basis and evidence?"
 ## Sources
 
 - ISMS-P portal certification targets: https://isms-p.or.kr/cert/aply/selectCertTrgtDetail.do
-- ISMS-P Certification Scheme Guide (2024.07), ISMS-P Certification Criteria Guide (2023.11.23)
-  (references/)
+- [KISA publication list](https://isms-p.or.kr/ntcn/rcsrm/selectGnrlRcsrmList.do): ISMS-P Certification
+  Scheme Guide (2024.07), Certification Criteria Guide (2023.11.23); `references/` is optional local storage.
 - Network Act (정보통신망법) Articles 47, 47-7, 76 / Personal Information Protection Act (개인정보
   보호법) Article 32-2
 - Guidance on preliminary ISMS certification for virtual-asset service providers (KISA)
@@ -254,5 +252,6 @@ nonconformity is it, and what are the basis and evidence?"
   (2026.4.10): MSIT/PIPC press releases and related coverage
 
 > The scheme/audit descriptions in this document are based on public materials as of the time of
-  writing (June 2026, upstream currency re-checked 2026-09-10), and the per-item
-  certification-criteria content is based entirely on the `docs/` collection (2023 baseline).
+  writing (June 2026, upstream legal review 2026-09-14, source editions rechecked 2026-09-17).
+  Per-item content follows the `docs/` collection: Annex 7 from 2023, Annexes 7-2/7-3 from 2024,
+  and the Certification Criteria Guide from 2023. See [UPDATES.md](../UPDATES.md) for the exact pins.

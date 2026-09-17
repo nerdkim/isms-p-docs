@@ -2,7 +2,7 @@
 
 > 한국어: [spot-check.ko.md](spot-check.ko.md)
 
-Apply `system-grounding.md` first, then use this. In Claude Code the shipped skill
+Apply `system-grounding.md` first, then use this. In Codex or Claude Code the shipped skill
 `skill/isms-p-review/SKILL.md` runs this scenario with a routing table
 (`skill/isms-p-review/topic-index.json`) in front of the manifest.
 

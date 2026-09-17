@@ -2,7 +2,7 @@
 
 > English: [spot-check.md](spot-check.md)
 
-`system-grounding.ko.md`를 먼저 적용한 뒤 사용합니다. Claude Code에서는 함께 제공되는 skill
+`system-grounding.ko.md`를 먼저 적용한 뒤 사용합니다. Codex와 Claude Code에서는 함께 제공되는 skill
 `skill/isms-p-review/SKILL.md`가 이 시나리오를 실행하며, manifest 앞에 routing 표
 (`skill/isms-p-review/topic-index.json`)를 둡니다.
 

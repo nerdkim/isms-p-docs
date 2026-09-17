@@ -3,11 +3,11 @@
 > English: [README.md](README.md)
 
 이 문서는 `docs/`의 ISMS-P 인증기준 자료집을 AI 에이전트가 어떻게 쓸지 정리한 것입니다. 별표7
-101개와 특례 62개, 65개가 대상입니다. Claude Code나 OpenAI Codex 같은 에이전트가 인증심사를 준비하고
+101개와 특례 62개, 65개가 대상입니다. OpenAI Codex나 Claude Code 같은 agent가 인증심사를 준비하고
 대응하도록 돕는 것이 목적입니다.
 
-> 핵심 원칙: `docs/`는 **읽기 전용 권위 자료집**이며 절대 수정하지 않습니다. AI가 만드는 모든
-  산출물은 이 `extended/` layer 아래에만 작성합니다.
+> 핵심 원칙: `docs/`는 **읽기 전용 권위 자료집**이며 내용 점검 중에는 수정하지 않습니다.
+  저장하는 점검 산출물은 `extended/outputs/` 아래에 작성합니다.
 
 ---
 
@@ -45,9 +45,9 @@ ISMS 의무도 함께 충족됩니다.
   인증기준 안내서 2023.11.23 기준입니다.
   인증제 전면 개편이 2025.12.6에 발표되고 2026.4.10에 방안이 공표됐습니다. 간편, 표준, 강화 3단계
   재편, 의무대상 확대, 기술심사 의무화가 그 내용입니다. 이 개편은 **자료집에 미반영**입니다. 처음
-  2026년 1분기로 제시됐던 고시 개정은 2026-09-10 최종 확인 시점까지 발령되지 않아, 인증기준 별표는
+  2026년 1분기로 제시됐던 고시 개정은 2026-09-17 공식 기록 재확인에서도 찾지 못해, 고정한 인증기준 별표는
   2024.7.24 고시판 그대로이고 항목 수도 그대로입니다. AI는 이 부분을 단정하지 말고 외부 출처로
-  확인해야 합니다(7절 가드레일 참고). 등록부 항목은 `UPDATES.ko.md` 2.3절입니다.
+  확인해야 합니다(6절 guardrail 참고). 등록부 항목은 `UPDATES.ko.md` 2.3절입니다.
 
 ---
 
@@ -93,20 +93,20 @@ ISMS 의무도 함께 충족됩니다.
        인증기준 / 주요 확인사항 / 세부 설명 / 관련 법규 / 증적자료 / 결함사례
    |
    v
-[3] 출처(인용) 부착하여 산출물 생성  ->  extended/ 아래에만 기록
+[3] 출처(인용) 부착하여 산출물 생성  ->  extended/outputs/ 아래에만 기록
    |
    v
 [4] 고위험 산출물(법규 해석/적부 판단/정책 확정)은 review-queue 로 -> 사람 승인
 ```
 
 이 구조는(a) `manifest.json`/`index/`로 탐색 범위를 좁혀 환각을 줄이고, (b) 모든 주장에 `docs/` 경로
-인용을 강제하며, (c) 산출물을 `extended/`로 격리해 자료집 불변을 지킵니다.
+인용을 강제하며, (c) 산출물을 `extended/outputs/`로 격리해 자료집 불변을 지킵니다.
 
 ---
 
 ## 4. 핵심 활용 시나리오
 
-| ID | 시나리오 | 입력 | AI 작업 | 산출물(extended/) | 사람 검수 |
+| ID | 시나리오 | 입력 | AI 작업 | 산출물(extended/outputs/) | 사람 검수 |
 |---|---|---|---|---|---|
 | S1 | 인증기준 근거 Q&A | 자연어 질문 | manifest로 항목 라우팅 후 해당 .md만 읽어 인용 부착 답변 | `qa-log/` | 법규 해석 답변은 검수 |
 | S2 | 사전 셀프 진단 | 운영 상태 설문/요약 + 적용 세트 | 결함사례/확인사항 대조로 충족/미충족/부분/보류 분류, 빈출영역 우선순위 | `checklists/` | 최종 충족 판정 승인 |
@@ -140,7 +140,7 @@ extended/
   outputs/                      runtime 산출물 루트(아래 하위는 작업 시 생성)
     qa-log/ checklists/ drafts/ mappings/ remediation/ mock-audit/ diffs/ regwatch/ spot-checks/ review-queue/
 skill/
-  isms-p-review/                S8용 Claude Code skill: SKILL.md(절차)와 topic-index.json(routing 표)
+  isms-p-review/                S8용 Codex / Claude Code 공용 skill: 절차와 topic routing
 ```
 
 색인을 다시 만들려면: `python3 tools/build_index.py` (docs/를 읽고 extended/와 생성 대상인
@@ -156,8 +156,8 @@ skill/
    `manifest.json`/`index/`, `references/` 원문만 권위 출처로 삼습니다. `references/`는 gitignore
    대상인 로컬 전용 원문이라 clone에는 없으며, 없는 것이 오류는 아닙니다. 자료집에 없는 수치(보관기간/임계치 등)는 `[확인필요]`
    플레이스홀더로 비웁니다.
-3. **docs/ 불변**: AI는 `docs/`를 절대 수정/생성/삭제하지 않습니다. 모든 파생물은 `extended/`에만
-   씁니다.
+3. **내용 점검 중 docs/ 불변**: AI는 자료집을 사용하는 동안 `docs/`를 수정/생성/삭제하지 않습니다.
+   점검 산출물은 `extended/outputs/`에 씁니다.
 4. **최신성 경계**: 자료집 기준일(세부점검항목 2023.10.31과 2024.7.24 / 인증기준 안내서 2023.11.23 /
    인증제도 안내서 2024.07)을 산출물에 표기하고, 2026 개편
    등 미수록 개정은 단정하지 않고 "자료집 미수록, 외부 확인 필요"로 플래그합니다.
@@ -171,31 +171,34 @@ skill/
 
 ---
 
-## 7. Claude Code 사용법
+## 7. OpenAI Codex 사용법
 
-- 자료집을 소비하는 환경의 `CLAUDE.md`에 "docs/는 read-only 권위 출처, 산출물은 extended/에만,
-  manifest 우선 라우팅, 모든 주장에 경로 인용" 규약을 반영합니다(본 layer의
-  [`USAGE.ko.md`](USAGE.ko.md)를 참조/복사).
-- **항상 manifest 우선**: 자연어 질문이 오면 먼저 `extended/manifest.json`을 읽어 관련 `path`로 좁힌
-  뒤 그 항목 `.md`만 Read 합니다. `docs/` 전체 grep 난사를 피합니다.
-- **스킬화**: S1~S7을 슬래시 스킬(예: `/isms-selfcheck`, `/isms-evidence-map`,
-  `/isms-remediation`)로 정의하고, 스킬 본문에 [`prompts/`](prompts/) 내용을 포함합니다. S8은
-  [`../skill/isms-p-review/SKILL.md`](../skill/isms-p-review/SKILL.md)로 함께 제공됩니다. 그 directory를
-  `~/.claude/skills/`에 symlink 하면 어느 project에서든 쓸 수 있고, 자료집 root는 symlink에서 찾습니다.
-- **쓰기 가드레일을 훅으로 강제**: `settings.json`의 PreToolUse 훅에서 Edit/Write의 경로가 `docs/`
-  하위면 차단하고 `extended/`만 허용합니다.
-- **감사 로깅**: Stop/PostToolUse 훅으로 입력/사용 항목 경로/모델 버전/타임스탬프를
-  `extended/outputs/qa-log/`에 append 합니다.
+- **유지보수**: Codex는 공통 규칙 원본 `CLAUDE.md`의 symlink인 root `AGENTS.md`를 읽습니다.
+  repository 파일을 변경하기 전에 해당 유지보수 규칙과 playbook을 따릅니다.
+- **내용 점검**: [`USAGE.ko.md`](USAGE.ko.md)를 읽습니다. 자료집을 소비하는 project의 `AGENTS.md`에서
+  이 규칙을 참조합니다. manifest로 범위를 좁힌 뒤 해당 인증기준을 읽습니다. S8은 topic index로
+  후보를 고른 뒤 manifest에서 확인합니다.
+- **review skill**: `.agents/skills/isms-p-review`가
+  [`../skill/isms-p-review/SKILL.md`](../skill/isms-p-review/SKILL.md)를 연결합니다. `$isms-p-review`에
+  내용이나 파일 경로를 지정합니다. 이 repository에서는 global 설치가 필요 없습니다. 다른 project에서
+  사용하려면 원본 skill directory를 `~/.agents/skills/isms-p-review`로 연결합니다. 새 skill이 발견되지
+  않으면 Codex를 다시 시작합니다. 읽어 들인 skill의 실제 경로로 자료집을 찾습니다.
+- **다른 시나리오**: S1부터 S7까지는 [`prompts/`](prompts/)의 prompt이며 설치된 skill이 아닙니다.
+  S4에는 보유 증적 metadata를, S3/S5에는 template을 사용합니다. 생성한 초안은 `extended/outputs/`에
+  저장하고 초안 상태와 근거를 표시합니다. template을 덮어쓰지 않습니다.
+- **쓰기 범위와 검증**: 내용 점검은 `docs/`를 수정하지 않습니다. 소비 환경에서는 read-only filesystem
+  권한으로 이를 강제할 수 있습니다. 지침 자체가 sandbox는 아닙니다. 이 repository의 CI는 자료집 무결성과
+  생성 index를 확인하며, git에서 제외된 runtime 보고서는 검사하지 않습니다. 보고서를 사용하기 전에
+  근거 인용과 초안 상태를 확인합니다.
 
-## 8. OpenAI Codex 사용법
+발견과 호출 방식은 [OpenAI 공식 skill 문서](https://learn.chatgpt.com/docs/build-skills)를 따릅니다.
 
-- 자료집을 소비하는 환경의 루트 `AGENTS.md`에 본 layer의 [`USAGE.ko.md`](USAGE.ko.md) 내용을 두어
-  Codex가 자동 인지하게 합니다.
-- **쓰기 범위 봉쇄**: 워크스페이스 샌드박스로 쓰기 허용 경로를 `extended/`로 제한하거나, 사전/사후
-  훅에서 `docs/` 변경을 거부합니다.
-- **배치 처리**: 보유 증적 메타데이터를 입력으로 씁니다. `evidence-dictionary.json`과 대조하는 mapping(S4)에 쓰고 정책과 보완조치 초안(S3/S5)을 `templates/`로 만드는 데 씁니다. 산출물에는 항상 "승인 대기" 표시를 답니다. <!-- conventions-allow: 공식 표준 용어(데이터, 네트워크) 원문 보존 -->
-- **CI 게이트**: `extended/` 산출물에 `docs/` 경로 인용이 있는지, em-dash/가운뎃점이 없는지, `git
-  diff -- docs/`가 비어있는지(자료집 불변)를 검사하는 린트를 PR 단계에 둡니다.
+## 8. Claude Code 호환
+
+같은 skill을 `~/.claude/skills/isms-p-review`에서 `/isms-p-review`로 사용할 수 있습니다.
+별도 사본을 만들지 말고 원본 directory의 symlink로 유지합니다. 소비 project의 `CLAUDE.md`에서
+[`USAGE.ko.md`](USAGE.ko.md)를 참조할 수 있습니다. 두 agent에 같은 출처, 인용, 산출물, 사람 검토
+규칙이 적용되며, 이 repository가 설치하는 Claude 전용 hook은 없습니다.
 
 ---
 
@@ -215,11 +218,13 @@ skill/
 ## 출처
 
 - ISMS-P 누리집 인증대상: https://isms-p.or.kr/cert/aply/selectCertTrgtDetail.do
-- ISMS-P 인증제도 안내서(2024.07), ISMS-P 인증기준 안내서(2023.11.23) (references/)
+- [KISA 자료실](https://isms-p.or.kr/ntcn/rcsrm/selectGnrlRcsrmList.do): ISMS-P 인증제도 안내서(2024.07),
+  ISMS-P 인증기준 안내서(2023.11.23). `references/`는 선택적인 local 보관 위치입니다.
 - 정보통신망법 제47조, 제47조의7, 제76조 / 개인정보 보호법 제32조의2
 - 가상자산사업자 ISMS 예비인증 안내(KISA)
 - 인증제도 전면 개편 발표(2025.12.6)와 실효성 강화방안 공표(2026.4.10): 과기정통부/개인정보위
   보도자료 및 관련 보도
 
-> 본 문서의 제도/심사 관련 서술은 작성 시점(2026년 6월, 상위 최신성은 2026-09-10 재확인)의 공개
-  자료에 근거하며, 항목별 인증기준 내용은 전적으로 `docs/` 자료집(2023 기준)에 근거합니다.
+> 본 문서의 제도/심사 관련 서술은 작성 시점(2026년 6월, 상위 법령 검토 2026-09-14, 출처 판본 재확인
+  2026-09-17)의 공개 자료에 근거합니다. 항목별 내용은 `docs/` 자료집의 별표 7(2023), 별표 7의2와
+  7의3(2024), 인증기준 안내서(2023)를 따릅니다. 정확한 판본은 [UPDATES.ko.md](../UPDATES.ko.md)를 보십시오.

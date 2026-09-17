@@ -11,8 +11,9 @@
 ## 읽기 전용
 
 자료집을 **사용하는 동안에는** 이 디렉터리를 불변으로 취급하십시오. `tools/build_index.py`와
-`tools/check_corpus.py`는 여기서 읽기만 하고, 자료집으로 답하는 agent는 `docs/` 아래의 무엇도 만들거나
-고치거나 지우면 안 됩니다. 파생 산출물은 사용하는 쪽 작업 공간이나 `extended/outputs/`에 둡니다.
+`tools/check_corpus.py`는 항목 문서를 수정하지 않습니다. 유지보수할 때 builder는
+`docs/ko/INDEX.md`와 `docs/en/INDEX.md`를 재생성합니다. 자료집으로 답하는 agent는 `docs/` 아래의
+무엇도 만들거나 고치거나 지우면 안 됩니다. 점검 산출물은 `extended/outputs/`에 둡니다.
 
 물론 유지보수하는 사람은 이 파일들을 고칩니다. 그것은 다른 활동이고 별도의 규칙을 따릅니다.
 [../CLAUDE.md](../CLAUDE.md)와 아래의 언어 동기화 규칙을 보십시오.
