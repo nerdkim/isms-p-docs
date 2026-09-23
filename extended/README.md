@@ -2,7 +2,7 @@
 
 > 한국어: [README.ko.md](README.ko.md)
 
-This document sets out **how AI agents such as OpenAI Codex / Claude Code can use the ISMS-P
+This document sets out **how AI agents such as Claude Code / OpenAI Codex can use the ISMS-P
 certification-criteria reference collection built under `docs/` (101 Annex 7 items + 62/65
 special-case items) to help prepare for and respond to an ISMS-P certification audit effectively.**
 
@@ -156,7 +156,7 @@ extended/
   outputs/                      runtime output root (the subdirectories below are created during work)
     qa-log/ checklists/ drafts/ mappings/ remediation/ mock-audit/ diffs/ regwatch/ spot-checks/ review-queue/
 skill/
-  isms-p-review/                the shared Codex / Claude Code skill for S8: procedure and topic routing
+  isms-p-review/                the Claude Code skill for S8: SKILL.md (procedure) and topic-index.json (routing table)
 ```
 
 To rebuild the indexes: `python3 tools/build_index.py` (reads docs/ and writes extended/ plus the
@@ -193,34 +193,38 @@ generated `docs/{ko,en}/INDEX.md` navigation files).
 
 ---
 
-## 7. How to use it with OpenAI Codex
+## 7. How to use it with Claude Code
 
-- **Maintenance**: Codex reads the root `AGENTS.md`, a symlink to the shared `CLAUDE.md`. Follow
-  those maintenance rules and the playbook before changing repository files.
-- **Assessment**: read [`USAGE.md`](USAGE.md). In a consuming project, reference those rules from
-  its `AGENTS.md`. Route through the manifest before reading the relevant criteria. S8 uses its
-  topic index to propose candidates, then confirms them against the manifest.
-- **Review skill**: `.agents/skills/isms-p-review` links to
-  [`../skill/isms-p-review/SKILL.md`](../skill/isms-p-review/SKILL.md). Use `$isms-p-review` with
-  submitted content or a file path. No global install is needed in this repository. For another
-  project, link the canonical skill directory into `~/.agents/skills/isms-p-review`. Restart
-  Codex if it has not discovered the new skill. The loaded skill's real path locates the corpus.
-- **Other scenarios**: S1 to S7 are prompts under [`prompts/`](prompts/), not installed skills.
-  Use held-evidence metadata for S4 and the templates for S3/S5; save generated drafts under
-  `extended/outputs/`, with the required draft status and citations. Never overwrite templates.
-- **Write scope and verification**: an assessment leaves `docs/` untouched. A consuming
-  environment may enforce that with read-only filesystem access. The instructions themselves
-  are not a sandbox. This repository's CI checks corpus integrity and generated indexes; it does
-  not validate git-ignored runtime reports. Check report citations and draft status before use.
+- Reflect into the consuming environment's `CLAUDE.md` the conventions "docs/ is a read-only
+  authoritative source, outputs go only into extended/outputs/, manifest-first routing, path
+  citation on every claim" (refer to/copy this layer's [`USAGE.md`](USAGE.md)).
+- **Always manifest-first**: when a natural-language question comes in, first read
+  `extended/manifest.json` to narrow to the relevant `path`, then Read only that item's `.md`. Avoid
+  spraying grep across all of `docs/`.
+- **Turn into skills**: define S1 to S7 as slash skills (e.g. `/isms-selfcheck`,
+  `/isms-evidence-map`, `/isms-remediation`), and include the contents of [`prompts/`](prompts/) in
+  the skill body. S8 ships as [`../skill/isms-p-review/SKILL.md`](../skill/isms-p-review/SKILL.md):
+  symlink that directory into `~/.claude/skills/` and it is available from any project as
+  `/isms-p-review`, resolving the corpus root from the symlink. Keep that symlink as the only copy.
+- **Enforce write guardrails via hooks**: in the PreToolUse hook of `settings.json`, block
+  Edit/Write whose path is under `docs/` and allow only `extended/outputs/`.
+- **Audit logging**: use Stop/PostToolUse hooks to append the input/used-item paths/model
+  version/timestamp to `extended/outputs/qa-log/`.
 
-Discovery and invocation follow the [official OpenAI skills documentation](https://learn.chatgpt.com/docs/build-skills).
+## 8. How to use it with OpenAI Codex
 
-## 8. Claude Code compatibility
-
-The same skill remains usable from `~/.claude/skills/isms-p-review` with `/isms-p-review`.
-Keep that as a symlink to the canonical directory, not a separate copy. A consuming project can
-reference [`USAGE.md`](USAGE.md) from its `CLAUDE.md`. The same source, citation, output, and human
-review rules apply in both agents; no Claude-specific hooks are installed by this repository.
+- Codex reads the root `AGENTS.md`, which is a symlink to `CLAUDE.md`, so maintaining this
+  repository follows the same rules. In a consuming environment, place this layer's
+  [`USAGE.md`](USAGE.md) content in its root `AGENTS.md` so that Codex recognizes it automatically.
+- **Seal off the write scope**: restrict the writable paths to `extended/outputs/` via the
+  workspace sandbox, or reject `docs/` changes in pre/post hooks.
+- **Batch processing**: use it for mapping (S4) that compares held-evidence metadata (CSV/JSON) as
+  input against `evidence-dictionary.json`, and for generating policy/remediation drafts (S3/S5)
+  from `templates/` into `extended/outputs/` (outputs are always in "pending approval"/watermarked
+  state; never overwrite the templates).
+- **CI gate**: put a lint at the PR stage that checks whether `extended/outputs/` outputs carry
+  `docs/` path citations, whether em-dash/middle dots are absent, and whether `git diff -- docs/`
+  is empty (collection immutable).
 
 ---
 

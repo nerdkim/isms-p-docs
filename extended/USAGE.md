@@ -7,7 +7,7 @@ collection to perform ISMS-P work. The rules for maintaining this repository its
 `CLAUDE.md` and `AGENTS.md`.
 
 > If you consume the collection in another repository/environment, reflect the contents of this
-  document into that environment's `AGENTS.md` (Codex) or `CLAUDE.md` (Claude Code).
+  document into that environment's `CLAUDE.md` (Claude Code) or `AGENTS.md` (Codex).
 
 ## Authoritative sources and write scope
 

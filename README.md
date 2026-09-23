@@ -50,12 +50,10 @@ harness/
   install-hooks.sh       wire this clone to the git hooks (run once, see Setup)
   check-conventions.sh   documentation conventions checker (playbook docs/16)
 skill/
-  isms-p-review/         shared review skill for Codex and Claude Code (scenario S8)
+  isms-p-review/         Claude Code skill: review submitted content against the criteria (scenario S8)
     SKILL.md             the procedure (routing, reading, verdicts, report format)
     topic-index.json     routing table from everyday words to item numbers, per set
     derive_relaxed_lists.py  re-derive the relaxed-set lists from the 대응(별표7) rows after editing a topic
-.agents/skills/
-  isms-p-review         symlink to skill/isms-p-review/ for Codex discovery
 ```
 
 All paths are ASCII, so there are no URL-encoding surprises for consumers.
@@ -127,20 +125,24 @@ hooks are a convenience guardrail and are bypassable; the authoritative gate is 
 
 Everything else needs only Python 3 (standard library only) and bash.
 
-## Working with Codex
+## Working with Claude Code
 
-Open this repository in Codex. It reads [AGENTS.md](AGENTS.md), which links to the shared rules in
-`CLAUDE.md`. Read `playbook/docs/README.md` before maintenance; the local playbook clone is a
-required working reference, not disposable scratch data.
+Claude Code reads [CLAUDE.md](CLAUDE.md), the single rules file for maintaining this repository.
+[AGENTS.md](AGENTS.md) is a symlink to it, so other agents read the same rules. Read
+`playbook/docs/README.md` before maintenance; the local playbook clone is a required working
+reference, not disposable scratch data.
 
-The review skill is discovered through `.agents/skills/isms-p-review`. Invoke it with
-`$isms-p-review` followed by the content or file path to assess. Restart Codex if the newly added
-skill does not appear. Corpus maintenance follows `AGENTS.md`; an assessment follows
-[extended/USAGE.md](extended/USAGE.md) and leaves the criteria untouched.
+The review skill lives in `skill/isms-p-review/`. Symlink that directory into `~/.claude/skills/`
+once, and it is available from any project as `/isms-p-review`, followed by the content or a file
+path to assess:
 
-To use the skill from another project, link this checkout's `skill/isms-p-review/` into
-`~/.agents/skills/isms-p-review`. Keep one copy of the skill and resolve its symlink to find the
-corpus. See [the usage plan](extended/README.md#7-how-to-use-it-with-openai-codex).
+```bash
+ln -s "$PWD/skill/isms-p-review" ~/.claude/skills/isms-p-review
+```
+
+Keep one copy of the skill: it resolves the corpus root from that symlink. Corpus maintenance
+follows `CLAUDE.md`; an assessment follows [extended/USAGE.md](extended/USAGE.md) and leaves the
+criteria untouched. See [the usage plan](extended/README.md#7-how-to-use-it-with-claude-code).
 
 ## Maintaining
 

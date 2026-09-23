@@ -15,7 +15,7 @@ body="$(sed '/^#.*>8/,$d' "$msg_file" | grep -vE '^#' || true)"
 
 if printf '%s' "$body" | LC_ALL=C grep -qP '\xe2\x80\x94|\xe2\x80\x93|\xe2\x80\x95|\xc2\xb7|\xe2\x80\xa2|\xef\xbc\x8d'; then
   echo "commit-msg: forbidden unicode punctuation in commit message (docs/16)." >&2
-  echo "차단: em dash 등 금지 문자를 ASCII 하이픈/쉼표/괄호로 교체 후 다시 commit하세요." >&2
+  echo "차단: em dash 같은 금지 문자를 ASCII 하이픈, 쉼표, 괄호로 바꾼 뒤 다시 commit해 주십시오." >&2
   exit 1
 fi
 
@@ -25,7 +25,7 @@ fi
 if printf '%s\n' "$body" | grep -iE '^[[:space:]]*co-authored-by:' \
      | grep -qivE '^[[:space:]]*co-authored-by:[[:space:]]*mikdren[[:space:]]*<bot-sidekick@nerd\.kim>[[:space:]]*$'; then
   echo "commit-msg: the only allowed co-author is 'Co-Authored-By: mikdren <bot-sidekick@nerd.kim>'." >&2
-  echo "차단: mikdren 외의 Co-Authored-By는 넣지 마세요(예: Claude)." >&2
+  echo "차단: mikdren 외의 Co-Authored-By(예: Claude)를 지운 뒤 다시 commit해 주십시오." >&2
   exit 1
 fi
 exit 0

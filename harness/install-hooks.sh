@@ -23,7 +23,7 @@ set -uo pipefail
 
 root="$(git rev-parse --show-toplevel 2>/dev/null)" || {
   echo "install-hooks: not inside a git working copy." >&2
-  echo "차단: git working copy 안에서 실행하세요." >&2
+  echo "차단: git working copy 안에서 실행해 주십시오." >&2
   exit 1
 }
 cd "$root" || exit 1
@@ -43,7 +43,7 @@ for h in pre-commit commit-msg pre-push; do
 done
 if [ -n "$missing" ]; then
   echo "install-hooks: missing hook(s) in $hooks_dir:$missing" >&2
-  echo "차단: guard 파일이 없습니다. 자료집을 다시 clone하거나 playbook의 harness/install.sh로 복구하세요." >&2
+  echo "차단: guard 파일이 없습니다. 자료집을 다시 clone하거나 playbook의 harness/install.sh로 복구해 주십시오." >&2
   exit 1
 fi
 
