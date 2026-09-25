@@ -1,6 +1,8 @@
 ---
 name: isms-p-review
 description: Assess content the user hands over (a policy or procedure excerpt, a description of how something is done, a system or configuration note, a screenshot description, an incident write-up, a vendor contract clause) against the ISMS-P certification criteria using the isms-p-docs corpus, and report which items it touches, what is a nonconformity candidate, what needs more information, and what is fine. The answer may be that nothing is wrong. Use when the user asks whether something is a problem, a defect, a gap, or a nonconformity under ISMS-P, ISMS, KISA certification, or the 인증기준, or pastes content and mentions ISMS-P. Do not use for a whole-organization self-assessment survey, for drafting a policy, for editing the corpus, or for ISO 27001 questions (that is iso-27001-review).
+argument-hint: <content, or a file path, or empty to assess the content pasted above> [별표7 | 별표7의2 | 별표7의3]
+allowed-tools: Read, Grep, Glob, Bash
 ---
 
 # ISMS-P review
@@ -20,28 +22,31 @@ unless asked.
 
 ## 1. Locate the corpus
 
-The corpus is the `isms-p-docs` repository. Locate it in this order:
+The corpus is the `isms-p-docs` repository. Resolve its root into `$root`, in this order,
+stopping at the first candidate that passes the check (the manifest exists under it and carries
+the standard id `isms-p`). Every path in sections 3 and 4 is relative to `$root`; citations in
+the report use the repository-relative form (`docs/...`).
 
-1. If the user supplies `ISMS_P_DOCS_ROOT`, use that directory. If it is invalid, ask for a
-   corrected path instead of silently selecting another corpus.
-2. Otherwise resolve the actual path of this loaded `SKILL.md`, following symlinks. Its canonical
-   location is `<corpus>/skill/isms-p-review/SKILL.md`, so the third parent is the corpus root.
-   This works with the repository's `.agents/skills/` link and personal installs under
-   `~/.agents/skills/`, `~/.codex/skills/`, or `~/.claude/skills/`.
-3. If the loaded path is unavailable, try the current Git working-tree root.
+```bash
+ok() { [ -n "$1" ] && grep -qE '"id"[[:space:]]*:[[:space:]]*"isms-p"' "$1/extended/manifest.json" 2>/dev/null; }
+# 1. the current project is the corpus itself (or a directory inside it)
+c="$(git rev-parse --show-toplevel 2>/dev/null)"; ok "$c" && root="$c"
+# 2. this skill is a symlink into the repository at skill/isms-p-review, two levels up
+[ -z "${root:-}" ] && d="$(readlink -f "$HOME/.claude/skills/isms-p-review" 2>/dev/null)" && c="${d%/skill/isms-p-review}" && ok "$c" && root="$c"
+# 3. an explicit override
+[ -z "${root:-}" ] && ok "${ISMS_P_DOCS_ROOT:-}" && root="$ISMS_P_DOCS_ROOT"
+echo "${root:-NOT FOUND}"
+```
 
-Validate the candidate by parsing `extended/manifest.json`: `standard.id` must be `isms-p`, and
-`docs/ko/` must exist. If no candidate is valid, ask the user for the corpus path. Do not answer
-from memory of the criteria. Every path in sections 3 and 4 is relative to this root; report
-citations use the repository-relative form (`docs/...`). Read
+If the result is `NOT FOUND`, ask the user for the path. Do not answer from memory of the
+criteria. Read
 `extended/USAGE.md` once per session; its rules (read-only corpus, manifest first, citation on
 every claim, human gate, DLP, currency boundary) bind this skill and section 8 restates them.
 
 ## 2. Intake
 
-Take the content or file path supplied with the skill invocation (`$isms-p-review` in Codex,
-`/isms-p-review` in Claude Code), or use the content already supplied in the conversation.
-Read an explicitly supplied file before assessing it. Then normalise it before you route:
+Take the content from `$ARGUMENTS`; if that is a path, read the file; if it is empty, use the
+content the user pasted above. Then normalise it before you route:
 
 - Break it into **assertions**: each concrete statement about how something is done, decided,
   configured, or omitted. "운영 DB 관리자 계정 하나를 개발자 3명이 공유한다" is one assertion.
@@ -214,7 +219,7 @@ dash and no middle dot anywhere in the report; use a comma, colon, slash, parent
 
 > 상태: AI 생성 초안 / 검토 전 | 적용 세트: 별표 7(추정) | 생성: 2026-09-13 | 자료집 기준: 세부점검항목 2023.10.31 및 2024.7.24, 인증기준 안내서 2023.11.23
 
-**한 줄 결론**: 결함 후보 N건, 확인 필요 N건, 문제 없음 N건(검토한 항목 M개, 관련 항목 K개 추가). 전달 내용이 충족 근거를 보여 준 확인사항 J개.
+**한 줄 결론**: 결함 후보 N건, 확인 필요 N건, 문제 없음 N건입니다(검토한 항목 M개, 관련 항목 K개 추가). 전달 내용에 충족 근거가 있는 확인사항은 J개입니다.
 
 **개인정보 처리 안내(해당 시)**: 전달 내용의 개인정보 값 N개를 `[masked]`로 처리했고 보고서, 인용문, 저장 파일 어디에도 옮겨 적지 않았습니다.
 
@@ -234,7 +239,7 @@ dash and no middle dot anywhere in the report; use a comma, colon, slash, parent
 ### 관련 항목(이번 판정에서 직접 시험하지 않음)
 - x.y.z 제목, x.y.z 제목
 
-> 이 결과는 인증기준 안내서(2023.11.23)의 확인사항과 결함사례에 근거한 후보 판정입니다. 결함 여부와 경중의 최종 판단은 심사원과 담당자가 합니다. 관련 법규는 자료집 기준일의 표기이며 이후 개정은 반영되어 있지 않습니다.
+> 이 결과는 인증기준 안내서(2023.11.23)의 확인사항과 결함사례에 근거한 후보 판정입니다. 결함 여부와 경중은 심사원과 담당자가 최종 판단합니다. 관련 법규는 자료집 기준일 당시의 표기이며 이후 개정은 반영되어 있지 않습니다.
 ```
 
 For an English report use the same structure with these headings: "ISMS-P review result",
@@ -306,8 +311,8 @@ Route: topics "공용 계정" and "관리자 계정" give 2.5.2, 2.5.5, 2.5.1; "
   the assertion. The period itself is `[확인필요]` from the item's 관련 법규 line, not stated
   from memory. `docs/ko/annex7/2.9.4.md > 주요 확인사항, 결함사례, 관련 법규`
 
-One-line conclusion: 결함 후보 2건, 확인 필요 2건, 문제 없음 0건(검토한 항목 4개, 관련 항목 3개
-추가). Read those files before citing them; this example shows the shape of a judgment and is
+One-line conclusion: 결함 후보 2건, 확인 필요 2건, 문제 없음 0건입니다(검토한 항목 4개, 관련 항목
+3개 추가). Read those files before citing them; this example shows the shape of a judgment and is
 not itself a source.
 
 ## Do not

@@ -2,7 +2,7 @@
 
 This repository is a **documents-only** reference corpus: the ISMS-P certification criteria, one
 Markdown file per item, bilingual in Korean and English. There is no application, no build output,
-and no infrastructure here. This file defines the rules AI agents (OpenAI Codex, Claude Code, and
+and no infrastructure here. This file defines the rules AI agents (Claude Code, OpenAI Codex, and
 so forth) follow when **maintaining this repository**.
 
 The common engineering standard (interaction, priority, commit, punctuation, terminology,
@@ -38,9 +38,7 @@ this repository. See the managed block at the bottom.
   is local `.git/config` state and does not travel with a clone, and this repository has no
   `package.json` to hang a `prepare` script on, so the wiring is `bash harness/install-hooks.sh`,
   run once per clone. It is idempotent and writes nothing outside `.git/config`.
-- `.agents/skills/isms-p-review` : a relative symlink to `skill/isms-p-review/`, making the review
-  skill discoverable in Codex without a separate copy or a global install.
-- `skill/isms-p-review/` : a shared agent skill that applies the operating rules of `extended/USAGE.md`
+- `skill/isms-p-review/` : a Claude Code skill that applies the operating rules of `extended/USAGE.md`
   to content a user hands over (scenario S8 of `extended/README.md`), and reports nonconformity
   candidates, open questions, and clean results with citations into `docs/`. `SKILL.md` is the
   procedure and `topic-index.json` is its routing table (everyday Korean and English words to item
@@ -48,9 +46,8 @@ this repository. See the managed block at the bottom.
   `derive_relaxed_lists.py` next to it, run after editing a topic's Annex 7 list, and check [18] of
   `check_corpus.py` verifies that every item of every set appears in at least one topic and that
   the derived lists are current). It is
-  available locally through `.agents/skills/`. For use from another project, symlink the directory
-  into `~/.agents/skills/` (Codex) or `~/.claude/skills/` (Claude Code). Resolve the loaded skill's
-  real path to locate the corpus. `SKILL.md` is English prose under the
+  installed by symlinking the directory into `~/.claude/skills/`, so the corpus root resolves from
+  the symlink when the skill is invoked from another project. `SKILL.md` is English prose under the
   docs/16 conventions; the Korean report template inside it is a fenced block.
 - `README.md` / `README.ko.md` : repository introduction (English default, Korean companion).
 - `UPDATES.md` / `UPDATES.ko.md` : the source pin **and the known-divergence register**. It records
@@ -105,18 +102,6 @@ mandatory) follow the playbook docs. Only repository-specific rules are kept her
 AI work that **uses** the `docs/` corpus (such as ISMS-P audit preparation and response) follows the
 plan in `extended/README.md` and the operating rules in `extended/USAGE.md`: source pinning,
 manifest-first routing, mandatory citation, human approval gates, and an immutable `docs/`.
-
-## Codex maintenance workflow
-
-- Read this file through `AGENTS.md`, then the playbook entry point and `UPDATES.md`.
-- Use `skill/isms-p-review/SKILL.md` only to assess submitted content, not to maintain the corpus.
-- Preserve unrelated working-tree changes. Keep bilingual document pairs together.
-- Run `python3 tools/check_corpus.py` and `bash harness/check-conventions.sh` after edits.
-  Run `python3 tools/test_check_corpus.py` after touching either Python guard, and
-  `bash harness/test-check-conventions.sh` after changing the conventions checker.
-- Regenerate with `python3 tools/build_index.py` after corpus edits, and inspect the generated diff.
-- Keep `CLAUDE.md` as the single rules file and `AGENTS.md` as its symlink. The name is required by
-  the shared playbook and does not make these instructions exclusive to Claude Code.
 
 ## nerdkim 공통 엔지니어링 표준(playbook)
 

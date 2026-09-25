@@ -2,11 +2,11 @@
 
 > English: [README.md](README.md)
 
-이 문서는 `docs/`의 ISMS-P 인증기준 자료집을 AI 에이전트가 어떻게 쓸지 정리한 것입니다. 별표7
-101개와 특례 62개, 65개가 대상입니다. OpenAI Codex나 Claude Code 같은 agent가 인증심사를 준비하고
-대응하도록 돕는 것이 목적입니다.
+이 문서는 `docs/`의 ISMS-P 인증기준 자료집을 AI agent가 어떻게 쓸지 정리한 것입니다. 별표7
+101개 항목과 특례 세트 두 개(62개, 65개 항목)가 대상입니다. Claude Code나 OpenAI Codex 같은 agent가
+인증심사를 준비하고 대응하도록 돕는 것이 목적입니다.
 
-> 핵심 원칙: `docs/`는 **읽기 전용 권위 자료집**이며 내용 점검 중에는 수정하지 않습니다.
+> 핵심 원칙: `docs/`는 **읽기 전용 정본 자료집**이며 내용 점검 중에는 수정하지 않습니다.
   저장하는 점검 산출물은 `extended/outputs/` 아래에 작성합니다.
 
 ---
@@ -14,7 +14,7 @@
 ## 1. ISMS-P란 무엇이고, 누가/언제/왜 받는가
 
 **ISMS-P**(정보보호 및 개인정보보호 관리체계)는 한국인터넷진흥원(KISA)이 운영하고
-과학기술정보통신부와 개인정보보호위원회가 공동 정책을 맡는 국가 인증입니다. 정보보호 중심의
+과학기술정보통신부와 개인정보보호위원회가 정책을 공동으로 맡는 국가 인증입니다. 정보보호 중심의
 **ISMS**는 관리체계 16개와 보호대책 64개를 합친 80개 기준입니다. 여기에 개인정보 처리단계별 요구사항
 21개를 더한 것이 **ISMS-P**이고 모두 101개 기준입니다. 개인정보를 다루는 조직이 ISMS-P를 취득하면
 ISMS 의무도 함께 충족됩니다.
@@ -43,11 +43,12 @@ ISMS 의무도 함께 충족됩니다.
 
 > **최신성 경계**: 본 자료집은 세부점검항목 2023.10.31(별표 7)과 2024.7.24(별표 7의2, 7의3) /
   인증기준 안내서 2023.11.23 기준입니다.
-  인증제 전면 개편이 2025.12.6에 발표되고 2026.4.10에 방안이 공표됐습니다. 간편, 표준, 강화 3단계
-  재편, 의무대상 확대, 기술심사 의무화가 그 내용입니다. 이 개편은 **자료집에 미반영**입니다. 처음
-  2026년 1분기로 제시됐던 고시 개정은 2026-09-17 공식 기록 재확인에서도 찾지 못해, 고정한 인증기준 별표는
-  2024.7.24 고시판 그대로이고 항목 수도 그대로입니다. AI는 이 부분을 단정하지 말고 외부 출처로
-  확인해야 합니다(6절 guardrail 참고). 등록부 항목은 `UPDATES.ko.md` 2.3절입니다.
+  인증제 전면 개편이 2025.12.6에 발표되고 2026.4.10에 방안이 공표됐습니다. 그 내용은 간편/표준/강화
+  3단계 재편, 의무대상 확대, 기술심사 의무화입니다. 이 개편은 **자료집에 반영되어 있지 않습니다**.
+  처음 2026년 1분기로 제시됐던 고시 개정은 2026-09-17에 공식 기록을 다시 확인했을 때도 찾을 수
+  없었습니다. 그래서 고정한 인증기준 별표는 2024.7.24 고시판 그대로이고 항목 수도 그대로입니다.
+  AI는 이 부분을 단정하지 말고 외부 출처로 확인해야 합니다(6절 guardrail 참고). 등록부의 해당
+  항목은 `UPDATES.ko.md` 2.3절에 있습니다.
 
 ---
 
@@ -67,8 +68,8 @@ ISMS 의무도 함께 충족됩니다.
 
 - **결함 분류**: 일반 결함 / **중결함**(관리체계에 중대한 영향, 확인 시 심사 중단 가능).
 - **빈출 결함 집중 분야**: 인증 및 권한관리, 접근통제, 암호화 적용, 시스템 및 서비스
-  운영관리(로그/접속기록). **별표 7**에서는 각각 2.5, 2.6, 2.7, 2.9이며, 완화 세트는 번호를 다시
-  매기므로 번호가 아니라 manifest 의 `subgroup` 값을 이름으로 맞춰야 합니다.
+  운영관리(로그/접속기록). **별표 7**에서는 각각 2.5, 2.6, 2.7, 2.9입니다. 완화 세트는 번호를 다시
+  매기므로 번호가 아니라 이름으로 manifest의 `subgroup` 값과 대조해야 합니다.
 - **빈출 결함 3대 패턴**: (1) 증적 부재/미보고, (2) 정책과 운영의 불일치, (3) 필수 보호대책
   미이행/주기적 검토 부재.
 - **보완조치**: 결함 통보일로부터 40일 이내 1차 완료, 연장 포함 총 **100일** 이내 완료. 미완료 시
@@ -86,21 +87,22 @@ ISMS 의무도 함께 충족됩니다.
 사용자 질문/입력
    |
    v
-[1] manifest.json 우선 라우팅  ->  관련 항목(no, path) 식별
+[1] manifest.json 우선 routing  ->  관련 항목(no, path) 식별
    |
    v
-[2] 해당 docs/항목 .md 의 6개 섹션만 컨텍스트로 읽음(read-only)
+[2] 해당 docs/항목 .md의 6개 섹션만 context로 읽음(read-only)
        인증기준 / 주요 확인사항 / 세부 설명 / 관련 법규 / 증적자료 / 결함사례
    |
    v
 [3] 출처(인용) 부착하여 산출물 생성  ->  extended/outputs/ 아래에만 기록
    |
    v
-[4] 고위험 산출물(법규 해석/적부 판단/정책 확정)은 review-queue 로 -> 사람 승인
+[4] 고위험 산출물(법규 해석/적부 판단/정책 확정)은 review-queue로 -> 사람 승인
 ```
 
-이 구조는(a) `manifest.json`/`index/`로 탐색 범위를 좁혀 환각을 줄이고, (b) 모든 주장에 `docs/` 경로
-인용을 강제하며, (c) 산출물을 `extended/outputs/`로 격리해 자료집 불변을 지킵니다.
+이 구조의 역할은 세 가지입니다. (a) `manifest.json`/`index/`로 탐색 범위를 좁혀 환각을 줄입니다.
+(b) 모든 주장에 `docs/` 경로 인용을 강제합니다. (c) 산출물을 `extended/outputs/`로 격리해 자료집
+불변을 지킵니다.
 
 ---
 
@@ -108,14 +110,14 @@ ISMS 의무도 함께 충족됩니다.
 
 | ID | 시나리오 | 입력 | AI 작업 | 산출물(extended/outputs/) | 사람 검수 |
 |---|---|---|---|---|---|
-| S1 | 인증기준 근거 Q&A | 자연어 질문 | manifest로 항목 라우팅 후 해당 .md만 읽어 인용 부착 답변 | `qa-log/` | 법규 해석 답변은 검수 |
+| S1 | 인증기준 근거 Q&A | 자연어 질문 | manifest로 항목 routing 후 해당 .md만 읽어 인용 부착 답변 | `qa-log/` | 법규 해석 답변은 검수 |
 | S2 | 사전 셀프 진단 | 운영 상태 설문/요약 + 적용 세트 | 결함사례/확인사항 대조로 충족/미충족/부분/보류 분류, 빈출영역 우선순위 | `checklists/` | 최종 충족 판정 승인 |
 | S3 | 정책/지침 초안 | 조직 특성 + 문서 유형 | 인증기준/세부 설명/증적 예시 근거로 초안 + 조항-기준 mapping | `drafts/` | 법무/보안 검수 |
-| S4 | 증적-통제 mapping | 보유 증적 목록/메타데이터 | `evidence-dictionary`와 대조해 충분/부족/누락 mapping | `mappings/` | mapping 승인/반려 | <!-- conventions-allow: 공식 표준 용어(데이터, 네트워크) 원문 보존 -->
+| S4 | 증적-통제 mapping | 보유 증적 목록/metadata | `evidence-dictionary`와 대조해 충분/부족/누락 mapping | `mappings/` | mapping 승인/반려 |
 | S5 | 보완조치 문서 | 결함보고서 항목 | 세부 설명/증적 근거로 보완조치 내역서/완료확인서 골격 + 100일 마감 추적 | `remediation/` | 조치 완료 판정 |
 | S6 | 모의 질의응답 | 적용 세트 + 대상 분야 | 주요 확인사항을 예상 질문으로, 세부 설명/증적을 답변 근거로 | `mock-audit/` | 자사 실태로 교정 |
-| S7 | 세트/개정 영향 mapping | 세트 전환/개정 질의 | manifest 항목 집합 차집합으로 세트 차이 산출, 미수록 개정은 플래그 | `diffs/`, `regwatch/` | 컴플라이언스 책임자 검수 |
-| S8 | 제출 내용 점검 | 사용자가 전달한 아무 내용(정책 발췌, 실태 설명, 설정, 사고, 계약 조항) + 적용 세트 | skill의 topic index와 manifest로 routing 한 뒤 해당 항목만 읽어 항목마다 판정 하나(결함 후보 / 확인 필요 / 문제 없음 / 범위 외)를 인용과 함께 제시. 문제가 없으면 없다고 답함 | 대화 응답. `spot-checks/`는 요청 시에만 | 결함 여부와 경중은 심사원 판단 |
+| S7 | 세트/개정 영향 mapping | 세트 전환/개정 질의 | manifest 항목 집합 차집합으로 세트 차이 산출, 미수록 개정은 flag | `diffs/`, `regwatch/` | 컴플라이언스 책임자 검수 |
+| S8 | 제출 내용 점검 | 사용자가 전달한 아무 내용(정책 발췌, 실태 설명, 설정, 사고, 계약 조항) + 적용 세트 | skill의 topic index와 manifest로 routing한 뒤 해당 항목만 읽어 항목마다 판정 하나(결함 후보 / 확인 필요 / 문제 없음 / 범위 외)를 인용과 함께 제시. 문제가 없으면 없다고 답함 | 대화 응답. `spot-checks/`는 요청 시에만 | 결함 여부와 경중은 심사원 판단 |
 
 각 시나리오의 실행 prompt는 [`prompts/`](prompts/), 산출물 양식은 [`templates/`](templates/)에
 있습니다.
@@ -126,25 +128,25 @@ ISMS 의무도 함께 충족됩니다.
 
 ```
 tools/
-  build_index.py                docs/ 파싱 -> 아래 색인 전체 재생성(결정적, 재현 가능)
+  build_index.py                docs/ parsing -> 아래 색인 전체 재생성(결정적, 재현 가능)
 extended/
   README.md                     이 방안 문서
-  USAGE.md                      자료집 사용(소비자) 운영 규약. 소비 환경의 AGENTS.md/CLAUDE.md에 반영
+  USAGE.md                      자료집을 사용하는 쪽(consumer)의 운영 규약. 사용 환경의 CLAUDE.md/AGENTS.md에 반영
   manifest.json                 이 repository의 ISMS-P 자료집 기계가독 색인(456개 항목: 언어별 228). 공개 계약이며 schema는 corpus-manifest/v3
   index/
-    criteria-index.csv          평탄 색인(스프레드시트/사람 검토용)
-    defect-rulebook.json        별표7 101개 항목 결함사례 룰북(381건) - 셀프 진단/모의 질의 룰
+    criteria-index.csv          flat 색인(스프레드시트/사람 검토용)
+    defect-rulebook.json        별표7 101개 항목 결함사례 rulebook(381건) - 셀프 진단/모의 질의 규칙
     evidence-dictionary.json    별표7 101개 항목 증적 예시 사전(399건) - 증적 mapping 기준
   prompts/                      시나리오별 실행 prompt(system-grounding 공통)
   templates/                    산출물 양식(셀프 진단/정책 초안/보완조치/모의 질의/제출 내용 점검)
-  outputs/                      runtime 산출물 루트(아래 하위는 작업 시 생성)
+  outputs/                      runtime 산출물 root(아래 하위 directory는 작업 시 생성)
     qa-log/ checklists/ drafts/ mappings/ remediation/ mock-audit/ diffs/ regwatch/ spot-checks/ review-queue/
 skill/
-  isms-p-review/                S8용 Codex / Claude Code 공용 skill: 절차와 topic routing
+  isms-p-review/                S8용 Claude Code skill: SKILL.md(절차)와 topic-index.json(routing 표)
 ```
 
-색인을 다시 만들려면: `python3 tools/build_index.py` (docs/를 읽고 extended/와 생성 대상인
-`docs/{ko,en}/INDEX.md` 내비게이션 파일에 씁니다).
+색인을 다시 만들려면 `python3 tools/build_index.py`를 실행합니다. 이 명령은 docs/를 읽어 extended/
+아래와 생성 대상인 `docs/{ko,en}/INDEX.md` 내비게이션 파일에 씁니다.
 
 ---
 
@@ -153,52 +155,54 @@ skill/
 1. **출처 고정**: 모든 주장/판정에 `docs/` 항목 경로와 섹션명을 인용으로 부착합니다. 인용을 만들 수
    없으면 출력하지 않거나 "근거 없음(자료집 미수록)"으로 명시합니다.
 2. **자료집 범위 한정(환각 방지)**: `docs/`의 ISMS-P 228개 항목(.md 456개, 언어별 228개),
-   `manifest.json`/`index/`, `references/` 원문만 권위 출처로 삼습니다. `references/`는 gitignore
-   대상인 로컬 전용 원문이라 clone에는 없으며, 없는 것이 오류는 아닙니다. 자료집에 없는 수치(보관기간/임계치 등)는 `[확인필요]`
-   플레이스홀더로 비웁니다.
+   `manifest.json`/`index/`, `references/` 원문만 근거 출처로 삼습니다. `references/`는 gitignore
+   대상인 local 전용 원문이라 clone에는 없으며, 없는 것이 오류는 아닙니다. 자료집에 없는
+   수치(보관기간/임계치 등)는 `[확인필요]` placeholder로 비웁니다.
 3. **내용 점검 중 docs/ 불변**: AI는 자료집을 사용하는 동안 `docs/`를 수정/생성/삭제하지 않습니다.
    점검 산출물은 `extended/outputs/`에 씁니다.
 4. **최신성 경계**: 자료집 기준일(세부점검항목 2023.10.31과 2024.7.24 / 인증기준 안내서 2023.11.23 /
-   인증제도 안내서 2024.07)을 산출물에 표기하고, 2026 개편
-   등 미수록 개정은 단정하지 않고 "자료집 미수록, 외부 확인 필요"로 플래그합니다.
-5. **사람 승인 게이트**: 법규 해석, 인증 적부 판단, 정책 확정, 충족/미충족 최종 판정, 보완조치 완료
+   인증제도 안내서 2024.07)을 산출물에 표기합니다. 2026 개편 등 미수록 개정은 단정하지 않고
+   "자료집 미수록, 외부 확인 필요"로 flag합니다.
+5. **사람 승인 gate**: 법규 해석, 인증 적부 판단, 정책 확정, 충족/미충족 최종 판정, 보완조치 완료
    판정은 사람이 확정합니다. AI 출력은 "제안/후보" 상태입니다.
-6. **입력 데이터 통제(DLP)**: 외부 생성형 AI 경로에는 실제 개인정보/원본 증적 내용을 넣지 않습니다. 증적은 파일명/유형/메타데이터 수준으로만 다룹니다. <!-- conventions-allow: 공식 표준 용어(데이터, 네트워크) 원문 보존 -->
-7. **산출물 신분 표시**: 모든 AI 산출물에 "AI 생성 초안 / 검토 전" 워터마크와 생성 일시/모델/근거
+6. **입력 데이터 통제(DLP)**: 외부 생성형 AI 경로에는 실제 개인정보/원본 증적 내용을 넣지 않습니다. 증적은 파일명/유형/metadata 수준으로만 다룹니다. <!-- conventions-allow: 공식 표준 용어(데이터, 네트워크) 원문 보존 -->
+7. **산출물 식별 표시**: 모든 AI 산출물에 "AI 생성 초안 / 검토 전" watermark와 생성 일시/모델/근거
    항목을 표기합니다.
 8. **스타일**: 존댓말을 사용하고, em-dash(U+2014)와 가운뎃점(U+00B7, U+2219, U+318D)을 쓰지
    않습니다(슬래시/콜론/쉼표/괄호/'및'으로 대체).
 
 ---
 
-## 7. OpenAI Codex 사용법
+## 7. Claude Code 사용법
 
-- **유지보수**: Codex는 공통 규칙 원본 `CLAUDE.md`의 symlink인 root `AGENTS.md`를 읽습니다.
-  repository 파일을 변경하기 전에 해당 유지보수 규칙과 playbook을 따릅니다.
-- **내용 점검**: [`USAGE.ko.md`](USAGE.ko.md)를 읽습니다. 자료집을 소비하는 project의 `AGENTS.md`에서
-  이 규칙을 참조합니다. manifest로 범위를 좁힌 뒤 해당 인증기준을 읽습니다. S8은 topic index로
-  후보를 고른 뒤 manifest에서 확인합니다.
-- **review skill**: `.agents/skills/isms-p-review`가
-  [`../skill/isms-p-review/SKILL.md`](../skill/isms-p-review/SKILL.md)를 연결합니다. `$isms-p-review`에
-  내용이나 파일 경로를 지정합니다. 이 repository에서는 global 설치가 필요 없습니다. 다른 project에서
-  사용하려면 원본 skill directory를 `~/.agents/skills/isms-p-review`로 연결합니다. 새 skill이 발견되지
-  않으면 Codex를 다시 시작합니다. 읽어 들인 skill의 실제 경로로 자료집을 찾습니다.
-- **다른 시나리오**: S1부터 S7까지는 [`prompts/`](prompts/)의 prompt이며 설치된 skill이 아닙니다.
-  S4에는 보유 증적 metadata를, S3/S5에는 template을 사용합니다. 생성한 초안은 `extended/outputs/`에
-  저장하고 초안 상태와 근거를 표시합니다. template을 덮어쓰지 않습니다.
-- **쓰기 범위와 검증**: 내용 점검은 `docs/`를 수정하지 않습니다. 소비 환경에서는 read-only filesystem
-  권한으로 이를 강제할 수 있습니다. 지침 자체가 sandbox는 아닙니다. 이 repository의 CI는 자료집 무결성과
-  생성 index를 확인하며, git에서 제외된 runtime 보고서는 검사하지 않습니다. 보고서를 사용하기 전에
-  근거 인용과 초안 상태를 확인합니다.
+- 자료집을 사용하는 환경의 `CLAUDE.md`에 "docs/는 read-only 정본 출처, 산출물은 extended/outputs/에만,
+  manifest 우선 routing, 모든 주장에 경로 인용" 규약을 반영합니다. 반영할 때는 이 layer의
+  [`USAGE.ko.md`](USAGE.ko.md)를 참조하게 하거나 그 내용을 복사해 넣습니다.
+- **항상 manifest 우선**: 자연어 질문이 오면 먼저 `extended/manifest.json`을 읽어 관련 `path`로 범위를
+  좁힌 뒤 그 항목의 `.md`만 Read 도구로 읽습니다. `docs/` 전체를 grep으로 훑지 않습니다.
+- **skill로 만들기**: S1부터 S7까지를 slash skill(예: `/isms-selfcheck`, `/isms-evidence-map`,
+  `/isms-remediation`)로 정의하고, skill 본문에 [`prompts/`](prompts/) 내용을 넣습니다. S8은
+  [`../skill/isms-p-review/SKILL.md`](../skill/isms-p-review/SKILL.md)로 함께 제공됩니다. 그 directory를
+  `~/.claude/skills/`에 symlink로 연결하면 어느 project에서든 `/isms-p-review`로 쓸 수 있습니다. skill은
+  그 symlink에서 자료집 root를 찾습니다. 별도 사본을 만들지 않고 이 symlink 하나만 둡니다.
+- **쓰기 guardrail을 hook으로 강제**: `settings.json`의 PreToolUse hook에서 Edit/Write의 경로가
+  `docs/` 아래이면 막고 `extended/outputs/`만 허용합니다.
+- **감사 logging**: Stop/PostToolUse hook으로 입력, 사용한 항목 경로, model 버전, timestamp를
+  `extended/outputs/qa-log/`에 덧붙여 기록합니다.
 
-발견과 호출 방식은 [OpenAI 공식 skill 문서](https://learn.chatgpt.com/docs/build-skills)를 따릅니다.
+## 8. OpenAI Codex 사용법
 
-## 8. Claude Code 호환
-
-같은 skill을 `~/.claude/skills/isms-p-review`에서 `/isms-p-review`로 사용할 수 있습니다.
-별도 사본을 만들지 말고 원본 directory의 symlink로 유지합니다. 소비 project의 `CLAUDE.md`에서
-[`USAGE.ko.md`](USAGE.ko.md)를 참조할 수 있습니다. 두 agent에 같은 출처, 인용, 산출물, 사람 검토
-규칙이 적용되며, 이 repository가 설치하는 Claude 전용 hook은 없습니다.
+- Codex는 `CLAUDE.md`를 가리키는 symlink인 root `AGENTS.md`를 읽으므로, 이 repository를 유지보수할
+  때 `CLAUDE.md`의 규칙을 그대로 따릅니다. 자료집을 사용하는 환경에서는 그 환경의 root `AGENTS.md`에 이 layer의
+  [`USAGE.ko.md`](USAGE.ko.md) 내용을 두어 Codex가 자동으로 읽게 합니다.
+- **쓰기 범위 제한**: workspace sandbox로 쓰기 허용 경로를 `extended/outputs/`로 제한하거나, 사전/사후
+  hook에서 `docs/` 변경을 거부합니다.
+- **batch 처리**: 보유 증적 metadata(CSV/JSON)를 입력으로 받아 `evidence-dictionary.json`과 대조하는
+  mapping(S4)을 batch로 처리합니다. `templates/`를 바탕으로 정책과 보완조치 초안(S3/S5)을
+  `extended/outputs/`에 만드는 작업도 batch로 처리합니다. 산출물에는 항상 "승인 대기" 표시와
+  watermark를 달고 template은 덮어쓰지 않습니다.
+- **CI gate**: `extended/outputs/` 산출물에 `docs/` 경로 인용이 있는지, em-dash와 가운뎃점이 없는지,
+  `git diff -- docs/`가 비어 있는지(자료집 불변)를 검사하는 lint를 PR 단계에 둡니다.
 
 ---
 
