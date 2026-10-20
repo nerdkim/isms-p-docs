@@ -14,7 +14,7 @@ name: docs
 on:
   pull_request:
   push:
-    branches: [develop, master]
+    branches: [main]
 
 permissions:
   contents: read

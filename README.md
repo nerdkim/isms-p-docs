@@ -126,7 +126,7 @@ bash harness/install-hooks.sh
 
 It is idempotent, writes nothing outside `.git/config` except making the three hooks executable,
 and activates `pre-commit` (documentation conventions), `commit-msg` (message rules), and
-`pre-push` (blocks a direct push to master). The hooks are a convenience guardrail and are
+`pre-push` (blocks a direct push to main). The hooks are a convenience guardrail and are
 bypassable; the authoritative gate is CI (`.github/workflows/docs.yml`), which runs the same
 checkers.
 

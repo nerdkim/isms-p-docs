@@ -10,7 +10,9 @@ security) is **not copied into this file**; the playbook docs are the single sou
 working, read `playbook/docs/README.md` and follow it. This file keeps only what is specific to
 this repository. See the managed block at the bottom.
 
-> Project kind: **document corpus** (no application). Branch model: **develop-master** (2-branch).
+> Project kind: **document corpus** (no application). Branch model: **single `main` branch**. Every change arrives through a
+> pull request from a short-lived branch, which is deleted after the merge (owner decision
+> 2026-10-20 for the documents repositories, in place of the playbook's develop-master model).
 >
 > `AGENTS.md` is a symbolic link to this `CLAUDE.md` (identical content; per playbook `docs/10` the
 > real file is `CLAUDE.md`). Claude Code reads `CLAUDE.md`; other agents such as Codex read

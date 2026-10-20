@@ -68,4 +68,4 @@ echo "  core.hooksPath  = $(git config --get core.hooksPath)"
 echo "  commit.template = $(git config --get commit.template || echo '(unset)')"
 echo
 echo "Active guards: pre-commit (documentation conventions), commit-msg (message rules),"
-echo "pre-push (blocks a direct push to master). CI is the authoritative gate."
+echo "pre-push (blocks a direct push to main). CI is the authoritative gate."

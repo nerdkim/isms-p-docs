@@ -115,7 +115,7 @@ bash harness/install-hooks.sh
 ```
 
 여러 번 실행해도 안전하고, 세 hook에 실행 권한을 주는 것 외에는 `.git/config` 밖에 아무것도 쓰지
-않습니다. `pre-commit`(문서 규약), `commit-msg`(commit message 규칙), `pre-push`(master 직접 push
+않습니다. `pre-commit`(문서 규약), `commit-msg`(commit message 규칙), `pre-push`(main 직접 push
 차단)를 활성화합니다. hook은 우회할 수 있는 편의용 guardrail이고, 기준이 되는 gate는 같은 검사기를
 실행하는 CI(`.github/workflows/docs.yml`)입니다.
 
