@@ -16,14 +16,17 @@
 
 ## Bilingual parity
 <!-- Korean is authoritative, English is an unofficial translation of it. A Korean-only or
-     English-only content edit is a bug, and CI rejects it. -->
+     English-only content edit is a bug. CI catches only the structural part (file pairing,
+     bullet counts, shared renderings); a sentence reworded on one side passes CI, so compare
+     the wording by hand. -->
 - [ ] Korean and English counterparts changed in **this same commit**, keyed by (set, item number)
 - [ ] N/A (this PR touches no item content)
 
 ## Verification
 <!-- The exact commands you ran and their results; make it reproducible (playbook docs/20 5). -->
+- `python3 tools/test_check_corpus.py` → result:
 - `python3 tools/check_corpus.py` → result:
-- `python3 tools/build_index.py` then `git diff --exit-code -- extended docs` → result:
+- on a clean checkout of the branch, `python3 tools/build_index.py`, then `git add -A -- extended docs && git diff --cached --exit-code -- extended docs` (as CI does, so a new generated file is caught) → result:
 - `bash harness/check-conventions.sh` → result:
 
 ## Consumer impact (the manifest contract)

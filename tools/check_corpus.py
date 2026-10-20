@@ -405,14 +405,24 @@ def check_parity_shape():
                      f"but '{en}' has {ne} in en")
 
 
+def _expected_applicability(slug, no):
+    """Notice Article 23: ISMS covers 가목 and 나목 (items 1.x and 2.x) of each annex,
+    except item 1.1.2 of 별표 7의2 (Article 23(3)2); ISMS-P covers every item."""
+    isms = no.split(".")[0] in ("1", "2") and not (slug == "annex7-2" and no == "1.1.2")
+    return f"ISMS `{'●' if isms else '-'}` / ISMS-P `●`"
+
+
 def check_metadata_uniformity():
     """[13] the metadata table must be uniform within a (set, language).
 
     The Korean side carries one fixed form per set, so a divergence is drift in
     the other language rather than a real difference. Catching it here is what
     keeps the English table from fanning out into variants of one fixed value.
+    The applicability row is also held to Notice Article 23, the one fact in the
+    table that decides which items an ISMS-only applicant is audited against.
     """
     fixed_row = {"ko": "기준 구분", "en": "Criterion type"}
+    applies_row = {"ko": "적용 인증", "en": "Applicable certification"}
     for lang in LANGS:
         slugs = sorted({os.path.basename(os.path.dirname(x))
                         for x in glob.glob(os.path.join(DOCS, lang, "*", "*.md"))})
@@ -434,6 +444,12 @@ def check_metadata_uniformity():
                          f"differs from {list(base_order)} in "
                          f"{os.path.relpath(base_path, ROOT)}")
                 for a, b in rows:
+                    if a == applies_row[lang]:
+                        expected = _expected_applicability(slug, os.path.basename(path)[:-3])
+                        if b != expected:
+                            fail(f"{os.path.relpath(path, ROOT)}: '{a}' row is '{b}' but "
+                                 f"Notice Article 23 requires '{expected}'")
+                        continue
                     if a != fixed_row[lang]:
                         continue
                     if value is None:
@@ -587,7 +603,9 @@ def check_topic_index(manifest):
     it to a document that is not there. The 별표7의2 and 별표7의3 lists are derived
     from the 별표7 list through each relaxed document's 대응(별표7) row; a hand edit
     that touches one list and not the other leaves the sets disagreeing about
-    what the same topic means, so the derivation is re-done here and compared.
+    what the same topic means, so the derivation is re-done here and compared. The
+    no_counterpart record (the Annex 7 items a relaxed set has no counterpart for, which
+    tells the skill that a topic is out of scope for that set) is re-derived the same way.
     """
     if not os.path.exists(TOPIC_INDEX):
         fail("skill/isms-p-review/topic-index.json is missing (the isms-p-review skill "
@@ -631,6 +649,12 @@ def check_topic_index(manifest):
             if sorted(items.get(set_id, [])) != sorted(expected):
                 fail(f"topic-index '{label}': {set_id} list {items.get(set_id, [])} does not "
                      f"match the 대응(별표7) rows, expected {expected}")
+        record = {s: [no for no in items.get("별표7", []) if no not in reverse[s]]
+                  for s in slug_for}
+        record = {s: nos for s, nos in record.items() if nos}
+        if topic.get("no_counterpart", {}) != record:
+            fail(f"topic-index '{label}': no_counterpart {topic.get('no_counterpart', {})} does "
+                 f"not match the 대응(별표7) rows, expected {record}")
     for set_id, all_items in sorted(ko_items.items()):
         for no in sorted(all_items - covered[set_id], key=item_key):
             fail(f"topic-index: {set_id} {no} appears in no topic, so the isms-p-review "

@@ -11,7 +11,9 @@ source material:
    The builders and the integrity checker (tools/), the guard set (harness/),
    the CI workflow and repository configuration (.github/ and the root config
    files), and the machine-generated index files (extended/manifest.json and
-   extended/index/) are licensed under the MIT License. See LICENSE.
+   extended/index/) are licensed under the MIT License. See LICENSE. Official
+   text that the index files quote (such as the nonconformity and evidence
+   examples taken from the guide) stays under the third-party clause below.
 
 2. Documentation and reference collection (CC BY 4.0)
    The original explanatory text, the English translations, and the selection,
@@ -33,18 +35,20 @@ A reasonable credit line, for example:
 
 Third-party source material (NOT licensed by this project)
 ----------------------------------------------------------
-The licenses above apply only to this project's own work. The following remain
-the property of their respective owners and are governed by their own terms:
+The licenses above apply only to this project's own work. The following are not
+this project's work and are governed by their own terms:
 
 - Official ISMS-P material: the certification criteria and key checkpoints
   quoted verbatim, and content derived from the ISMS-P Certification Criteria
   Guide (baseline: Notice [Annex 7] 2023-10-05 and [Annex 7-2, Annex 7-3]
   2024-07-24, detailed inspection items 2023-10-31 for Annex 7 and 2024-07-24
   for Annexes 7-2 and 7-3, Criteria Guide 2023-11-23; UPDATES.md is the source
-  pin), are works of the Korean authorities, the Korea Internet and
-  Security Agency (KISA) and the Personal Information Protection Commission
-  (PIPC). This project does not claim ownership of that official text and does
-  not relicense it. Consult the official sources for authoritative wording.
+  pin). The criteria are part of the Notice issued jointly by the Ministry of
+  Science and ICT (MSIT) and the Personal Information Protection Commission
+  (PIPC); the detailed inspection items and the guide are distributed by the
+  Korea Internet and Security Agency (KISA). This project does not claim
+  ownership of that official text and does not relicense it. Consult the
+  official sources for authoritative wording.
 
 This project is provided for reference only and is not legal or certification
 advice. Verify final decisions against the official sources and the relevant

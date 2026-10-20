@@ -50,11 +50,11 @@
 - [2.3.1 Management of the Status of External Parties](annex7/2.3.1.md)
 - [2.3.2 Security When Contracting with External Parties](annex7/2.3.2.md)
 - [2.3.3 Management of External Party Security Implementation](annex7/2.3.3.md)
-- [2.3.4 Security upon Change or Termination of External Party Contracts](annex7/2.3.4.md)
+- [2.3.4 Security upon Change or Expiration of External Party Contracts](annex7/2.3.4.md)
 #### 2.4 Physical Security
 
 - [2.4.1 Designation of Protected Areas](annex7/2.4.1.md)
-- [2.4.2 Access Control](annex7/2.4.2.md)
+- [2.4.2 Physical Entry Control](annex7/2.4.2.md)
 - [2.4.3 Information System Protection](annex7/2.4.3.md)
 - [2.4.4 Operation of Protective Facilities](annex7/2.4.4.md)
 - [2.4.5 Work within Protected Areas](annex7/2.4.5.md)
@@ -304,7 +304,7 @@
 - [2.3.1 Security When Contracting with External Parties](annex7-3/2.3.1.md)
 #### 2.4 Physical Security
 
-- [2.4.1 Access Control](annex7-3/2.4.1.md)
+- [2.4.1 Physical Entry Control](annex7-3/2.4.1.md)
 - [2.4.2 Work Environment Security](annex7-3/2.4.2.md)
 #### 2.5 Authentication and Authorization Management
 

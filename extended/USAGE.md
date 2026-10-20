@@ -23,7 +23,9 @@ collection to perform ISMS-P work. The rules for maintaining this repository its
 ## Workflow (manifest first)
 
 1. Read `extended/manifest.json` first and narrow the scope to the items (`no`, `path`) relevant to
-   the question/task. Do not run a random grep across all of `docs/`.
+   the question/task. Do not run a random grep across all of `docs/`. For an ISMS (not ISMS-P)
+   task, keep only the items whose `appliesTo` includes ISMS: that drops the 3.x items of every set
+   and, in Annex 7-2, item 1.1.2 (Notice Article 23(3)2).
 2. Read only the `.md` files for the narrowed items into context. Each file consists of 6 sections
    (Certification criterion / Key checkpoints / Detailed explanation / Related laws / Evidence /
    Nonconformity examples).

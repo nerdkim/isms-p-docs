@@ -136,6 +136,24 @@ def main():
     case("a divergent criterion-type value is rejected", drift_criterion_type,
          "one value per set and language")
 
+    def isms_on_excluded_item(work):
+        p = os.path.join(work, "docs", "ko", "annex7-2", "1.1.2.md")
+        t = read(p).replace("| 적용 인증 | ISMS `-` / ISMS-P `●` |",
+                            "| 적용 인증 | ISMS `●` / ISMS-P `●` |")
+        write(p, t)
+
+    case("ISMS applicability on 별표 7의2 1.1.2 is rejected", isms_on_excluded_item,
+         "Notice Article 23")
+
+    def isms_on_privacy_item(work):
+        p = os.path.join(work, "docs", "en", "annex7", "3.1.1.md")
+        t = read(p).replace("| Applicable certification | ISMS `-` / ISMS-P `●` |",
+                            "| Applicable certification | ISMS `●` / ISMS-P `●` |")
+        write(p, t)
+
+    case("ISMS applicability on a 3.x item is rejected", isms_on_privacy_item,
+         "Notice Article 23")
+
     def reorder_rows(work):
         p = os.path.join(work, "docs", "en", "annex7-2", "1.1.1.md")
         t = read(p)
@@ -327,6 +345,18 @@ def main():
 
     case("[18] a relaxed list that no longer follows the 대응(별표7) rows is rejected",
          drift_relaxed_list, "does not match the 대응(별표7) rows")
+
+    def drop_no_counterpart(work):
+        # Delete the record of a topic whose main Annex 7 item has no relaxed counterpart.
+        idx = json.loads(read(topic_path(work)))
+        for topic in idx["topics"]:
+            if topic.get("no_counterpart"):
+                del topic["no_counterpart"]
+                break
+        write(topic_path(work), json.dumps(idx, ensure_ascii=False))
+
+    case("[18] a stale no_counterpart record is rejected", drop_no_counterpart,
+         "no_counterpart")
 
     def missing_index(work):
         os.remove(topic_path(work))

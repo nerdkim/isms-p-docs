@@ -4,7 +4,7 @@
 
 This document sets out **how AI agents such as Claude Code / OpenAI Codex can use the ISMS-P
 certification-criteria reference collection built under `docs/` (101 Annex 7 items + 62/65
-special-case items) to help prepare for and respond to an ISMS-P certification audit effectively.**
+relaxed-set items) to help prepare for and respond to an ISMS-P certification audit effectively.**
 
 > Core principle: `docs/` is a **read-only authoritative reference collection** and is never
   modified during assessment. Every saved assessment is written under `extended/outputs/`.
@@ -18,8 +18,10 @@ certification operated by the Korea Internet & Security Agency (KISA), with poli
 the Ministry of Science and ICT (MSIT) and the Personal Information Protection Commission (PIPC). It
 splits into information-security-focused **ISMS** (16 management-system + 64 protection-measure = 80
 criteria) and **ISMS-P**, which adds personal-information processing-stage requirements (21 items)
-on top for a total of 101 criteria. When an organization that handles personal information obtains
-ISMS-P, it also satisfies the ISMS obligation.
+on top for a total of 101 criteria. In the relaxed sets ISMS covers 40 of the 62 Annex 7-2 items
+and 44 of the 65 Annex 7-3 items: every set leaves out its 3.x items for ISMS, and Annex 7-2 also
+leaves out item 1.1.2 (Notice Article 23(3)2). When an organization that handles personal
+information obtains ISMS-P, it also satisfies the ISMS obligation.
 
 **The reasons for obtaining it** fall broadly into three categories: (1) fulfilling a legal
 obligation, (2) managing accountability/reputation risk in the event of a large-scale breach, and
@@ -29,12 +31,12 @@ obligation, (2) managing accountability/reputation risk in the event of a large-
 
 | Category | Basis |
 |---|---|
-| Mandatory target (ISP) | Telecommunications business operators providing information and communications network services in Seoul and all metropolitan cities. Mandatory regardless of revenue/number of users |
-| Mandatory target (IDC) | Integrated information and communications facility (data center) operators. Mandatory regardless of revenue/number of users |
-| Mandatory target (revenue) | Information and communications service segment prior-year revenue of KRW 10 billion or more / or, among those with annual revenue/receipts of KRW 150 billion or more, tertiary general hospitals and universities with 10,000 or more enrolled students |
-| Mandatory target (users) | Daily average of 1 million or more users over the three months immediately preceding the end of the prior year |
+| Mandatory target (ISP) | Operators registered under Telecommunications Business Act Article 6(1) that install and hold line facilities and provide network services in Seoul, the integrated Jeonnam-Gwangju special city (전남광주통합특별시) and all metropolitan cities, and mobile resellers (MVNOs) under Article 38(1) of that Act, mandatory since 2025.11.4 (Enforcement Decree Article 36-2(2) from 2026.10.1, Article 49(1) before). Mandatory regardless of revenue/number of users |
+| Mandatory target (IDC) | Integrated information and communications facility (data center) operators. Mandatory regardless of revenue/number of users, except an operator that leases part of another operator's facility to run a data-center business (VIDC), which follows the revenue/user thresholds (Notice Article 19(2)) |
+| Mandatory target (revenue) | Information and communications service segment previous-year revenue of KRW 10 billion or more (financial companies excluded) / or, among those with previous-year revenue or receipts of KRW 150 billion or more, tertiary general hospitals and universities with 10,000 or more enrolled students |
+| Mandatory target (users) | Previous-year average daily users of 1 million or more (financial companies under the Electronic Financial Transactions Act excluded) |
 | Voluntary application | Public/private entities, corporations, organizations, or individuals that are not mandatory targets applying voluntarily for credibility/bidding incentives |
-| Certification special case (simplified) | Small enterprises / mid-sized enterprises with information and communications segment revenue under KRW 30 billion (Annex 7-2), and mid-sized enterprises without major information and communications equipment (Annex 7-3). Reduced items/fees/timeline |
+| Relaxed application (simplified) | Small enterprises, and medium enterprises with previous-year information and communications service revenue under KRW 30 billion (Annex 7-2); medium enterprises at or above KRW 30 billion that run no major information and communications facilities of their own and use hosting or cloud services certified under ISMS, ISMS-P or CSAP (Annex 7-3). Not open to ISPs, IDCs, tertiary general hospitals, universities, financial companies or virtual-asset service providers (scheme guide 2024.07), nor to a medium enterprise with 1 million or more daily users (Network Act Article 47-7(1); Enforcement Decree Article 55-7(1) and (2), numbered 49-2 until 2026.9.30). Reduced criteria and fees |
 | Preliminary certification | Preliminary ISMS certification that a new virtual-asset service provider obtains first, ahead of full certification (which requires at least 2 months of operation), in order to file with the FIU |
 
 ### Timeline/maintenance
@@ -51,11 +53,14 @@ obligation, (2) managing accountability/reputation risk in the event of a large-
   2023.11.23. The full overhaul of the
   certification scheme (announced 2025.12.6, plan published 2026.4.10: reorganization into three
   tiers of simplified/standard/enhanced, expansion of mandatory targets, mandatory technical
-  review) is **not reflected in the collection**. The notice amendment first presented for Q1 2026
-  was not found in the official records rechecked on 2026-09-17, so the pinned criteria annexes are
-  those of the 2024.7.24 notice and the item counts are unchanged. The AI must not assert this area
-  and should confirm it against external sources (see the guardrails in Section 6). The register
-  entry is `UPDATES.md` section 2.3.
+  review) is **not reflected in the collection**. Part of its legal basis is already in force:
+  since 2026.10.1 Network Act Article 47-7, now titled "정보보호 관리체계 인증의 차등적용 등"
+  (differentiated application of certification), lets strengthened criteria apply to certain
+  applicants (paragraph (2)), and Enforcement Decree Article 55-7(3) names them. No notice sets those criteria yet: the notice amendment first
+  presented for Q1 2026 was not found in the official records rechecked on 2026-10-20, so the
+  pinned criteria annexes are those of the 2024.7.24 notice and the item counts are unchanged. The
+  AI must not assert this area and should confirm it against external sources (see the guardrails
+  in Section 6). The register entry is `UPDATES.md` section 2.3.
 
 ---
 
@@ -76,14 +81,15 @@ with evidence that each criterion's key checkpoints are actually operated"**
 
 - **Nonconformity classification**: general nonconformity / **major nonconformity** (a material
   impact on the management system; the audit may be halted upon confirmation).
-- **Frequent-nonconformity focus subgroups**: 인증 및 권한관리(Authentication and authorization
-  management), 접근통제(Access control), 암호화 적용(Application of encryption), 시스템 및 서비스
-  운영관리(System and service operation management). These are 2.5, 2.6, 2.7 and 2.9 in **Annex 7**;
-  the relaxed sets renumber, so match the manifest `subgroup` field by name rather than by number
-  (logs/access records).
-- **Three frequent-nonconformity patterns**: (1) missing/unreported evidence, (2) mismatch between
-  policy and operation, (3) failure to implement required protection measures / absence of periodic
-  review.
+- **Commonly cited problem subgroups (no official statistic)**: 인증 및 권한관리(Authentication and
+  authorization management), 접근통제(Access control), 암호화 적용(Application of encryption),
+  시스템 및 서비스 운영관리(System and service operation management, including logs and access
+  records). These are 2.5, 2.6, 2.7 and 2.9 in Annex 7 and 7-3 and 2.4, 2.5, 2.6 and 2.8 in 7-2,
+  and both relaxed sets renumber the items inside them, so match the manifest `subgroup` field by
+  name rather than by number.
+- **Three commonly cited nonconformity patterns (no official statistic)**: (1) missing/unreported
+  evidence, (2) mismatch between policy and operation, (3) failure to implement required protection
+  measures / absence of periodic review.
 - **Remediation**: complete the first round within 40 days of the nonconformity notification date,
   and complete within a total of **100 days** including extensions. Failure to complete results in
   certification revocation (an initial audit is voided).
@@ -125,16 +131,16 @@ keep the collection immutable.
 | ID | Scenario | Input | AI task | Output (extended/outputs/) | Human review |
 |---|---|---|---|---|---|
 | S1 | Criteria-grounded Q&A | Natural-language question | Route to items via manifest, then read only the relevant .md and answer with citations attached | `qa-log/` | Legal-interpretation answers are reviewed |
-| S2 | Advance self-diagnosis | Operating-status survey/summary + applicable set | Compare against nonconformity examples/checkpoints to classify as met/not met/partial/pending, and prioritize frequent-nonconformity areas | `checklists/` | Approve the final met/not met judgment |
+| S2 | Advance self-diagnosis | Operating-status survey/summary + applicable set and certification (ISMS or ISMS-P) | Compare against nonconformity examples/checkpoints to classify as met/not met/partial/pending, and prioritize commonly cited problem areas | `checklists/` | Approve the final met/not met judgment |
 | S3 | Policy/guideline draft | Organizational characteristics + document type | Draft grounded in criteria/detailed explanation/evidence examples + clause-to-criterion mapping | `drafts/` | Legal/security review |
-| S4 | Evidence-to-control mapping | List/metadata of held evidence | Compare against `evidence-dictionary` to map sufficient/insufficient/missing | `mappings/` | Approve/reject the mapping |
+| S4 | Evidence-to-control mapping | List/metadata of held evidence + applicable set and certification | Compare against `evidence-dictionary` to map sufficient/insufficient/missing | `mappings/` | Approve/reject the mapping |
 | S5 | Remediation document | Nonconformity report items | Skeleton of a remediation statement/completion confirmation grounded in detailed explanation/evidence + 100-day deadline tracking | `remediation/` | Judge remediation completion |
-| S6 | Mock Q&A | Applicable set + target area | Turn key checkpoints into anticipated questions, with detailed explanation/evidence as the answer basis | `mock-audit/` | Correct against the organization's actual state |
-| S7 | Set/revision impact mapping | Set-transition/revision query | Derive set differences via the set difference of manifest item sets, and flag revisions not in the collection | `diffs/`, `regwatch/` | Compliance officer review |
-| S8 | Review of submitted content | Any content the user hands over (policy excerpt, practice description, configuration, incident, contract clause) + applicable set | Route through the skill's topic index and the manifest, read only the routed items, and give each one verdict: 결함 후보 / 확인 필요 / 문제 없음 / 범위 외, with citations; a clean result is reported as clean | reply; `spot-checks/` only on request | Nonconformity and severity are the auditor's call |
+| S6 | Mock Q&A | Applicable set and certification + target area | Turn key checkpoints into anticipated questions, with detailed explanation/evidence as the answer basis | `mock-audit/` | Correct against the organization's actual state |
+| S7 | Set/revision impact mapping | Set-transition/revision query | Derive set differences from the 대응(별표7) row of each Annex 7-2/7-3 document (an Annex 7 control that no row names has no counterpart in that set), and flag revisions not in the collection | `diffs/`, `regwatch/` | Compliance officer review |
+| S8 | Review of submitted content | Any content the user hands over (policy excerpt, practice description, configuration, incident, contract clause) + applicable set and certification | Route through the skill's topic index and the manifest, read only the routed items, and give each one verdict: 결함 후보 / 확인 필요 / 문제 없음 / 범위 외, with citations; a clean result is reported as clean | reply; `spot-checks/` only on request | Nonconformity and severity are the auditor's call |
 
-The execution prompts for each scenario are in [`prompts/`](prompts/), and the output formats are in
-[`templates/`](templates/).
+The execution prompts are in [`prompts/`](prompts/), one per scenario except S7, which has none
+yet, and the output formats are in [`templates/`](templates/).
 
 ---
 
@@ -249,13 +255,15 @@ nonconformity is it, and what are the basis and evidence?"
 - ISMS-P portal certification targets: https://isms-p.or.kr/cert/aply/selectCertTrgtDetail.do
 - [KISA publication list](https://isms-p.or.kr/ntcn/rcsrm/selectGnrlRcsrmList.do): ISMS-P Certification
   Scheme Guide (2024.07), Certification Criteria Guide (2023.11.23); `references/` is optional local storage.
-- Network Act (정보통신망법) Articles 47, 47-7, 76 / Personal Information Protection Act (개인정보
-  보호법) Article 32-2
+- Network Act (정보통신망법) Articles 47, 47-7, 76 and its Enforcement Decree Articles 36-2, 49,
+  55-7 (texts in force from 2026.10.1) / Notice Articles 19, 21, 23 / Personal Information
+  Protection Act (개인정보 보호법) Article 32-2
 - Guidance on preliminary ISMS certification for virtual-asset service providers (KISA)
 - Announcement of the full overhaul of the certification scheme (2025.12.6) and the published plan
   (2026.4.10): MSIT/PIPC press releases and related coverage
 
 > The scheme/audit descriptions in this document are based on public materials as of the time of
-  writing (June 2026, upstream legal review 2026-09-14, source editions rechecked 2026-09-17).
+  writing (June 2026, upstream legal review 2026-09-14 and again 2026-10-20, source editions
+  rechecked 2026-09-17 and 2026-10-20).
   Per-item content follows the `docs/` collection: Annex 7 from 2023, Annexes 7-2/7-3 from 2024,
   and the Certification Criteria Guide from 2023. See [UPDATES.md](../UPDATES.md) for the exact pins.

@@ -2,7 +2,7 @@
 
 > 한국어: [spot-check.ko.md](spot-check.ko.md)
 
-> Status: AI-generated draft / not reviewed | Applied set: {{Annex 7 (assumed) / 7-2 / 7-3}} | Generated: {{YYYY-MM-DD}} | Collection reference: detailed inspection items 2023.10.31 and 2024.7.24, Certification Criteria Guide 2023.11.23
+> Status: AI-generated draft / not reviewed | Applied set: {{Annex 7 (assumed) / 7-2 / 7-3}} | Certification: {{ISMS-P (assumed) / ISMS}} | Generated: {{YYYY-MM-DD}} | Collection reference: detailed inspection items 2023.10.31 and 2024.7.24, Certification Criteria Guide 2023.11.23
 
 **One-line conclusion**: {{N}} nonconformity candidates, {{N}} needing information, {{N}} no issue ({{M}} items tested, {{K}} related items listed). {{J}} checkpoints for which the content shows they are met.
 
@@ -24,4 +24,4 @@
 ### Related items (not tested directly in this review)
 - {{x.y.z title, x.y.z title}}
 
-> These are candidate verdicts based on the key checkpoints and nonconformity examples of the Certification Criteria Guide (2023.11.23). Whether something is a nonconformity, and how serious, is decided by the auditor and the responsible person. Legal citations are as of the collection's reference date and later amendments are not reflected.
+> These are candidate verdicts based on the key checkpoints of the "ISMS-P Certification Criteria Detailed Inspection Items" and the nonconformity examples of the "ISMS-P Certification Criteria Guide" (2023.11.23). Whether something is a nonconformity, and how serious, is decided by the auditor and the responsible person. Legal citations are as of the collection's reference date and later amendments are not reflected.

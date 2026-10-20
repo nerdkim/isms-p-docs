@@ -37,12 +37,14 @@ this repository. See the managed block at the bottom.
 - `harness/` : the playbook guard set (documentation conventions checker, git hooks). `core.hooksPath`
   is local `.git/config` state and does not travel with a clone, and this repository has no
   `package.json` to hang a `prepare` script on, so the wiring is `bash harness/install-hooks.sh`,
-  run once per clone. It is idempotent and writes nothing outside `.git/config`.
+  run once per clone. It is idempotent and writes nothing outside `.git/config` apart from making
+  the three hooks executable.
 - `skill/isms-p-review/` : a Claude Code skill that applies the operating rules of `extended/USAGE.md`
   to content a user hands over (scenario S8 of `extended/README.md`), and reports nonconformity
   candidates, open questions, and clean results with citations into `docs/`. `SKILL.md` is the
   procedure and `topic-index.json` is its routing table (everyday Korean and English words to item
-  numbers, per set; the relaxed-set lists are derived from the `대응(별표7)` rows by
+  numbers, per set; the relaxed-set lists, and a `no_counterpart` record of the Annex 7 items a
+  relaxed set has no counterpart for, are derived from the `대응(별표7)` rows by
   `derive_relaxed_lists.py` next to it, run after editing a topic's Annex 7 list, and check [18] of
   `check_corpus.py` verifies that every item of every set appears in at least one topic and that
   the derived lists are current). It is
@@ -81,9 +83,13 @@ mandatory) follow the playbook docs. Only repository-specific rules are kept her
 - **Keep Korean and English in sync (important)**: when you add, edit, or delete an item's content,
   **update the corresponding document in the other language in the same commit**. Never leave a
   Korean-only or English-only edit that lets the two versions drift. The correspondence is keyed by
-  (set, item number). `tools/check_corpus.py` and CI enforce this.
+  (set, item number). `tools/check_corpus.py` and CI enforce the structural part (file pairing,
+  bullet counts, shared renderings); a sentence reworded on one side only passes them, so content
+  parity is a review duty.
 - **Item documents** keep the 6-section structure (인증기준 / 주요 확인사항 / 세부 설명 / 관련 법규 /
   증적자료 / 결함사례), the metadata table at the top, and the source footer at the bottom. The
+  `적용 인증` row follows Notice Article 23: ISMS covers the 1.x and 2.x items of each set except
+  별표 7의2 item 1.1.2, ISMS-P covers every item, and check [13] enforces it. The
   character rules from playbook `docs/16` apply, except that `docs/ko/` and `docs/en/` are a
   confirmed exception listed in `harness/conventions-exclude` (they reproduce authoritative source
   data, not this project's own engineering prose).

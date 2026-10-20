@@ -14,13 +14,19 @@ published contract for this corpus.
 | Set | Items per language | Applies to |
 |---|---|---|
 | Annex 7 (별표 7) | 101 | General ISMS / ISMS-P applicants, full set |
-| Annex 7-2 (별표 7의2) | 62 | SMEs with ICT-service revenue under KRW 30 billion |
-| Annex 7-3 (별표 7의3) | 65 | SMEs at or above KRW 30 billion without major ICT facilities |
+| Annex 7-2 (별표 7의2) | 62 | Small enterprises, and medium enterprises with previous-year ICT-service revenue under KRW 30 billion |
+| Annex 7-3 (별표 7의3) | 65 | Medium enterprises with ICT-service revenue of KRW 30 billion or more that run no major ICT facilities of their own and use hosting or cloud services certified under ISMS, ISMS-P or CSAP |
 | **Total** | **228 per language** (456 documents) | |
 
-Annexes 7-2 and 7-3 are not separate certifications. They are simplified sets that ease the
-certification burden for SMEs (Network Act Article 47-7, Enforcement Decree Article 49-2); which
-set applies depends on the applicant's size and type.
+Annexes 7-2 and 7-3 are not separate certifications. They are relaxed sets that ease the
+certification burden for small and medium enterprises (Network Act Article 47-7(1); Enforcement
+Decree Article 55-7(1), numbered 49-2(1) until 2026.9.30, the number that Notice Article 23(3)
+and (4) still cite). Neither set is open to ISPs, IDCs, tertiary general hospitals, universities,
+financial companies or virtual-asset service providers (KISA's certification scheme guide,
+2024.07), and the Decree also keeps out a medium enterprise with 1 million or more daily users
+(Article 55-7(2)). Which set applies depends on the applicant's size and type. An ISMS
+certification (as opposed to ISMS-P) leaves out the 3.x items of every set, and in Annex 7-2 also
+item 1.1.2 (Notice Article 23(3)2).
 
 Every item document keeps the same six sections:
 
@@ -53,7 +59,7 @@ skill/
   isms-p-review/         Claude Code skill: review submitted content against the criteria (scenario S8)
     SKILL.md             the procedure (routing, reading, verdicts, report format)
     topic-index.json     routing table from everyday words to item numbers, per set
-    derive_relaxed_lists.py  re-derive the relaxed-set lists from the 대응(별표7) rows after editing a topic
+    derive_relaxed_lists.py  re-derive the relaxed-set lists and no-counterpart records from the 대응(별표7) rows after editing a topic
 ```
 
 All paths are ASCII, so there are no URL-encoding surprises for consumers.
@@ -118,12 +124,14 @@ travel with a clone, so run this **once per clone**:
 bash harness/install-hooks.sh
 ```
 
-It is idempotent, writes nothing outside `.git/config`, and activates `pre-commit` (documentation
-conventions), `commit-msg` (message rules), and `pre-push` (blocks a direct push to master). The
-hooks are a convenience guardrail and are bypassable; the authoritative gate is CI
-(`.github/workflows/docs.yml`), which runs the same checkers.
+It is idempotent, writes nothing outside `.git/config` except making the three hooks executable,
+and activates `pre-commit` (documentation conventions), `commit-msg` (message rules), and
+`pre-push` (blocks a direct push to master). The hooks are a convenience guardrail and are
+bypassable; the authoritative gate is CI (`.github/workflows/docs.yml`), which runs the same
+checkers.
 
-Everything else needs only Python 3 (standard library only) and bash.
+Everything else needs only Python 3 (standard library only), bash, and GNU grep with `-P` support
+(the conventions checker and the `commit-msg` hook use it).
 
 ## Working with Claude Code
 
@@ -153,12 +161,14 @@ python3 tools/test_check_corpus.py  # tests for the two guards above
 bash harness/check-conventions.sh
 ```
 
-Both builders are deterministic and reproducible: CI regenerates and fails on any diff, so the
-committed indexes always match the corpus.
+`build_index.py` is deterministic: CI regenerates its outputs and fails on any diff, so the
+committed indexes always match the corpus. The relaxed-set lists of the skill's topic index are
+re-derived and compared by check [18] of `check_corpus.py` instead.
 
 When you add, edit, or delete an item, **update the counterpart document in the other language in
 the same commit**. The correspondence is keyed by (set, item number). A Korean-only or English-only
-edit is a bug, and CI rejects it.
+edit is a bug. CI rejects one that breaks file pairing, bullet counts or a shared rendering, but a
+sentence reworded on one side only passes CI, so review has to catch it.
 
 ## License
 
@@ -166,6 +176,6 @@ edit is a bug, and CI rejects it.
 - The corpus (original explanations, English translation, and the compilation under `docs/`):
   CC BY 4.0. See [LICENSE-CONTENT](LICENSE-CONTENT) and [NOTICE](NOTICE).
 
-These licenses cover this project's own work only. The official ISMS-P source material (KISA and
-the Personal Information Protection Commission) remains the property of its owners and is not
-relicensed here.
+These licenses cover this project's own work only. The official ISMS-P source material (the Notice
+issued by the Ministry of Science and ICT and the Personal Information Protection Commission, and
+KISA's guides and detailed inspection items) is not relicensed here.

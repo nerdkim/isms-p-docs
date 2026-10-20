@@ -21,7 +21,9 @@ AI가 대상입니다. 이 repository 자체를 관리하는 규칙은 root의 `
 ## 작업 순서(manifest 우선)
 
 1. `extended/manifest.json`을 먼저 읽어 질문/작업에 관련된 항목(`no`, `path`)으로 범위를 좁힙니다.
-   `docs/` 전체를 무작정 grep하지 않습니다.
+   `docs/` 전체를 무작정 grep하지 않습니다. ISMS-P가 아닌 ISMS 작업이면 `appliesTo`에 ISMS가 들어 있는
+   항목만 남깁니다. 그러면 모든 세트의 3.x 항목과 별표 7의2의 1.1.2 항목(고시 제23조제3항제2호)이
+   빠집니다.
 2. 좁힌 항목의 `.md`만 context로 읽습니다. 각 파일은 6개 섹션(인증기준 / 주요 확인사항 / 세부 설명
    / 관련 법규 / 증적자료 / 결함사례)으로 구성됩니다.
 3. 셀프 진단/mapping이 필요하면 `extended/index/defect-rulebook.json`(결함 규칙),

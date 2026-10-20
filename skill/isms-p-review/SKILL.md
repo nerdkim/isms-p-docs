@@ -52,7 +52,8 @@ content the user pasted above. Then normalise it before you route:
   configured, or omitted. "운영 DB 관리자 계정 하나를 개발자 3명이 공유한다" is one assertion.
   Keep the user's wording; you will quote it back.
 - Note the **context** you were given: organisation size and type, which set applies, whether
-  the system is in the certification scope, whether this is a plan or the current state.
+  the certification sought is ISMS or ISMS-P, whether the system is in the certification scope,
+  whether this is a plan or the current state.
 - Note the **unknowns**: what the content does not say that would change the verdict.
 - **Personal data gate.** If the content carries what looks like real personal data (주민등록번호,
   phone numbers, email addresses, card or account numbers, names tied to such identifiers),
@@ -62,16 +63,26 @@ content the user pasted above. Then normalise it before you route:
   summarised as evidence of what the file holds ("n rows with 이름, 주민등록번호, 전화번호,
   이메일"). Stop and ask only when no practice is described at all.
 
-**Choose the set.** Use the set the user names. Otherwise 간편인증, 인증 특례, 중소기업, or a
-매출액 300억 threshold point at 별표 7의2 or 7의3; say which you chose and why (under 300억
-of ICT-service revenue is 7의2; at or above it without major ICT facilities is 7의3; if the
-revenue is given but the facilities are not, take 7의2 below the threshold and say the other
-condition was assumed). 간편인증 on its own means this current 인증 특례 track, which is in
-force; it refers to the 2026 three-tier scheme only when the user also says 2026, 개편, 3단계,
-or names the 강화 or 표준 tier, and then section 6 applies. With no hint, use 별표 7 and state
-the assumption in the report header. The 3.x items (개인정보 처리단계별
-요구사항) apply to ISMS-P only: for an ISMS-only applicant report them as 범위 외 rather than
-judging them.
+**Choose the set.** Use the set the user names. Otherwise 간편인증, 인증 특례, 차등적용, 완화
+적용, 중소기업, or a 매출액 300억 threshold point at 별표 7의2 or 7의3; say which you chose and
+why. Small enterprises, and medium enterprises under 300억 of ICT-service revenue, take 7의2;
+medium enterprises at or above it that run no major ICT facilities of their own and use hosting
+or cloud services from an ISMS, ISMS-P or CSAP certified provider take 7의3 (one that runs such
+facilities itself takes 별표 7). ISPs, IDCs, tertiary general hospitals, universities, financial
+companies and virtual-asset service providers are outside the relaxed track and take 별표 7, and
+so does a medium enterprise with 1 million or more daily users. If the revenue is at or above
+300억 and the facilities are not stated, say that 7의3 was assumed and on what condition.
+간편인증, 차등적용 or 완화 적용 on its own means the current relaxed track (Network Act Article
+47-7(1), called 인증의 특례 until 2026.9.30), which is in force; it refers to the 2026 three-tier
+scheme or its strengthened tier only when the user also says 2026, 개편, 3단계, or names the 강화
+or 표준 tier, and then section 6 applies. With no hint, use 별표 7 and state the assumption in the
+report header.
+
+**Choose the certification.** Use ISMS or ISMS-P as the user names it; with no hint, assess as
+ISMS-P, the wider scope, and state the assumption in the report header. ISMS leaves out every
+item whose manifest `appliesTo` lacks ISMS: the 3.x items (개인정보 처리단계별 요구사항) of every
+set, and 별표 7의2 item 1.1.2 (최고책임자의 지정), which Notice Article 23(3)2 excludes from ISMS
+certification. For an ISMS applicant report a hit on them as 범위 외 rather than judging it.
 
 If the content is not about how an organisation handles information security or personal
 information (a general question, a request for the criteria's own text, a legal interpretation),
@@ -98,8 +109,13 @@ Do not read all 228 documents. Route first:
      opening a file rather than a data subject's access request, "공유" of a file rather than of a
      protection measure or an account). A hit needs either
      a specific keyword or two keywords of the same topic.
-   An empty `items` list for a relaxed set means that set has no counterpart item: report the
-   topic as 범위 외 for that set, and say which Annex 7 item covers it in the full set.
+   In each list the first item is the topic's primary one. A relaxed set can lack the control a
+   topic is mainly about: when the topic's first 별표7 item appears in its `no_counterpart` record
+   for the chosen set, report the topic as 범위 외 for that set and say which Annex 7 item covers
+   it in the full set. The topic's derived items for that set then answer to its other Annex 7
+   items and can be off-topic, so take them as secondary only, unless an assertion is itself
+   about one of them. An empty list is the extreme case of the same rule. An Annex 7 item further
+   down the list that has no counterpart simply drops out; it makes nothing 범위 외.
 2. Confirm and widen with `extended/manifest.json`: keep `lang == "ko"` and `section` equal to
    the chosen set, scan the `name` and `subgroup` of every item for words in the assertions,
    and add neighbours the topic index lists for the same theme when an assertion clearly spans
@@ -111,7 +127,7 @@ Do not read all 228 documents. Route first:
    even the marginal ones, so nothing is silently dropped. If the routing table
    had no words for something the user said, say so in one line of the report's 관련 항목
    section, so the maintainer can add them (the table is hand-authored; its 별표7의2 and 7의3
-   lists are derived by `derive_relaxed_lists.py` next to it).
+   lists and `no_counterpart` records are derived by `derive_relaxed_lists.py` next to it).
 4. Check the `out_of_scope` block of the topic index. Legal interpretation, the 2026 scheme
    overhaul, certification obligation and procedure, and ISO 27001 are handled as it says.
 
@@ -121,8 +137,9 @@ corpus can tell, and list what you searched for.
 ## 4. Read only what you routed
 
 For each primary item read the Korean document (`docs/ko/<set>/<no>.md`) in full; it is the
-authoritative text and runs 60 to 200 lines. Read the English mirror (`docs/en/...`) only when
-the user works in English or when the exact wording of a checkpoint matters. Every path is in
+authoritative text and short enough to read whole (roughly 45 to 200 lines). Read the English
+mirror (`docs/en/...`) only when the user works in English or when the exact wording of a
+checkpoint matters. Every path is in
 the manifest, so never guess one. `extended/index/defect-rulebook.json` and
 `extended/index/evidence-dictionary.json` hold the 별표 7 lists alone and are enough when you
 only need those; for 별표 7의2 and 7의3 take the lists from each item's own document, because
@@ -153,8 +170,9 @@ Then give the item one **verdict**:
   are 해당 없음. Say so plainly. Do not invent a concern to have something to report. An item
   whose every checkpoint reads 해당 없음 was not tested: move it to 관련 항목 with one line saying
   why it does not apply, give it no verdict, and do not count it among 검토한 항목.
-- **범위 외** (out of scope): the concern is real but the corpus does not decide it. See
-  section 6.
+- **범위 외** (out of scope): the concern is real but the corpus does not decide it (section
+  6), or the applicant's criteria do not contain it: an item outside the chosen certification, or
+  a topic whose main control the chosen relaxed set lacks (sections 2 and 3).
 
 Absence of information is never 문제 없음; it is 확인 필요 with the missing fact named. The
 mirror rule holds too: a practice that covers part of what a checkpoint asks is 충족 근거 for
@@ -181,10 +199,11 @@ the first checkpoint alone leaves the item **확인 필요**, with a sentence sa
 결함 후보 if the compensating records turn out to be missing (that is what the item's 결함사례
 describes); it is 결함 후보 only when the content also shows the exception unmet. A figure
 printed in the item's own document, including a 세부 설명 borrowed from Annex 7, counts as the
-item's text and may be stated with its citation. Never grade a candidate as 중결함 or 경결함: that is the auditor's call, and the corpus
-does not classify its examples. Numbers (a retention period, a password length, a review
-interval) are stated only when the item's own text gives them, with the citation; otherwise
-write `[확인필요]` and point at the item's `관련 법규` line.
+item's text and may be stated with its citation. Never grade a candidate as a major
+nonconformity (중결함): that is the auditor's call, and the corpus does not classify its examples.
+Numbers (a retention period, a password length, a review interval) are stated only when the
+item's own text gives them, with the citation; otherwise write `[확인필요]` and point at the
+item's `관련 법규` line.
 
 Be as ready to clear content as to fault it. Content that says how approval, recording, review,
 and revocation happen is meeting checkpoints, and the report must say so.
@@ -201,7 +220,9 @@ the corpus does hold on the point:
   once that the citations are as of the 2023.11.23 guide and that later amendments are not
   reflected, then mark the point for human legal review.
 - **The 2026 scheme overhaul** (three tiers, new mandatory targets). Not in the corpus. Say the
-  pinned annexes are the current ones as of the register's last check and point at `UPDATES.md`
+  pinned annexes are the current ones as of the register's last check, that the Act and Decree
+  have defined who may be held to strengthened criteria since 2026.10.1 while no notice sets
+  those criteria (as `extended/README.md` section 1 summarises), and point at `UPDATES.md`
   section 2.3.
 - **Certification obligation, application, audit schedule, fees.** The item documents do not
   cover this. `extended/README.md` sections 1 and 2 summarise the scheme as of their writing
@@ -217,7 +238,7 @@ dash and no middle dot anywhere in the report; use a comma, colon, slash, parent
 ```markdown
 ## ISMS-P 검토 결과
 
-> 상태: AI 생성 초안 / 검토 전 | 적용 세트: 별표 7(추정) | 생성: 2026-09-13 | 자료집 기준: 세부점검항목 2023.10.31 및 2024.7.24, 인증기준 안내서 2023.11.23
+> 상태: AI 생성 초안 / 검토 전 | 적용 세트: 별표 7(추정) | 인증 구분: ISMS-P(추정) | 생성: 2026-09-13 | 자료집 기준: 세부점검항목 2023.10.31 및 2024.7.24, 인증기준 안내서 2023.11.23
 
 **한 줄 결론**: 결함 후보 N건, 확인 필요 N건, 문제 없음 N건입니다(검토한 항목 M개, 관련 항목 K개 추가). 전달 내용에 충족 근거가 있는 확인사항은 J개입니다.
 
@@ -239,18 +260,20 @@ dash and no middle dot anywhere in the report; use a comma, colon, slash, parent
 ### 관련 항목(이번 판정에서 직접 시험하지 않음)
 - x.y.z 제목, x.y.z 제목
 
-> 이 결과는 인증기준 안내서(2023.11.23)의 확인사항과 결함사례에 근거한 후보 판정입니다. 결함 여부와 경중은 심사원과 담당자가 최종 판단합니다. 관련 법규는 자료집 기준일 당시의 표기이며 이후 개정은 반영되어 있지 않습니다.
+> 이 결과는 「ISMS-P 인증기준 세부점검항목」의 확인사항과 「ISMS-P 인증기준 안내서」(2023.11.23)의 결함사례에 근거한 후보 판정입니다. 결함 여부와 경중은 심사원과 담당자가 최종 판단합니다. 관련 법규는 자료집 기준일 당시의 표기이며 이후 개정은 반영되어 있지 않습니다.
 ```
 
 For an English report use the same structure with these headings: "ISMS-P review result",
-the status line ("Status: AI-generated draft / not reviewed | Set applied: ... | Generated: ...
-| Corpus basis: ..."), "One-line conclusion", table columns "Item | Verdict | Basis in the
-content | Matching checkpoint / nonconformity example | Source", then "Basis of each verdict",
-"Information and evidence needed", "Out of scope, or not covered by this corpus", "Related
-items (not tested directly)", and the same footer in English. Keep the four verdict labels in
-Korean with an English gloss on first use (결함 후보 = nonconformity candidate, 확인 필요 =
-needs information, 문제 없음 = no issue found, 범위 외 = out of scope), and keep citation
-section names Korean, because they are the headings that exist in the cited files.
+the status line ("Status: AI-generated draft / not reviewed | Set applied: ... | Certification:
+... | Generated: ... | Corpus basis: ..."), "One-line conclusion", table columns "Item | Verdict |
+Basis in the content | Matching checkpoint / nonconformity example | Source", then "Basis of each
+verdict", "Information and evidence needed", "Out of scope, or not covered by this corpus",
+"Related items (not tested directly)", and the same footer in English (the source titles are
+"ISMS-P Certification Criteria Detailed Inspection Items" and "ISMS-P Certification Criteria
+Guide"). Keep the four verdict labels in Korean with an English gloss on first use (결함 후보 =
+nonconformity candidate, 확인 필요 = needs information, 문제 없음 = no issue found, 범위 외 = out
+of scope), and keep citation section names Korean, because they are the headings that exist in
+the cited files.
 
 J counts every checkpoint that carries at least one 충족 근거 mark, including one that is part
 충족 근거 and part 정보 부족(name the met part in the table); a checkpoint that is only 정보 부족 or
@@ -279,8 +302,10 @@ If the user asks to keep a record, save the report as
 - **Cite every claim.** No citation, no claim.
 - **Stay inside the corpus.** Criteria, checkpoints, laws, and figures come from the documents
   or not at all. General knowledge of ISMS-P is not a source here.
-- **Currency boundary.** State the pinned dates once; never present a later amendment or the
-  2026 overhaul as in force.
+- **Currency boundary.** State the pinned dates once; never present a later amendment as
+  reflected in the corpus, and never present the 2026 three-tier criteria as in force: since
+  2026.10.1 the Act and Decree define who may be held to strengthened criteria, but no notice has
+  set those criteria and the annexes are unchanged.
 - **Human gate.** Conformity, severity, and certification readiness are decided by people.
   Everything you output is a candidate for their review, and the footer says so.
 - **Personal data.** Masked, never echoed, never saved.
@@ -288,12 +313,14 @@ If the user asks to keep a record, save the report as
 ## 9. Worked example
 
 Input: "운영 DB 관리자 계정 하나를 개발자 3명이 공유하고, 비밀번호는 2년간 바꾸지 않았습니다.
-접속기록은 3개월 보관합니다." Set: none given, so 별표 7, stated as assumed.
+접속기록은 3개월 보관합니다." Set and certification: none given, so 별표 7 and ISMS-P, both
+stated as assumed.
 
 Assertions: (1) one production DB administrator account is shared by three developers; (2) its
 password has not been changed for two years; (3) access records are kept for three months.
-Route: topics "공용 계정" and "관리자 계정" give 2.5.2, 2.5.5, 2.5.1; "비밀번호" gives 2.5.4;
-"로그, 접속 기록, 보관 기간" gives 2.9.4, 2.9.5; "DB 접근" adds 2.6.4 as secondary.
+Route: topics "공용 계정" and "관리자 계정" give 2.5.2, 2.5.1, 2.5.5, 2.5.6; "비밀번호" gives
+2.5.4, 2.5.3; "로그, 접속 기록, 보관 기간" gives 2.9.4, 2.9.5, 2.6.4; "DB 접근" adds 2.7.1.
+Primary: 2.5.2, 2.5.5, 2.5.4, 2.9.4. The other six go to 관련 항목.
 
 - 2.5.2 사용자 식별: 결함 후보. Checkpoint 2 asks whether a shared identifier has a documented
   reason, a compensating measure, and the responsible person's approval; the content shows none,
@@ -306,19 +333,23 @@ Route: topics "공용 계정" and "관리자 계정" give 2.5.2, 2.5.5, 2.5.1; "
   following the organisation's own change cycle, so the internal rule must be read first; ask for
   the password policy. `docs/ko/annex7/2.5.4.md > 결함사례, 증적자료`
 - 2.9.4 로그 및 접속기록 관리: 결함 후보. Checkpoint 3 asks whether access records to the
-  personal-information system are kept for the legally required period with the required fields;
-  the nonconformity example about access records surviving only two months matches the shape of
-  the assertion. The period itself is `[확인필요]` from the item's 관련 법규 line, not stated
-  from memory. `docs/ko/annex7/2.9.4.md > 주요 확인사항, 결함사례, 관련 법규`
+  personal-information system are kept for a set period, with every required field, so that the
+  legal requirements can be met. The item's own 세부 설명 prints the retention periods (최소 1년
+  이상, and 최소 2년 이상 in the three cases it lists), so they are stated with that citation, and
+  three months is below both. The nonconformity example about keeping the access records of a
+  system that processes 100,000 data subjects' information for only one year describes the same
+  practice, a retention period set below the requirement; the one about records surviving only two
+  months because the log server ran out of space matches only in shape.
+  `docs/ko/annex7/2.9.4.md > 주요 확인사항, 세부 설명, 결함사례`
 
 One-line conclusion: 결함 후보 2건, 확인 필요 2건, 문제 없음 0건입니다(검토한 항목 4개, 관련 항목
-3개 추가). Read those files before citing them; this example shows the shape of a judgment and is
+6개 추가). Read those files before citing them; this example shows the shape of a judgment and is
 not itself a source.
 
 ## Do not
 
 - Do not read the whole corpus, and do not answer without reading the routed documents.
 - Do not report an item you did not read.
-- Do not grade 중결함 or 경결함, and do not state numeric requirements the item does not print.
+- Do not grade a candidate as 중결함, and do not state numeric requirements the item does not print.
 - Do not modernise a legal citation or assert the 2026 overhaul.
 - Do not pad a clean result with speculative concerns. Say it is clean, show what was checked.

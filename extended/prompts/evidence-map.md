@@ -9,10 +9,11 @@ Use this after first applying `system-grounding.md`.
 
 Inputs:
 - Applicable set: {{Annex 7 / 7-2 / 7-3}}
+- Certification: {{ISMS / ISMS-P}}
 - List of evidence you hold (metadata: file name/type/owner/cycle etc., do not input the body): {{input}}
 
 [Procedure]
-1. Use the per-item "evidence examples" in extended/index/evidence-dictionary.json as the mapping reference dictionary.
+1. In extended/manifest.json, take the set's items whose `appliesTo` includes the certification (ISMS leaves out the 3.x items of every set and, in Annex 7-2, item 1.1.2 under Notice Article 23(3)2). Use the per-item "evidence examples" in extended/index/evidence-dictionary.json as the mapping reference dictionary.
 
 Note: defect-rulebook.json and evidence-dictionary.json cover Annex 7 (Korean) only, and their
 keys are bare item numbers that are not comparable across sets. For an Annex 7-2 or 7-3 run, take
