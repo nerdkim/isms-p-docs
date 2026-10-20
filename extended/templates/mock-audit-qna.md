@@ -3,8 +3,8 @@
 > 한국어: [mock-audit-qna.ko.md](mock-audit-qna.ko.md)
 
 > Status: AI-generated draft / not reviewed
-> Applied set: {{...}} | Target area/item: {{e.g. 2.6 Access control}} | Generated at:
-  {{YYYY-MM-DD}} | Model/version: {{...}}
+> Applied set: {{...}} | Certification: {{ISMS / ISMS-P}} |
+  Target area/item: {{e.g. 2.6 Access control}} | Generated at: {{YYYY-MM-DD}} | Model/version: {{...}}
 > The factual claims in the answers must be corrected to reflect your organization's actual state
   ([verify in-house]).
 

@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # pre-push guard - block a direct push to the protected branch (master/main).
-# Standard: master에는 develop -> master PR과 승인 merge로만 반영합니다(docs/12, D5/D16).
+# Standard: main에는 작업 branch에서 올린 PR과 승인 merge로만 반영합니다(소유자 결정 2026-10-20,
+# docs/12의 develop-master 모델 대신 단일 main branch를 씁니다).
 # git feeds "<local ref> <local sha> <remote ref> <remote sha>" lines on stdin.
 # Local guardrail only; server-side branch protection (D16) is the authority, and the
 # owner can bypass with --no-verify when a deliberate exception is needed.
@@ -11,7 +12,7 @@ while read -r _local_ref _local_sha remote_ref _remote_sha; do
   for p in $protected; do
     if [ "$remote_ref" = "$p" ]; then
       echo "pre-push: direct push to ${remote_ref#refs/heads/} is blocked." >&2
-      echo "차단: master/main에는 직접 push할 수 없습니다. develop branch에서 PR을 올리고 승인 merge로 반영해 주십시오(docs/12)." >&2
+      echo "차단: master/main에는 직접 push할 수 없습니다. 작업 branch에서 PR을 올리고 승인 merge로 반영해 주십시오." >&2
       blocked=1
     fi
   done

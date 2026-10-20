@@ -3,7 +3,8 @@
 > 한국어: [self-assessment.ko.md](self-assessment.ko.md)
 
 > Status: AI-generated draft / not reviewed
-> Organization: {{organization}} | Applied set: {{Annex 7 / 7-2 / 7-3}} | Generated: {{YYYY-MM-DD}}
+> Organization: {{organization}} | Applied set: {{Annex 7 / 7-2 / 7-3}} | Certification:
+  {{ISMS / ISMS-P}} | Generated: {{YYYY-MM-DD}}
 > Model/version: {{model}} | Collection reference date: detailed inspection items 2023.10.31 (Annex 7) / 2024.7.24 (Annexes 7-2, 7-3) /
   Certification Criteria Guide 2023.11.23
 > All verdicts are "suggestions"; the final compliant/non-compliant determination is confirmed by
@@ -13,7 +14,7 @@
 
 - Number of checked items: {{N}} | Compliant {{n1}} / Partially compliant {{n2}} / Non-compliant
   {{n3}} / On hold {{n4}}
-- Priority remediation recommendations (frequent bottleneck areas first): {{2.5.x, 2.6.x ...}}
+- Priority remediation recommendations (commonly cited problem areas first): {{2.5.x, 2.6.x ...}}
 
 ## Per-item assessment
 

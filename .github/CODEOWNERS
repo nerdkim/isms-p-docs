@@ -1,5 +1,5 @@
 # CODEOWNERS - require code-owner review on the authoritative corpus, its generated
-# indexes, the builders, and CI. Enforced only when master branch protection has
+# indexes, the builders, and CI. Enforced only when main branch protection has
 # "Require review from Code Owners" enabled.
 # Last matching pattern wins. Owner is the GitHub user @nerdkim.
 #

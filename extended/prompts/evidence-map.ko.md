@@ -9,10 +9,11 @@
 
 입력:
 - 적용 세트: {{별표7 / 별표7의2 / 별표7의3}}
+- 인증 구분: {{ISMS / ISMS-P}}
 - 보유 증적 목록(metadata: 파일명/유형/담당/주기 등, 본문은 입력하지 않음): {{입력}}
 
 [절차]
-1. extended/index/evidence-dictionary.json의 항목별 "증적 예시"를 mapping 기준 사전으로 사용합니다.
+1. extended/manifest.json에서 적용 세트의 항목 중 `appliesTo`에 인증 구분이 들어 있는 항목을 고릅니다(ISMS에는 모든 세트의 3.x 항목이 빠지고, 별표 7의2에서는 고시 제23조제3항제2호에 따라 1.1.2 항목도 빠집니다). extended/index/evidence-dictionary.json의 항목별 "증적 예시"를 mapping 기준 사전으로 사용합니다.
 참고: defect-rulebook.json과 evidence-dictionary.json은 별표 7(한국어)만 담고 있고, 키는 세트 간에
 비교할 수 없는 맨 항목번호입니다. 별표 7의2나 7의3 작업에서는 각 항목 자신의 .md(주요 확인사항 / 증적자료 /
 결함사례)에서 규칙을 가져옵니다.

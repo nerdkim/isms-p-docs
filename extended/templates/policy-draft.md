@@ -3,8 +3,8 @@
 > 한국어: [policy-draft.ko.md](policy-draft.ko.md)
 
 > Status: AI-generated draft / not reviewed (not a finalized policy)
-> Organization: {{organization}} | Applicable set: {{...}} | Generated: {{YYYY-MM-DD}} |
-  Model/version: {{...}}
+> Organization: {{organization}} | Applicable set: {{...}} | Certification: {{ISMS / ISMS-P}} |
+  Generated: {{YYYY-MM-DD}} | Model/version: {{...}}
 > Finalize after legal/security review. Figures not in the collection are left blank as [To verify].
 
 ## Article 1 (Purpose)

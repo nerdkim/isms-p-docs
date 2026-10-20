@@ -108,7 +108,9 @@ ITEM_SECTIONS = {
 # ---------------------------------------------------------------------------
 # Presentation metadata. Published in the manifest so a consumer renders the corpus
 # without hardcoding knowledge of ISMS-P. Basis for the set split: Network Act Article
-# 47-7 and Enforcement Decree Article 49-2 (easing the SME certification burden).
+# 47-7(1) and Enforcement Decree Article 55-7(1) (numbered 49-2(1) until 2026.9.30, the
+# number Notice Article 23(3) and (4) still cite), which relax certification for small and
+# medium enterprises; Notice Article 23 also decides ISMS versus ISMS-P applicability.
 # ---------------------------------------------------------------------------
 STANDARD_LABEL = {"ko": "ISMS-P 인증기준", "en": "ISMS-P Certification Criteria"}
 STANDARD_BLURB = {
@@ -138,8 +140,11 @@ SET_META = [
         "sub": {"ko": "간편인증 (완화된 기준)", "en": "Simplified (relaxed set)"},
         "track": {"ko": "간편인증", "en": "Simplified"},
         "applies": {
-            "ko": "정보통신서비스 부문 매출액 300억원 미만 중소기업",
-            "en": "SMEs with ICT-service revenue under KRW 30 billion",
+            "ko": "소기업, 그리고 정보통신서비스 부문 전년도 매출액 300억원 미만 중기업",
+            "en": (
+                "Small enterprises, and medium enterprises with previous-year ICT-service "
+                "revenue under KRW 30 billion"
+            ),
         },
     },
     {
@@ -151,36 +156,48 @@ SET_META = [
         "sub": {"ko": "간편인증 (완화된 기준)", "en": "Simplified (relaxed set)"},
         "track": {"ko": "간편인증", "en": "Simplified"},
         "applies": {
-            "ko": "정보통신서비스 부문 매출액 300억원 이상 중소기업 중 주요 정보통신설비 미보유 기업",
+            "ko": (
+                "정보통신서비스 부문 매출액 300억원 이상 중기업 중 주요 정보통신설비를 직접 "
+                "설치/운영하지 않고 ISMS, ISMS-P, CSAP 인증을 받은 호스팅/클라우드 서비스를 "
+                "이용하는 기업"
+            ),
             "en": (
-                "SMEs with ICT-service revenue at or above KRW 30 billion that do not hold "
-                "major ICT facilities"
+                "Medium enterprises with ICT-service revenue of KRW 30 billion or more that run "
+                "no major ICT facilities of their own and use hosting or cloud services "
+                "certified under ISMS, ISMS-P or CSAP"
             ),
         },
     },
 ]
 SECTIONS_NOTE = {
     "ko": (
-        "별표 7은 전체(일반) 인증기준이고, 별표 7의2와 7의3은 중소기업의 인증 부담을 완화한 "
-        "간편인증 기준입니다(정보통신망법 제47조의7, 시행령 제49조의2). 신청기관에는 규모와 유형에 "
-        "따라 세 기준 중 하나가 적용됩니다. 세 기준은 서로 다른 인증이 아니라 적용 대상이 다른 "
-        "기준표입니다."
+        "별표 7은 전체(일반) 인증기준이고, 별표 7의2와 7의3은 소기업과 중기업의 인증 부담을 덜도록 "
+        "기준을 완화한 간편인증 기준입니다(정보통신망법 제47조의7제1항, 시행령 제55조의7제1항. "
+        "시행령 조문은 2026.9.30까지 제49조의2였습니다). 신청기관에는 규모와 유형에 따라 세 기준 "
+        "중 하나가 적용됩니다. 세 기준은 서로 다른 인증이 아니라 적용 대상이 다른 기준표입니다. "
+        "ISMS 인증에는 3.x 항목이 적용되지 않고, 별표 7의2에서는 1.1.2 항목도 적용되지 "
+        "않습니다(고시 제23조)."
     ),
     "en": (
-        "Annex 7 is the full (general) set of criteria, while Annexes 7-2 and 7-3 are simplified "
-        "sets that ease the certification burden for SMEs (Network Act Article 47-7, Enforcement "
-        "Decree Article 49-2). One of the three applies depending on the applicant's size and type; "
-        "they are not different certifications but the same certification with a different "
-        "applicable set."
+        "Annex 7 is the full (general) set of criteria, while Annexes 7-2 and 7-3 are relaxed "
+        "sets that ease the certification burden for small and medium enterprises (Network Act "
+        "Article 47-7(1), Enforcement Decree Article 55-7(1), numbered 49-2 until 2026.9.30). One "
+        "of the three applies depending on the applicant's size and type; they are not different "
+        "certifications but the same certification with a different applicable set. ISMS "
+        "certification leaves out the 3.x items, and in Annex 7-2 also item 1.1.2 (Notice "
+        "Article 23)."
     ),
 }
 SOURCE = {
     "ko": {
-        "criteria_checklist": "고시 별표7 세부점검항목(2023.10.31), 별표7의2/7의3 세부점검항목(2024.7.24)",
+        "criteria_checklist": "ISMS-P 인증기준 세부점검항목: 별표7(2023.10.31), 별표7의2/7의3(2024.7.24)",
         "criteria_guide": "ISMS-P 인증기준 안내서(2023.11.23)",
     },
     "en": {
-        "criteria_checklist": "Detailed inspection items: Annex 7 (2023.10.31), Annex 7-2/7-3 (2024.7.24)",
+        "criteria_checklist": (
+            "ISMS-P Certification Criteria Detailed Inspection Items: Annex 7 (2023.10.31), "
+            "Annex 7-2/7-3 (2024.7.24)"
+        ),
         "criteria_guide": "ISMS-P Certification Criteria Guide (2023.11.23)",
     },
 }
