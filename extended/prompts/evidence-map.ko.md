@@ -1,4 +1,4 @@
-# S4. 증적-통제 mapping 및 갭 리포트
+# S4. 증적-통제 mapping 및 gap report
 
 > English: [evidence-map.md](evidence-map.md)
 

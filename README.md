@@ -52,9 +52,12 @@ tools/
   build_index.py         regenerate every derived index from docs/
   check_corpus.py        read-only integrity checks (19 of them)
   test_check_corpus.py   tests for the two guards above
-harness/
-  install-hooks.sh       wire this clone to the git hooks (run once, see Setup)
+harness/                 playbook guard set, refreshed by the playbook installer (not by hand)
+  bootstrap-hooks.sh     wire this clone to the git hooks (run once, see Setup)
+  verify.sh              run every guard check
   check-conventions.sh   documentation conventions checker (playbook docs/16)
+  conventions-exclude    the reproduced corpus that the conventions checker skips
+  corpus-repo            why that corpus is exempt (lifts the 40% limit of check [0])
 skill/
   isms-p-review/         Claude Code skill: review submitted content against the criteria (scenario S8)
     SKILL.md             the procedure (routing, reading, verdicts, report format)
@@ -121,14 +124,15 @@ the git-hook wiring on. `core.hooksPath` lives in `.git/config`, which is local 
 travel with a clone, so run this **once per clone**:
 
 ```bash
-bash harness/install-hooks.sh
+bash harness/bootstrap-hooks.sh
 ```
 
 It is idempotent, writes nothing outside `.git/config` except making the three hooks executable,
-and activates `pre-commit` (documentation conventions), `commit-msg` (message rules), and
-`pre-push` (blocks a direct push to main). The hooks are a convenience guardrail and are
-bypassable; the authoritative gate is CI (`.github/workflows/docs.yml`), which runs the same
-checkers.
+and activates `pre-commit` (guard integrity, documentation conventions, security checks),
+`commit-msg` (message rules), and `pre-push` (blocks a direct push to main). The hooks are a
+convenience guardrail and are bypassable. The authoritative gates are the two checks that `main`
+requires: `docs-conventions` (`.github/workflows/conventions.yml`, the same guard checkers) and
+`corpus-integrity` (`.github/workflows/docs.yml`, the corpus tools below).
 
 Everything else needs only Python 3 (standard library only), bash, and GNU grep with `-P` support
 (the conventions checker and the `commit-msg` hook use it).
@@ -158,7 +162,7 @@ criteria untouched. See [the usage plan](extended/README.md#7-how-to-use-it-with
 python3 tools/build_index.py    # regenerate extended/ and the docs/{ko,en}/INDEX.md files
 python3 tools/check_corpus.py   # read-only integrity checks
 python3 tools/test_check_corpus.py  # tests for the two guards above
-bash harness/check-conventions.sh
+bash harness/verify.sh          # every guard check, conventions included
 ```
 
 `build_index.py` is deterministic: CI regenerates its outputs and fails on any diff, so the

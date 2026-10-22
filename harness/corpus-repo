@@ -1,0 +1,5 @@
+# harness/corpus-repo - this repository is a reproduced external corpus (playbook docs/16 s6.2,
+# docs/migrations/v0.8.1.md). The first non-comment line below is the reason. It lifts only the
+# 40% limit of check [0]; every entry in harness/conventions-exclude must still name a concrete
+# path, and every file outside docs/ko/ and docs/en/ is still checked.
+Reproduces the official ISMS-P certification criteria (Notice annexes 7, 7-2 and 7-3, the detailed inspection items and the KISA guide) verbatim under docs/ko/, with a faithful English translation under docs/en/; the source text cannot be edited to fit this project's writing conventions.

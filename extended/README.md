@@ -83,7 +83,7 @@ with evidence that each criterion's key checkpoints are actually operated"**
   impact on the management system; the audit may be halted upon confirmation).
 - **Commonly cited problem subgroups (no official statistic)**: 인증 및 권한관리(Authentication and
   authorization management), 접근통제(Access control), 암호화 적용(Application of encryption),
-  시스템 및 서비스 운영관리(System and service operation management, including logs and access
+  시스템 및 서비스 운영관리(System and service operation management, including logs and access <!-- conventions-allow: quotes the official ISMS-P subgroup title -->
   records). These are 2.5, 2.6, 2.7 and 2.9 in Annex 7 and 7-3 and 2.4, 2.5, 2.6 and 2.8 in 7-2,
   and both relaxed sets renumber the items inside them, so match the manifest `subgroup` field by
   name rather than by number.

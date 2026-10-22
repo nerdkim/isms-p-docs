@@ -2,17 +2,19 @@
 # --- playbook commit template (docs/12 2, docs/16 4.1) ---
 # Conventional Commits, written in English:
 #   <type>(<scope>): <subject>
-# type:  feat | fix | chore | docs | refactor | test | ci
-# scope: docs | templates | harness | scripts | conventions | infra
+# type:  feat | fix | chore | docs | refactor | test | perf | ci | build | style | revert | infra
+# scope: the package, app or layer the change belongs to (web | api | shared | infra | ci ...)
 # subject: imperative mood, <= ~72 chars, no trailing period ("add x", not "added x")
 #
 # Body (optional): explain the WHY (not the how), wrap at ~72 cols.
 #
 # Rules:
-# - Author is nerdkim. Add the sanctioned co-author trailer below; never add any
+# - Author is nerdkim. Keep the sanctioned co-author trailer below; never add any
 #   OTHER co-author (e.g. Claude) or a generated signature.
 # - No forbidden unicode (em dash / en dash / bullet ...); ASCII only (docs/16 2.1).
-# - Docs and replies are Korean; code/comments/commit/PR are English (docs/16 4.1).
-# - Standard change: bump VERSION when appropriate and note it in a GitHub Release.
+# - Documents and replies are Korean; code, comments, commit and PR are English (docs/16 4.1).
+#
+# `git commit -m` never renders this template, so an agent that commits with -m must add the
+# trailer itself. Rule M7 of harness/check-commit-messages.sh reports its absence.
 
 Co-Authored-By: mikdren <bot-sidekick@nerd.kim>

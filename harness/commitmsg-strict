@@ -1,0 +1,2 @@
+History was clean at install time, so the commit-message shape rules are enforced.
+Delete this file to drop back to advisory (see harness/check-commit-messages.sh).
