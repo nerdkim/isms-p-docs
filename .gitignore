@@ -36,3 +36,27 @@ Thumbs.db
 *.swp
 .idea/
 .vscode/
+
+# playbook enforcement harness (installed by install-playbook.sh; local tooling, not committed)
+/.claude/skills/enforcement-harness/
+/.claude/skills/enforcement-rule-map/
+/.claude/skills/evasion-surface-audit/
+/.claude/skills/guard-hardening/
+/.claude/skills/evasion-redteam/
+/.claude/skills/translation-fidelity/
+/.claude/skills/playbook-conformance/
+/.claude/skills/playbook-setup/
+
+# personal Claude Code instructions, never committed
+CLAUDE.local.md
+
+# personal Claude Code settings, never committed
+.claude/settings.local.json
+
+# korean-style이 설치한 파일입니다. 이 가운데 직접 고쳐도 되는 파일은 rules.md뿐입니다.
+.korean-style/*
+!.korean-style/rules.md
+!.korean-style/defaults.sha256
+.claude/skills/korean-style/
+.claude/skills/korean-rewrite/
+.claude/output-styles/korean-style.md

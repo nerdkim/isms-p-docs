@@ -1,31 +1,55 @@
 #!/usr/bin/env bash
-# commit-msg - block forbidden unicode punctuation in commit messages (docs/16).
-# Scans the message file ($1) for the 6 forbidden chars (em dash / en dash /
-# horizontal bar / middle dot / bullet / fullwidth hyphen) and fails the commit
-# if any is present. Comment lines and the `git commit -v` diff (below the
-# scissors line) are ignored so only the real message is checked.
-# Local guardrail; the authority gate is CI/`pnpm verify` (docs/20).
-set -euo pipefail
+# commit-msg - validate the commit message against docs/12 s2 and docs/16 s2.1.
+#
+# The rules live in ONE place, harness/check-commit-messages.sh, which this hook runs in
+# single-message mode and which CI runs in range mode over every commit in a PR. Sharing one
+# implementation is the point: a hook and a CI backstop that each carried their own copy of the
+# regexes would drift, and the weaker of the two would become the real rule.
+#
+# Blocked here (FAIL): forbidden unicode in the message (docs/16 s2.1), and any co-author other
+# than mikdren <bot-sidekick@nerd.kim>, a generated signature, or a Claude session link such as the
+# Claude-Session trailer (docs/12 s2, D30, D36). The superseded identity nerdkim-sidekick is
+# accepted and reported, never blocked.
+# Reported (WARN): Conventional Commits shape, trailing period, author allowlist, missing
+# trailer, Hangul. Promote the warnings to blocking in a clean repo with harness/commitmsg-strict.
+#
+# This hook is bypassable with `git commit --no-verify`. That is exactly why the same checker
+# runs in CI as a required status check: there the message is read back out of git history, so a
+# bypassed commit still fails before merge (docs/20 s2).
+set -uo pipefail
 
 msg_file="${1:-}"
 [ -n "$msg_file" ] && [ -s "$msg_file" ] || exit 0
+root="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 
-# Drop the scissors section (git -v diff) and comment lines, keep the message.
-body="$(sed '/^#.*>8/,$d' "$msg_file" | grep -vE '^#' || true)"
-
-if printf '%s' "$body" | LC_ALL=C grep -qP '\xe2\x80\x94|\xe2\x80\x93|\xe2\x80\x95|\xc2\xb7|\xe2\x80\xa2|\xef\xbc\x8d'; then
-  echo "commit-msg: forbidden unicode punctuation in commit message (docs/16)." >&2
-  echo "차단: em dash 같은 금지 문자를 ASCII 하이픈, 쉼표, 괄호로 바꾼 뒤 다시 commit해 주십시오." >&2
-  exit 1
+if [ -f "$root/harness/check-commit-messages.sh" ]; then
+  if ! bash "$root/harness/check-commit-messages.sh" --msg-file "$msg_file"; then
+    echo "commit-msg: blocked by the message rules above (docs/12 s2, docs/16 s2.1)." >&2
+    echo "차단: 위 규칙 위반을 고친 뒤 다시 commit해 주십시오." >&2
+    exit 1
+  fi
+  # The Korean writing check (docs/22 s6) installs its own commit-msg hook only where none exists.
+  # Under core.hooksPath=harness/githooks this hook already exists, so it calls the check itself.
+  # It runs only where the tool is installed and Node is available. The repository root is passed
+  # explicitly, because a Claude Code session can export a different project directory.
+  korean="$root/.korean-style/scripts/hooks/commit-msg.mjs"
+  if [ -f "$korean" ] && command -v node >/dev/null 2>&1; then
+    CLAUDE_PROJECT_DIR="$root" node "$korean" "$msg_file" || exit $?
+  fi
+  exit 0
 fi
 
-# Co-Authored-By policy (CLAUDE.md commit rule): author is nerdkim, and the only
-# sanctioned co-author is mikdren <bot-sidekick@nerd.kim>. Any OTHER
-# co-author (e.g. Claude) or a generated signature is blocked.
-if printf '%s\n' "$body" | grep -iE '^[[:space:]]*co-authored-by:' \
-     | grep -qivE '^[[:space:]]*co-authored-by:[[:space:]]*mikdren[[:space:]]*<bot-sidekick@nerd\.kim>[[:space:]]*$'; then
-  echo "commit-msg: the only allowed co-author is 'Co-Authored-By: mikdren <bot-sidekick@nerd.kim>'." >&2
-  echo "차단: mikdren 외의 Co-Authored-By(예: Claude)를 지운 뒤 다시 commit해 주십시오." >&2
-  exit 1
-fi
-exit 0
+# No fallback. A second, reduced implementation of the same rules is exactly the drift the
+# single-source design at check-commit-messages.sh:2-13 exists to prevent, and the one that
+# used to live here had already diverged: it stripped `#` lines before checking, so text git
+# actually stores for `-m` and `-F` went unread here while CI read it back out of %B and
+# failed on it. It also carried its own copy of the co-author pattern, so an identity change
+# had to be made in two places or the two gates disagreed.
+#
+# A missing checker is a failure, not a reason to degrade: check-structure-conformance [T7]
+# already FAILs on an incomplete guard set and pre-commit runs it first and hard, so the
+# commit is refused one step earlier anyway. Fail closed and name the fix.
+echo "commit-msg: harness/check-commit-messages.sh is missing, so the message rules cannot run." >&2
+echo "차단: guard set이 불완전합니다. 아래 명령으로 guard를 다시 설치한 뒤 commit해 주십시오." >&2
+echo "  git -C playbook pull && bash playbook/install-playbook.sh" >&2
+exit 1

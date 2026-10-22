@@ -12,8 +12,8 @@
 | 기준표 | 언어별 항목 수 | 적용 대상 |
 |---|---|---|
 | 별표 7 | 101 | 일반 ISMS / ISMS-P 신청기관, 전체 기준 |
-| 별표 7의2 | 62 | 소기업, 그리고 정보통신서비스 부문 전년도 매출액 300억원 미만 중기업 |
-| 별표 7의3 | 65 | 정보통신서비스 부문 매출액 300억원 이상 중기업 중 주요 정보통신설비를 직접 설치/운영하지 않고 ISMS, ISMS-P, CSAP 인증을 받은 호스팅/클라우드 서비스를 이용하는 기업 |
+| 별표 7의2 | 62 | 소기업, 그리고 정보통신서비스 부문 전년도 매출액 300억원 미만 중기업 | <!-- conventions-allow: 법령과 고시의 용어(정보통신서비스) 원문 보존 -->
+| 별표 7의3 | 65 | 정보통신서비스 부문 매출액 300억원 이상 중기업 중 주요 정보통신설비를 직접 설치/운영하지 않고 ISMS, ISMS-P, CSAP 인증을 받은 호스팅/클라우드 서비스를 이용하는 기업 | <!-- conventions-allow: 법령과 고시의 용어(정보통신서비스) 원문 보존 -->
 | **합계** | **언어별 228** (문서 456개) | |
 
 별표 7의2와 7의3은 별개의 인증이 아닙니다. 소기업과 중기업의 인증 부담을 덜도록 기준을 완화한 간편인증
@@ -28,7 +28,7 @@
 
 `인증기준` → `주요 확인사항` → `세부 설명` → `관련 법규` → `증적자료` → `결함사례`
 
-## 디렉터리 구조
+## directory 구조
 
 ```
 docs/
@@ -47,9 +47,12 @@ tools/
   build_index.py         docs/에서 파생 색인 전체를 재생성
   check_corpus.py        읽기 전용 무결성 검사 19종
   test_check_corpus.py   위 두 도구의 test
-harness/
-  install-hooks.sh       clone에 git hook을 연결(최초 1회, 설치 절 참고)
+harness/                 playbook guard set. playbook installer가 갱신하며 손으로 고치지 않음
+  bootstrap-hooks.sh     clone에 git hook을 연결(최초 1회, 설치 절 참고)
+  verify.sh              guard 검사 전체를 실행
   check-conventions.sh   문서 규약 검사기(playbook docs/16)
+  conventions-exclude    문서 규약 검사기가 건너뛰는 원문 자료집
+  corpus-repo            그 자료집을 예외로 두는 이유(check [0]의 40% 제한을 풂)
 skill/
   isms-p-review/         Claude Code skill: 전달받은 내용을 인증기준과 대조해 점검(시나리오 S8)
     SKILL.md             절차(routing, 읽기, 판정, 보고 양식)
@@ -111,13 +114,14 @@ schema id `isms-p-defect-rulebook`과 `isms-p-evidence-dictionary`. consumer가 
 **clone마다 한 번씩** 다음을 실행하십시오.
 
 ```bash
-bash harness/install-hooks.sh
+bash harness/bootstrap-hooks.sh
 ```
 
 여러 번 실행해도 안전하고, 세 hook에 실행 권한을 주는 것 외에는 `.git/config` 밖에 아무것도 쓰지
-않습니다. `pre-commit`(문서 규약), `commit-msg`(commit message 규칙), `pre-push`(main 직접 push
-차단)를 활성화합니다. hook은 우회할 수 있는 편의용 guardrail이고, 기준이 되는 gate는 같은 검사기를
-실행하는 CI(`.github/workflows/docs.yml`)입니다.
+않습니다. `pre-commit`(guard 무결성, 문서 규약, 보안 검사), `commit-msg`(commit message 규칙),
+`pre-push`(main 직접 push 차단)를 활성화합니다. hook은 우회할 수 있는 편의용 guardrail입니다. 기준이
+되는 gate는 `main`이 required check로 요구하는 `docs-conventions`(`.github/workflows/conventions.yml`,
+같은 guard 검사기)와 `corpus-integrity`(`.github/workflows/docs.yml`, 아래 자료집 도구)입니다.
 
 나머지는 Python 3(표준 library만), bash, `-P`를 지원하는 GNU grep만 있으면 됩니다. GNU grep은 문서 규약
 검사기와 `commit-msg` hook에 필요합니다.
@@ -147,7 +151,7 @@ skill이 이 symlink를 따라 자료집 root를 찾으므로 skill 사본은 �
 python3 tools/build_index.py    # extended/와 docs/{ko,en}/INDEX.md 재생성
 python3 tools/check_corpus.py   # 읽기 전용 무결성 검사
 python3 tools/test_check_corpus.py  # 위 두 도구의 test
-bash harness/check-conventions.sh
+bash harness/verify.sh          # 문서 규약을 포함한 guard 검사 전체
 ```
 
 `build_index.py`는 결정적입니다. CI가 그 산출물을 재생성해 diff가 있으면 실패하므로, commit된 색인은

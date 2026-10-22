@@ -1,0 +1,106 @@
+# harness/conventions-terms - additional Korean transliterations that check [2] forbids.
+#
+# One term per line, `#` comments allowed. These ADD to the core set hard-coded in
+# check-conventions.sh; they never replace it, so deleting or emptying this file cannot make
+# the rule weaker than the core. A line carrying a regex metacharacter is ignored, so an entry
+# is always a plain literal.
+#
+# The rule (docs/16 s3.1): a document is Korean prose whose IT and engineering terms stay in
+# English. Write "server가 응답합니다", not "서버가 응답합니다".
+#
+# Why this file exists: measured against 85 transliterations a Korean rewrite actually
+# produces, the core set caught 3. Add a term here the first time you catch yourself writing
+# it, and add the pair to the docs/16 s3.1 table in the same change.
+
+# --- runtime and platform ---
+서버
+클라이언트
+라이브러리
+패키지
+릴리스
+세션
+쿠키
+로그인
+로그아웃
+람다
+버킷
+도메인
+인증서
+게이트
+클러스터
+서비스
+노드
+이미지
+레지스트리
+볼륨
+포트
+엔드포인트
+소켓
+스트림
+버퍼
+프로세스
+스레드
+데몬화
+
+# --- request and response ---
+페이로드
+리퀘스트
+리스폰스
+콜백
+이벤트
+핸들러
+라우터
+라우팅
+미들웨어층
+쿼리
+파라미터값
+
+# --- build, test and quality ---
+린터
+린트
+커버리지
+픽스처
+모킹
+스텁
+리뷰
+패치
+롤아웃
+스테이징
+프로덕션
+디버깅
+리팩토링
+컴파일
+트랜스파일
+
+# --- observability ---
+로그
+로깅
+모니터링
+메트릭
+트레이싱
+알람
+백업
+대시보드
+
+# --- files, ui and misc ---
+폴더
+파일명
+유저
+퍼미션
+플래그
+옵션
+로컬
+클론
+브라우저
+렌더링
+인터페이스
+타입스크립트
+스타일시트
+템플릿
+위젯
+스피너
+모달
+툴팁
+엔지니어링
+디렉토리
+레포지터리

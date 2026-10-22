@@ -1,0 +1,239 @@
+# Playbook standard checks. Effective merge blocking requires this job to be a
+# required status check under the repository's actual branch protection.
+# Local hooks provide feedback; workflow edit rights and server-side bypass actors
+# remain separate trust boundaries (docs/20 and docs/21).
+#
+# Deliberately ONE job. Every gate runs as a step inside `docs-conventions`, so the owner
+# registers a single required-check context once and every gate added later is covered with
+# no further server-side action. Splitting into several jobs would silently leave a newly
+# added gate unrequired.
+#
+# Order matters: guard integrity runs FIRST. If the guard set itself was deleted or the
+# workflow neutered, no other result in this run can be trusted.
+#
+# Every step blocks, and a blocking step treats a missing checker as a FAILURE. An "if the file
+# exists, run it" shape would let `rm harness/check-standard-conformance.sh` disable the security
+# gate while CI still reported green. The infra step is the one conditional step, because only an
+# infra repo receives that checker, and check-structure-conformance.sh T7 FAILs an infra repo whose
+# checker is gone. Its findings block too since v0.7.0; only its WARN items stay advisory.
+#
+# Rule sources: docs/16 (writing conventions), docs/12 (commit and branch), docs/01/04/07/12
+# and docs/20 (security P0), docs/10 and docs/13 (guard wiring), docs/03, docs/06 and docs/14
+# (infra structure). Mirrors the playbook repo's own .github/workflows/conventions.yml.
+
+name: conventions
+
+# The push list follows the branch models of docs/12 (D44): `main` is the default and prod
+# branch of every repository, and `develop` is the dev branch of a develop-main repository.
+# `master` is TEMPORARY. A consumer that has not renamed master to main yet keeps its gate through
+# it, and it comes off this list once every consumer has migrated (docs/migrations/v0.7.0.md).
+#
+# A list that misses a repo's own trunk is a fail-open inside the guard's own competence area: a
+# repo whose trunk was `main` once received a workflow that never triggered, so there was no run,
+# no check to require and no gate, while the structure checker reported PASS. T13 now cross-checks
+# this list against the branches the repo actually has, and expects `main` on it in every repo.
+#
+# The pull_request branch filter is deliberately gone: a pull request into ANY branch should be
+# checked. Filtering there is what lets a PR into a release or hotfix branch skip the gate, and
+# a skipped required workflow remains Pending and blocks merging.
+#
+# `edited` runs the job again when a pull request's title or body changes, so the text check in
+# step 3 judges the description as it stands, not as it was when the pull request was opened.
+on:
+  push:
+    branches: [develop, main, master]
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+
+# Docs and guard checks only, no cloud access. Read-only permissions.
+permissions:
+  contents: read
+
+concurrency:
+  group: conventions-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  docs-conventions:
+    name: docs-conventions
+    # A private repository runs on the owner's local runner (scripts/local-runner.sh, D50), a public
+    # one on GitHub-hosted ubuntu-latest, so a stranger's pull request never reaches the owner's PC.
+    # check-structure-conformance.sh T6 accepts this exact expression or a GitHub-hosted ubuntu
+    # label, and nothing else: an arbitrary self-hosted label could be a runner that reports green.
+    runs-on: ${{ github.event.repository.private && fromJSON('["self-hosted","linux","x64"]') || 'ubuntu-latest' }}
+    steps:
+      # Full history: the commit-message backstop reads the message of every commit in the
+      # range, which a shallow clone cannot see.
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      # ---- 0. guard integrity (must run first) -------------------------------
+      # Is the guard itself complete, unmodified, and wired? A deleted checker, a renamed
+      # job, a self-hosted runner, and a decoy workflow are all caught here.
+      - name: Verify guard integrity and wiring (docs/10 s12.2, docs/13, docs/20 s2)
+        run: |
+          test -f harness/check-structure-conformance.sh || {
+            echo "::error::harness/check-structure-conformance.sh is missing; the guard-integrity gate cannot run."
+            exit 1
+          }
+          bash harness/test-lib.sh
+          bash harness/test-check-structure-conformance.sh
+          bash harness/check-structure-conformance.sh .
+
+      # ---- 1. writing conventions (docs/16) ----------------------------------
+      - name: Test the conventions checker (docs/00 D6)
+        run: bash harness/test-check-conventions.sh
+
+      - name: Check writing conventions (docs/16)
+        run: bash harness/check-conventions.sh
+
+      # ---- 2. security conformance (P0, docs/01/04/07/12/20) -----------------
+      # Committed secrets, long-lived keys, admin policies, OIDC self-creation and org
+      # wildcards block the merge.
+      - name: Check security conformance (docs/01/04/07/12/20 P0)
+        run: |
+          test -f harness/check-standard-conformance.sh || {
+            echo "::error::harness/check-standard-conformance.sh is missing. Re-run install-playbook.sh."
+            exit 1
+          }
+          bash harness/test-check-standard-conformance.sh
+          bash harness/check-standard-conformance.sh .
+
+      # ---- 3. commit messages (docs/12 s2, docs/16 s2.1) ---------------------
+      # The only server-side gate for the co-author policy and for forbidden unicode inside a
+      # commit message: a file grep cannot see a message and the commit-msg hook is
+      # bypassable, so this step reads the messages back out of git history.
+      # Every ${{ }} value below is passed through `env:` and referenced as a shell VARIABLE, never
+      # interpolated into the script text. A branch name may legally contain `;`, `$`, a backtick
+      # and a newline, so `RANGE="origin/${{ github.base_ref }}..HEAD"` let a pull request from a
+      # branch named to exploit that run arbitrary shell inside the standard's own gate job.
+      # A pull request's title and body get the same attribution rules (P1, D48): Claude Code writes
+      # its signature and session link into a description too, and nothing else reads that text.
+      - name: Check commit messages and pull request text (docs/12 s2, s5.3, docs/16 s2.1)
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_REF: ${{ github.base_ref }}
+          EVENT_BEFORE: ${{ github.event.before }}
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+          REPO_OWNER: ${{ github.repository_owner }}
+        run: |
+          test -f harness/check-commit-messages.sh || {
+            echo "::error::harness/check-commit-messages.sh is missing. Re-run install-playbook.sh."
+            exit 1
+          }
+          bash harness/test-check-commit-messages.sh
+          if [ "$EVENT_NAME" = "pull_request" ]; then
+            RANGE="origin/$BASE_REF..HEAD"
+          else
+            if [ -n "$EVENT_BEFORE" ] && ! printf '%s' "$EVENT_BEFORE" | grep -qE '^0+$' && git cat-file -e "$EVENT_BEFORE" 2>/dev/null; then
+              RANGE="$EVENT_BEFORE..HEAD"
+            else
+              RANGE="-1 HEAD"
+            fi
+          fi
+          echo "range: $RANGE"
+          bash harness/check-commit-messages.sh --range "$RANGE"
+          if [ "$EVENT_NAME" = "pull_request" ]; then
+            bash harness/check-commit-messages.sh --pr-text
+          fi
+
+      # ---- 4. infra structure (docs/03, docs/06, docs/14) --------------------
+      # Blocking since v0.7.0, like every step above. Module code in a service repository, a
+      # module source other than the playbook's, a PAT for modules, a nested env domain (D17) and
+      # the Cloudflare v4 and local-state rules all FAIL the job; toolchain pins and legacy edge
+      # resources stay WARN. It used to report only, so that pre-existing debt would not freeze a
+      # repo's CI. The v0.7.0 reset moves every project onto the new layout through its own
+      # migration, so the rules can block from then on.
+      #
+      # The self-test runs first and is hard for the reason it always was: a checker that silently
+      # stops matching prints exactly what a clean repo prints, so nobody would notice it died.
+      - name: Check infra conformance (docs/03, docs/06, docs/14)
+        run: |
+          if [ -f harness/check-infra-conformance.sh ]; then
+            test -f harness/test-check-infra-conformance.sh || {
+              echo "::error::harness/check-infra-conformance.sh is present but its self-test is missing (docs/00 D6). Re-run install-playbook.sh."
+              exit 1
+            }
+            bash harness/test-check-infra-conformance.sh
+            bash harness/check-infra-conformance.sh .
+          else
+            echo "no infra checker in this repo; skipping"
+          fi
+
+      # ---- 4b. the templates, scanned as the trees they scaffold into --------
+      # check-standard-conformance.sh excludes `templates/` (the paths there are not this
+      # repo's own infra), so the standard could not see a violation inside the files it
+      # DISTRIBUTES. It shipped one: templates/infra-foundation/_envcommon/sso.hcl declared an
+      # AdministratorAccess permission set, so a freshly scaffolded infra-foundation FAILed the
+      # security gate on its very first commit and the only moves left were --no-verify or
+      # deleting correct configuration. Same class as c7eef72, one checker over.
+      #
+      # So copy templates/ to temporary roots, which is what initialize.sh produces, and run the
+      # real checkers there, the infra checker included. A template directory that carries its own
+      # CLAUDE.md scaffolds a repository of its own (templates/infra-foundation becomes
+      # nerdkim/infra-foundation), so it becomes a root of its own, with its bootstrap/ at the top
+      # where the infra checker's [9] exemption expects it. Everything else is the project
+      # scaffold. The infra checker runs in consumer mode there, so a template that ships module
+      # code or a non-playbook module source FAILs, which the self-mode run in step 4 does not judge.
+      # A template can then never again ship a FAIL this repo cannot see.
+      - name: Check the templates as scaffolded trees (docs/00 D20)
+        run: |
+          if [ -d templates ] && grep -q 'playbook guard-set install' harness/install.sh 2>/dev/null; then
+            scaffold="$(mktemp -d)"
+            trap 'rm -rf -- "$scaffold"' EXIT
+            # Tracked plus untracked-but-not-ignored, like the checkers list files; on a CI checkout
+            # that is the tracked set. A path deleted in the working tree has nothing to copy.
+            files="$(git ls-files --cached --others --exclude-standard templates/)"
+            repos="$(sed -n 's#^templates/\([^/]*\)/CLAUDE\.md$#\1#p' <<< "$files")"
+            while IFS= read -r f; do
+              [ -f "$f" ] || continue
+              rel="${f#templates/}"; top="${rel%%/*}"; root=project
+              if [ "$top" != "$rel" ] && grep -qxF -- "$top" <<< "$repos"; then
+                root="repo-$top"; rel="${rel#*/}"
+              fi
+              dest="$scaffold/$root/$rel"
+              mkdir -p "$(dirname "$dest")"
+              cp "$f" "$dest"
+            done <<< "$files"
+            for root in "$scaffold"/*/; do
+              root="${root%/}"
+              [ -d "$root" ] || continue
+              echo "== scaffold: ${root##*/} =="
+              git -C "$root" init -q -b main
+              git -C "$root" add -A
+              bash harness/check-standard-conformance.sh "$root"
+              bash harness/check-infra-conformance.sh "$root"
+            done
+          else
+            echo "no templates to scaffold-scan in this repo; skipping"
+          fi
+
+      # ---- 5. the installer's self-test (playbook repo only) -----------------
+      # harness/install.sh is the one script that writes into ANOTHER repository, and it is not
+      # distributed: a consumer runs the playbook clone's copy, so neither the installer nor its
+      # self-test appears in the guard set a consumer receives. The step is therefore keyed on
+      # the playbook installer actually being present, the same conditional shape the infra
+      # checker uses above, and present-but-untested is a FAILURE rather than a skip (docs/00 D6).
+      # Keyed on the file's content, not merely its name, so a consumer's own unrelated
+      # harness/install.sh cannot be made to demand a playbook self-test it never received.
+      - name: Test the installer (docs/00 D6)
+        run: |
+          if grep -q 'playbook guard-set install' harness/install.sh 2>/dev/null; then
+            test -f harness/test-install.sh || {
+              echo "::error::harness/install.sh is present but its self-test is missing (docs/00 D6)."
+              exit 1
+            }
+            bash harness/test-install.sh
+            bash harness/test-upgrade.sh
+            bash harness/test-branch-protection.sh
+            python3 scripts/test-bootstrap.py
+            python3 scripts/test-sync-standard.py
+            python3 scripts/test-sync-korean-style.py
+            python3 templates/.github/scripts/test-plan-guard.py
+            python3 templates/infra-foundation/test-bootstrap-auth.py
+          else
+            echo "no playbook installer in this repo; skipping"
+          fi

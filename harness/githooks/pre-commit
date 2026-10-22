@@ -1,22 +1,64 @@
 #!/usr/bin/env bash
 # pre-commit guard - enforce the playbook standard before every commit.
-#   [1] docs/16 conventions: BLOCKING. Always fixable, so it hard-fails the commit.
-#   [2] infra/DNS conformance D17/D18/D19: REPORT ONLY. Architectural gaps are surfaced
-#       but do NOT block the commit, so a repo with pre-existing debt (e.g. self-hosted
-#       DNS pending a re-platform) is not frozen. The authoritative infra gate is CI, and
-#       the fix is owner-gated (docs/00 D20, docs/20 2). Runs only if the checker exists
-#       (the installer copies it for repos that have infra).
-# This one hook works in the playbook repo and in any consumer repo.
-# Enable with: git config core.hooksPath harness/githooks (the harness installer sets it).
-# Local guardrail; the authority gate is CI (docs/20).
+#
+#   [1] guard integrity + wiring (check-structure-conformance.sh): BLOCKING. If the guard set
+#       itself is incomplete, tampered, or has no CI backstop, nothing else checked here means
+#       anything, so this runs first and hard. Every failure it reports is fixed by re-running
+#       `bash playbook/install-playbook.sh`. A repo that deliberately runs without CI records
+#       that decision in harness/ci-optout, which downgrades the CI rule to a warning.
+#   [2] docs/16 writing conventions (check-conventions.sh): BLOCKING. Always fixable.
+#   [3] security conformance P0 (check-standard-conformance.sh): BLOCKING. Committed secrets,
+#       long-lived keys, admin policies, OIDC self-creation, org wildcards, Cognito, tokens in
+#       web storage (docs/20 s2 security gate).
+#   [4] infra conformance (check-infra-conformance.sh, infra repos only): BLOCKING since v0.7.0,
+#       as in CI. Module code in a service repository, a module source other than the playbook's,
+#       a PAT for modules and the DNS and state rules FAIL; toolchain pins and legacy edge
+#       resources only warn. It used to report only, so a repo with pre-existing debt would not be
+#       frozen; the v0.7.0 migration moves each project onto the new layout instead.
+#
+# A checker that exists runs; a checker that is MISSING is caught by [1], which is why this
+# hook never silently skips a gate.
+#
+# One hook works in the playbook repo and in every consumer repo.
+# Enable with: git config core.hooksPath harness/githooks (the installer sets it).
+# Local guardrail; the authoritative gate is the CI required check (docs/20 s2).
 set -uo pipefail
 root="$(git rev-parse --show-toplevel)"
 rc=0
+
+if [ -f "$root/harness/check-structure-conformance.sh" ]; then
+  bash "$root/harness/check-structure-conformance.sh" "$root" || rc=1
+fi
 if [ -f "$root/harness/check-conventions.sh" ]; then
-  bash "$root/harness/check-conventions.sh" || rc=1
+  # --staged, not the whole tree. Two reasons, both measured. The whole-tree scan is linear in
+  # markdown files (21.7 s at 1000, 69 s at 3000), and a gate that costs a minute per commit
+  # teaches `--no-verify`, which switches off every local gate at once. And the whole-tree mode
+  # reads the WORKING TREE, so a violation staged and then cleaned on disk was committed with
+  # this hook installed, enabled and reporting OK. Staged mode reads the blob from the index,
+  # which is the thing actually being committed.
+  #
+  # CI still runs the whole tree (.github/workflows/conventions.yml), because a rule that only
+  # ever sees the diff cannot notice that an untouched file has drifted. Fast here, complete
+  # there.
+  bash "$root/harness/check-conventions.sh" --staged; crc=$?
+  case "$crc" in
+    0) ;;
+    2) # An older installed checker rejects --staged (usage error). Fall back to the whole
+       # tree rather than skipping the gate: an unknown flag must never mean "no check".
+       bash "$root/harness/check-conventions.sh" || rc=1 ;;
+    *) rc=1 ;;
+  esac
+fi
+if [ -f "$root/harness/check-standard-conformance.sh" ]; then
+  bash "$root/harness/check-standard-conformance.sh" "$root" || rc=1
 fi
 if [ -f "$root/harness/check-infra-conformance.sh" ]; then
-  bash "$root/harness/check-infra-conformance.sh" "$root" \
-    || echo "pre-commit: infra/DNS conformance gaps above are REPORTED, not blocking (owner-gated fix; CI is the authority)." >&2
+  bash "$root/harness/check-infra-conformance.sh" "$root" || rc=1
+fi
+
+if [ "$rc" -ne 0 ]; then
+  echo "" >&2
+  echo "pre-commit: blocked. Fix the FAIL items above. If a guard file is missing or stale," >&2
+  echo "re-sync the guard: git -C playbook pull && bash playbook/install-playbook.sh" >&2
 fi
 exit "$rc"

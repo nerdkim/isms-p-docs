@@ -1,9 +1,13 @@
-# Required check for this documents-only repository.
+# Corpus checks for this documents-only repository, next to conventions.yml.
 #
-# Three gates, all dependency-free (bash plus the Python standard library):
-#   1. documentation conventions (playbook docs/16) via the harness scripts
-#   2. corpus integrity: bilingual parity, six-section structure, manifest agreement
-#   3. generated-index drift: regenerating must produce no diff, so extended/ and the
+# conventions.yml is the playbook guard workflow and owns the docs-conventions check (guard
+# integrity, documentation conventions, security P0, commit messages). This workflow owns the
+# corpus-integrity check, and it must not declare a second docs-conventions job: the structure
+# checker (T6) fails a decoy that could satisfy that required context.
+#
+# Two gates, both dependency-free (the Python standard library only):
+#   1. corpus integrity: bilingual parity, six-section structure, manifest agreement
+#   2. generated-index drift: regenerating must produce no diff, so extended/ and the
 #      docs/{ko,en}/INDEX.md files always match the corpus committed alongside them
 #
 # There is no application and no infrastructure in this repository, so there is no node
@@ -27,19 +31,9 @@ env:
   TZ: Asia/Seoul
 
 jobs:
-  conventions:
-    name: docs-conventions
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7
-      - name: Test the conventions checker (playbook docs/00 D6)
-        run: bash harness/test-check-conventions.sh
-      - name: Check documentation conventions (playbook docs/16)
-        run: bash harness/check-conventions.sh
-
   corpus:
     name: corpus-integrity
-    runs-on: ubuntu-latest
+    runs-on: ${{ github.event.repository.private && fromJSON('["self-hosted","linux","x64"]') || 'ubuntu-latest' }}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-python@v6

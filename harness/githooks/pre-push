@@ -1,18 +1,21 @@
 #!/usr/bin/env bash
-# pre-push guard - block a direct push to the protected branch (master/main).
-# Standard: main에는 작업 branch에서 올린 PR과 승인 merge로만 반영합니다(소유자 결정 2026-10-20,
-# docs/12의 develop-master 모델 대신 단일 main branch를 씁니다).
+# pre-push guard - block a direct push to the protected branch, main (D44).
+# Standard: main changes land only through a reviewed PR and an approved merge: the develop to
+# main release PR in a develop-main repo, a work-branch PR in a main-only repo (docs/12, D5/D16).
+# master is TEMPORARY: a repository that has not renamed master to main yet keeps the same guard
+# on it, and it comes off this list once every consumer has migrated (docs/migrations/v0.7.0.md).
 # git feeds "<local ref> <local sha> <remote ref> <remote sha>" lines on stdin.
 # Local guardrail only; server-side branch protection (D16) is the authority, and the
 # owner can bypass with --no-verify when a deliberate exception is needed.
 set -uo pipefail
-protected='refs/heads/master refs/heads/main'
+protected='refs/heads/main refs/heads/master'
 blocked=0
 while read -r _local_ref _local_sha remote_ref _remote_sha; do
   for p in $protected; do
     if [ "$remote_ref" = "$p" ]; then
-      echo "pre-push: direct push to ${remote_ref#refs/heads/} is blocked." >&2
-      echo "차단: master/main에는 직접 push할 수 없습니다. 작업 branch에서 PR을 올리고 승인 merge로 반영해 주십시오." >&2
+      branch="${remote_ref#refs/heads/}"
+      echo "pre-push: direct push to $branch is blocked." >&2
+      echo "차단: ${branch}에는 직접 push할 수 없습니다. develop이나 작업 branch에서 PR을 만들고 승인된 merge로 반영해 주십시오(docs/12)." >&2
       blocked=1
     fi
   done

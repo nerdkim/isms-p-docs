@@ -97,7 +97,7 @@ Do not read all 228 documents. Route first:
    The keywords are a vocabulary, not literal strings to grep for, so match this way:
    - A keyword hits when its content words appear in the assertion in any order, ignoring
      Korean particles and verb endings and English inflection ("계정을 비활성화한 뒤" hits
-     "계정 비활성화"; "개발 서버와 운영 서버가 같은 장비" hits "개발 서버" and "같은 장비";
+     "계정 비활성화"; "개발 서버와 운영 서버가 같은 장비" hits "개발 서버" and "같은 장비"; <!-- conventions-allow: quotes user phrasing or a corpus term verbatim -->
      "sent from personal Gmail" hits "personal email"). Read `topic_ko` and `topic_en` as
      keywords too.
    - Then make one pass in the other direction: for each assertion ask which topics it is
@@ -187,14 +187,14 @@ rests on the checkpoint alone). A verdict of 결함 후보 needs a quoted checkp
 ellipsis (...) and never paraphrase inside quotation marks. If you cannot quote one, it is not a
 finding. One fact is 미충족 only for the checkpoint that asks about it directly; the neighbouring
 items the same fact routed to are usually 정보 부족, because they ask about something else (영역
-분리, 공개서버 보호대책) that the content did not describe. When an assertion describes what people
+분리, 공개서버 보호대책) that the content did not describe. When an assertion describes what people <!-- conventions-allow: quotes user phrasing or a corpus term verbatim -->
 can actually do and the checkpoint asks about a formal act (지정, 등록, 승인, 분류), the assertion
 alone is 정보 부족 for that checkpoint, not 미충족. When a checkpoint's applicability itself turns
 on a fact the content did not give (the encryption table of 2.7.1 depends on which fields the copy
 holds), mark it 정보 부족 and say which fact would turn it into 미충족.
 Some items carry their own exception route: a first checkpoint asks whether something is done
 (개발과 운영 환경의 분리) and a later one asks, where that is unavoidable, whether compensating
-controls are in place (상호 검토, 상급자 모니터링, 변경 승인, 책임추적성). An assertion that fails
+controls are in place (상호 검토, 상급자 모니터링, 변경 승인, 책임추적성). An assertion that fails <!-- conventions-allow: quotes user phrasing or a corpus term verbatim -->
 the first checkpoint alone leaves the item **확인 필요**, with a sentence saying it becomes a
 결함 후보 if the compensating records turn out to be missing (that is what the item's 결함사례
 describes); it is 결함 후보 only when the content also shows the exception unmet. A figure

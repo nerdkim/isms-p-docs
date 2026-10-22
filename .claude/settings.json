@@ -1,0 +1,44 @@
+{
+  "attribution": {
+    "commit": "Co-Authored-By: mikdren <bot-sidekick@nerd.kim>",
+    "pr": "",
+    "sessionUrl": false
+  },
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.korean-style/scripts/hooks/userprompt.mjs\"",
+            "statusMessage": "Claude에게 skill을 먼저 부르라고 알리는 중"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit|NotebookEdit|AskUserQuestion|ExitPlanMode|SendUserFile|Task|Agent|Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.korean-style/scripts/hooks/pretooluse.mjs\"",
+            "statusMessage": "한국어 문체 검사 중"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node \"$CLAUDE_PROJECT_DIR/.korean-style/scripts/hooks/stop.mjs\"",
+            "statusMessage": "최종 답변 문체 검사 중"
+          }
+        ]
+      }
+    ]
+  },
+  "outputStyle": "korean-style"
+}
