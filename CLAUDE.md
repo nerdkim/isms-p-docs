@@ -181,7 +181,17 @@ Claude Code는 이 파일의 project 설정과 아래 공통 규칙을 따릅니
   `git::https://github.com/nerdkim/playbook.git//modules/<aws|cloudflare|grafana>/<name>?ref=<채택한 version>`으로만 가져옵니다.
 - 대표님이 운영하는 service는 playbook docs/23에 따라 Microsoft Clarity와 Grafana Cloud로 관측합니다. 수집 code는 기본으로 꺼져 있고
   project가 값을 넣어야 켜집니다. 사용자가 설치하는 app은 사용자가 켠 경우에만 오류를 보고합니다. Grafana token은 SSM `/shared/`에만 두고
-  repository, Terraform 입력, Lambda 환경 변수에 넣지 않습니다. prod에서 켜기 전에 개인정보 처리방침을 고칩니다.
+  repository, Terraform 입력, Lambda 환경 변수에 넣지 않습니다. dev와 prod 어느 쪽이든 켜기 전에 개인정보 처리방침을 고칩니다.
+- Clarity masking mode는 대표님이 `Balanced`나 `Relaxed`로 정하므로 `Strict`를 요청하지 않습니다(D63). 화면에 글자로 보이는
+  개인정보와 사용자가 쓴 내용(이름, 연락처, 주소, 본문, 금액)을 담은 요소에는 `data-clarity-mask="True"`를 붙입니다(docs/23 5.1절).
+- 화면이나 component를 새로 만들거나 구성, 색, 글꼴, 상호작용을 크게 바꿀 때는 먼저 `frontend-design:frontend-design`과
+  `ui-ux-pro-max:ui-ux-pro-max` skill을 불러 방향과 UX 기준을 정합니다(D61). 문구 수정이나 작은 bug 수정에는 부르지 않습니다.
+  두 skill이 없는 환경이면 건너뛰고 보고에 적습니다.
+- 한국어 site(`<html lang="ko">`)는 날짜를 `yyyy/mm/dd`, 일시를 `yyyy/mm/dd HH:mm`(24시간)으로 받고 보여 줍니다(D60). browser 언어를
+  따르는 native `<input type="date">`, `datetime-local`, `month`와 locale 없는 `toLocaleDateString()`은 쓰지 않습니다. 대신
+  template의 `DateField`와 `formatKoreanDate`를 씁니다(docs/09 5.2절).
+- claude.ai Artifact(HTML page, dashboard, slide, 문서)를 만들거나 열지 않습니다(D62). 결과는 terminal 답변과 repository 파일로
+  전합니다. installer가 project 설정에 `"enableArtifact": false`를 넣어 Claude Code의 Artifact tool을 끕니다.
 - secret, private key, tfstate, auth token을 commit하거나 log로 출력하지 않습니다.
 - web auth는 access token을 memory에 두고 refresh token은 HttpOnly cookie로 다룹니다.
   native refresh token은 OS secure storage에 둡니다. browser storage에 auth token을 저장하지 않습니다.
@@ -204,5 +214,5 @@ Claude Code는 이 파일의 project 설정과 아래 공통 규칙을 따릅니
 playbook을 최신 version으로 올리라는 요청은 `playbook/.claude/skills/playbook-setup/SKILL.md`대로 합니다.
 채택한 version 다음부터 최신까지의 `playbook/docs/migrations/` note를 순서대로 적용하고 push와 release까지 마칩니다.
 
-playbook version: v0.10.5 (synced 2026-10-22)
+playbook version: v0.10.9 (synced 2026-10-24)
 <!-- playbook-standard:end -->

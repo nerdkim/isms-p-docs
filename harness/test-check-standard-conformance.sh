@@ -51,6 +51,24 @@ expect "data-source OIDC + specific sub -> PASS" 0
 
 mkrepo; printf 'const y = z as any\n' > "$tmp/a.ts"; ( cd "$tmp" && git add -A )
 expect "gate-bypass token (WARN only) -> PASS" 0
+w1out="$( cd "$tmp" && bash "$CHK" . 2>&1 )"
+if grep -q 'a.ts:1:' <<< "$w1out"; then
+  echo "  PASS W1 reports 'as any'"
+else
+  echo "  FAIL W1 missed 'as any'"; fails=1
+fi
+
+# A type whose name starts with Any is a cast to that type, not the any escape hatch (W1 is
+# case-insensitive, so 'as AnyValueMap' used to match).
+mkrepo; printf 'attributes: attributes as AnyValueMap,\nconst y = z as any;\n' > "$tmp/a.ts"; ( cd "$tmp" && git add -A )
+w1out="$( cd "$tmp" && bash "$CHK" . 2>&1 )"
+if grep -q 'a.ts:1:' <<< "$w1out"; then
+  echo "  FAIL W1 reported a cast to AnyValueMap"; fails=1
+elif grep -q 'a.ts:2:' <<< "$w1out"; then
+  echo "  PASS W1 skips 'as AnyValueMap' and still reports 'as any;'"
+else
+  echo "  FAIL W1 missed 'as any;' next to a typed cast"; fails=1
+fi
 
 # ---- S8 OIDC trust must assert both aud and sub -------------------------------
 mkrepo

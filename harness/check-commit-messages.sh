@@ -29,7 +29,8 @@
 # Severity ratchet (brownfield-friendly, docs/11): M1 and M2 are always FAIL because the
 # commit-msg hook already enforced them, so CI only closes the bypass. M3 to M5 and M7 are
 # later rules and start as WARN so adopting an existing repo is not blocked by pre-existing
-# history. Promote them to FAIL for a repo that is clean by creating the marker file
+# history. Promote them to FAIL for a repo that is clean over the range its pull requests check
+# (see the adoption cutoff below) by creating the marker file
 # `harness/commitmsg-strict` (the new-project scaffold creates it) or by exporting
 # COMMITMSG_STRICT=1. M6 and M8 stay advisory even under STRICT: M6 because a commit that
 # changes a Korean-language rule must be able to quote the Korean form it changes, and M8
@@ -37,12 +38,19 @@
 # already-adopted repo's own history into a merge blocker on the day the identity changed.
 #
 # Adoption cutoff (docs/21 s4.2). `harness/commit-gate-since` bounds the OLD end of the range
-# for M2 to M8, so a repo adopting the standard is judged on the commits it writes afterwards
-# rather than on everything it ever wrote. The file holds a sha or an ISO date on its first
-# non-comment line and a mandatory reason on the next; a reasonless marker suppresses nothing
-# and FAILs, mirroring the conventions-allow self-defense (docs/16 s6.2). M1 is never bounded:
-# a forbidden character in an old message is still worth naming, and the range is bounded by
-# the base ref anyway.
+# for the identity rules M2, M5, M7 and M8 only, so a repo adopting the standard is judged on the
+# identity (co-author, signature, author, trailer) of the commits it writes afterwards: none of
+# those can be retrofitted to history that already exists. The file holds a sha or an ISO date on
+# its first non-comment line and a mandatory reason on the next; a reasonless marker suppresses
+# nothing and FAILs, mirroring the conventions-allow self-defense (docs/16 s6.2). M1 is never
+# bounded: a forbidden character in an old message is still worth naming, and the range is bounded
+# by the base ref anyway. The shape rules M3 and M4 and the M6 advisory are not bounded either, on
+# purpose (harness/install.sh probes the real history the same way): every commit in the range is
+# judged on its subject, pre-adoption ones included. Under strict mode a pull request whose range
+# still reaches pre-adoption commits with non-Conventional subjects therefore fails M3. Before
+# creating `harness/commitmsg-strict` by hand, run this checker with COMMITMSG_STRICT=1 over the
+# range a release PR checks: `--range origin/main..develop` in a develop-main repository, or
+# `--range origin/main..<work branch>` in a main-only one.
 #
 # Public repository (docs/22 s7). `harness/public-repo` marks a repository that outside
 # contributors commit to. The identity rules M2, M5, M7 and M8 describe the OWNER's commits (his
@@ -189,7 +197,8 @@ is_contributor() {
 }
 
 # ---- adoption cutoff -------------------------------------------------------
-# `harness/commit-gate-since` bounds the old end of the range for M2 to M8. Format: the first
+# `harness/commit-gate-since` bounds the old end of the range for the identity rules M2, M5, M7
+# and M8; M1, M3, M4 and M6 still judge every commit in the range (see the header). Format: the first
 # non-comment line is a sha or an ISO date, the second is the reason. The reason is MANDATORY,
 # for the same reason `conventions-allow` requires one: a bare marker is the cheapest way to
 # switch a rule off for an entire history, and a suppression nobody had to justify is one
@@ -266,9 +275,9 @@ strip_comments() { awk -v c="$CC" 'index($0, c) != 1'; }
 # check_msg LABEL MSG_FULL MSG_CLEAN AUTHOR_NAME AUTHOR_EMAIL [PRE_ADOPTION] [SHA]
 # MSG_FULL feeds the FAIL rules; MSG_CLEAN (comments removed) feeds the subject-shape rules.
 # In range mode both are %B, which git has already cleaned.
-# PRE_ADOPTION=1 marks a commit at or before the adoption cutoff: M2 to M8 are skipped for it,
-# M1 still runs. In a public repository a contributor commit skips the identity rules M2, M5, M7 and
-# M8 the same way; M1, M3, M4 and M6 still run.
+# PRE_ADOPTION=1 marks a commit at or before the adoption cutoff: the identity rules M2, M5, M7 and
+# M8 are skipped for it, and M1, M3, M4 and M6 still run. In a public repository a contributor commit
+# is treated the same way.
 # SHA names the commit in range mode. The hook passes none, so the message it is about to record is
 # always held to the session link rule; in a range, BASE_HAS_RULE or the commit's own tree decides.
 check_msg() {
@@ -409,7 +418,7 @@ if [ -n "$CUTOFF_BAD" ]; then
   say "         Format: line 1 a commit sha or an ISO date, line 2 the reason it was set."
   FAIL=1
 elif [ -n "$CUTOFF" ]; then
-  say "  adoption cutoff: $CUTOFF_KIND $CUTOFF (M2 to M8 are not applied at or before it)"
+  say "  adoption cutoff: $CUTOFF_KIND $CUTOFF (M2, M5, M7 and M8 are not applied at or before it; M1, M3, M4 and M6 are)"
 fi
 # The public repository marker gets the same treatment as the cutoff: it narrows what the gate
 # checks, so an unusable one FAILs and grants nothing, and a valid one is always announced.
@@ -468,7 +477,7 @@ else
   say "  commits checked: $n"
   # Always print what the cutoff removed from scope. A bound nobody can see is a bound nobody
   # reviews, which is how an adoption aid becomes a permanent blanket exemption.
-  [ "$skipped" -gt 0 ] && say "  pre-adoption commits (M2 to M8 not applied): $skipped"
+  [ "$skipped" -gt 0 ] && say "  pre-adoption commits (M2, M5, M7 and M8 not applied): $skipped"
   # The same for the public repository split: the number of commits judged as a contributor's.
   [ "$CONTRIB" -gt 0 ] && say "  contributor commits (M2, M5, M7 and M8 not applied): $CONTRIB"
 fi
