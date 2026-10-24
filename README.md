@@ -176,9 +176,14 @@ sentence reworded on one side only passes CI, so review has to catch it.
 
 ## License
 
-- Code and tooling: MIT. See [LICENSE](LICENSE).
+- Code and tooling: PolyForm Noncommercial 1.0.0. See [LICENSE](LICENSE).
 - The corpus (original explanations, English translation, and the compilation under `docs/`):
-  CC BY 4.0. See [LICENSE-CONTENT](LICENSE-CONTENT) and [NOTICE](NOTICE).
+  CC BY-NC 4.0. See [LICENSE-CONTENT](LICENSE-CONTENT) and [NOTICE](NOTICE).
+
+Both licenses allow noncommercial use only; commercial use needs a separate permission from
+NerdKim. Since they restrict commercial use, they are source-available terms, not open source
+licenses in the OSI sense. Until 2026-10-24 the project was offered under MIT and CC BY 4.0, and
+copies obtained under those terms keep them.
 
 These licenses cover this project's own work only. The official ISMS-P source material (the Notice
 issued by the Ministry of Science and ICT and the Personal Information Protection Commission, and
