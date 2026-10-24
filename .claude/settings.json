@@ -40,5 +40,6 @@
       }
     ]
   },
-  "outputStyle": "korean-style"
+  "outputStyle": "korean-style",
+  "enableArtifact": false
 }

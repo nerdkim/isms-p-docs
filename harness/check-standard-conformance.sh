@@ -453,8 +453,10 @@ report FAIL "pull_request_target, issue_comment or workflow_run with id-token: w
   "$(printf '%s' "$s15" | sed '/^$/d')"
 
 # W1: gate-bypass tokens
+# grepf ignores case, so "as any" must end at a non-word character: `as AnyValueMap` (an
+# OpenTelemetry type the API template casts to) is a named type, not the any escape hatch.
 report WARN "gate-bypass token: as any / ts-ignore / ts-nocheck / eslint-disable / .skip( (docs/20 s5)" \
-  "$(grepf '(as any|@ts-ignore|@ts-nocheck|eslint-disable|\.skip\()' ${code+"${code[@]}"})"
+  "$(grepf '(as any([^[:alnum:]_]|$)|@ts-ignore|@ts-nocheck|eslint-disable|\.skip\()' ${code+"${code[@]}"})"
 
 # W2: free-tier forbidden resources. Secrets Manager and Cognito are handled as FAIL above
 # (S13/S11) and are left out here so a single violation is not reported twice. CloudFront left the

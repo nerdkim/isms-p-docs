@@ -342,8 +342,9 @@ commit_raw "Merge 8f9a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a into 1a2b3c4d5e6f7a8b
 expect "GitHub PR merge-ref subject under strict -> PASS" "HEAD~1..HEAD" 0
 
 # --- adoption cutoff (harness/commit-gate-since) ------------------------------
-# A brownfield repo is judged on the commits it writes after adoption, not on everything it
-# ever wrote. The cutoff bounds M2 to M8; M1 is never bounded.
+# A brownfield repo is judged on the identity of the commits it writes after adoption, not of
+# everything it ever wrote. The cutoff bounds the identity rules M2, M5, M7 and M8 only; M1 and the
+# shape rules M3 and M4 judge every commit in the range.
 cutoff() { mkdir -p "$tmp/harness"; printf '%s\n%s\n' "$1" "${2-adopted the standard on this commit}" > "$tmp/harness/commit-gate-since"; }
 
 mkrepo
@@ -369,7 +370,32 @@ commit "feat(new): clean"
 cutoff "$cut_sha"
 expect "forbidden unicode BEFORE the cutoff is still caught -> FAIL" "HEAD~2..HEAD" 1
 
-# The cutoff is the cheapest way to switch M2 to M8 off across a whole history, so it defends
+# The shape rules are not bounded either (harness/install.sh probes the real history the same way).
+# A repository that turned strict on by hand while a release range still reached such a commit
+# failed its release PR, because the report claimed the cutoff skipped "M2 to M8".
+mkrepo; strict_on
+commit "made some changes before adoption"
+cut_sha="$( cd "$tmp" && git rev-parse HEAD )"
+commit "feat(new): post-adoption"
+cutoff "$cut_sha"
+expect_says "non-conventional subject BEFORE the cutoff under strict -> FAIL (M3 is not bounded)" "HEAD~2..HEAD" 1 \
+  "M3 subject is not Conventional Commits"
+
+# The report names exactly the rules the cutoff skips.
+mkrepo
+commit "feat(old): pre-adoption"
+cut_sha="$( cd "$tmp" && git rev-parse HEAD )"
+commit "feat(new): post-adoption"
+cutoff "$cut_sha"
+out="$( cd "$tmp" && bash "$CHK" --range HEAD~2..HEAD 2>&1 )"; got=$?
+if [ "$got" = 0 ] && grep -qF "pre-adoption commits (M2, M5, M7 and M8 not applied): 1" <<< "$out" \
+   && grep -qF "M1, M3, M4 and M6 are)" <<< "$out" && ! grep -qF "M2 to M8" <<< "$out"; then
+  echo "  PASS the cutoff report names the identity rules it skips and the rules it keeps (rc=$got)"
+else
+  echo "  FAIL the cutoff report names the identity rules it skips and the rules it keeps (rc=$got)"; fails=1
+fi
+
+# The cutoff is the cheapest way to switch the identity rules off across a whole history, so it defends
 # itself the way conventions-allow does: no stated reason suppresses nothing, and an
 # unresolvable value is a failure rather than a silent full-history exemption.
 mkrepo; commit "feat(x): ok"; cutoff "$( cd "$tmp" && git rev-parse HEAD )" ""
