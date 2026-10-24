@@ -4,34 +4,43 @@ NOTICE
 Information Security Criteria Reference
 Copyright (c) 2026 NerdKim (https://security.nerd.kim)
 
-This project is offered under two licenses, plus a boundary for third-party
-source material:
+This project is offered under two noncommercial licenses, plus a boundary for
+third-party source material:
 
-1. Software (MIT)
+1. Software (PolyForm Noncommercial License 1.0.0)
    The builders and the integrity checker (tools/), the guard set (harness/),
    the CI workflow and repository configuration (.github/ and the root config
    files), and the machine-generated index files (extended/manifest.json and
-   extended/index/) are licensed under the MIT License. See LICENSE. Official
-   text that the index files quote (such as the nonconformity and evidence
-   examples taken from the guide) stays under the third-party clause below.
+   extended/index/) are licensed under the PolyForm Noncommercial License
+   1.0.0. See LICENSE. Official text that the index files quote (such as the
+   nonconformity and evidence examples taken from the guide) stays under the
+   third-party clause below.
 
-2. Documentation and reference collection (CC BY 4.0)
+2. Documentation and reference collection (CC BY-NC 4.0)
    The original explanatory text, the English translations, and the selection,
    structuring, and compilation of the material (the content under docs/, and
    the prose in the meta/project documents) are licensed under the Creative
-   Commons Attribution 4.0 International License. See LICENSE-CONTENT. The prose
-   under extended/ (README, USAGE, prompts/, templates/) is documentation and
-   falls here, not under section 1.
+   Commons Attribution-NonCommercial 4.0 International License. See
+   LICENSE-CONTENT. The prose under extended/ (README, USAGE, prompts/,
+   templates/) is documentation and falls here, not under section 1.
 
-You may use, adapt, and redistribute the above for any purpose, including
-commercial use, by individuals or organizations, provided you give appropriate
-credit to NerdKim.
+You may use, adapt, and redistribute the above for any noncommercial purpose,
+as an individual or an organization, provided you give appropriate credit to
+NerdKim. Commercial use needs a separate permission from NerdKim
+(https://nerd.kim).
+
+Earlier terms
+-------------
+Until 2026-10-24 this project was offered under the MIT License (software) and
+CC BY 4.0 (documentation and collection). Copies obtained under those terms
+keep them. The terms above apply from the commit that added this section on.
 
 Attribution
 -----------
 A reasonable credit line, for example:
    "Information Security Criteria Reference by NerdKim
-    (https://security.nerd.kim), code under MIT, content under CC BY 4.0."
+    (https://security.nerd.kim), code under PolyForm Noncommercial 1.0.0,
+    content under CC BY-NC 4.0."
 
 Third-party source material (NOT licensed by this project)
 ----------------------------------------------------------
