@@ -50,7 +50,7 @@
 #   FAIL S15 a workflow pairs pull_request_target, issue_comment or workflow_run with id-token: write (or write-all) (docs/04)
 #   WARN W1 gate-bypass token: as any / @ts-ignore / @ts-nocheck / eslint-disable / .skip( (docs/20 s5)
 #   WARN W2 free-tier forbidden resource (docs/01 s4.1); CloudFront is the standard edge since v0.7.0
-#   WARN W3 direct AI provider SDK; AI goes through Bedrock (docs/19 s1)
+#   WARN W3 direct AI provider SDK; AI goes through Bedrock or Cloudflare Workers AI (docs/19 s1)
 #   WARN W4 Lambda Node runtime older than LAMBDA_NODE_MIN (docs/05 s4, docs/07 s1)
 #
 # Usage: bash check-standard-conformance.sh [ROOT]   (ROOT default = cwd)
@@ -465,12 +465,12 @@ report WARN "gate-bypass token: as any / ts-ignore / ts-nocheck / eslint-disable
 report WARN "free-tier forbidden resource (docs/01 s4.1)" \
   "$(grepf '(aws_nat_gateway|aws_eip|aws_db_instance|aws_rds_cluster|aws_route53_zone|provisioned_concurrent_executions)' ${iac+"${iac[@]}"} | drop_noise)"
 
-# W3: AI access goes through Bedrock, never a provider SDK wired directly into the app (D9,
-# docs/19 s1). Cloudflare Workers AI was a second route until v0.7.0 and is a direct provider SDK
-# now like the others. WARN because a dev-only or evaluation script is a legitimate exception that
-# this grep cannot distinguish.
-report WARN "direct AI provider SDK; route AI through Bedrock (docs/19 s1)" \
-  "$(grepf '(openai|@anthropic-ai/sdk|@google/generative-ai|@mistralai/|cohere-ai|@cloudflare/ai|workers-ai-provider)' ${code+"${code[@]}"} | drop_noise)"
+# W3: AI access goes through Bedrock or Cloudflare Workers AI, never another provider's SDK wired
+# directly into the app (D67, docs/19 s1). Workers AI left the standard in v0.7.0 and came back in
+# v0.10.12 as a REST route from the backend, so its packages are not reported. WARN because a
+# dev-only or evaluation script is a legitimate exception that this grep cannot distinguish.
+report WARN "direct AI provider SDK; route AI through Bedrock or Cloudflare Workers AI (docs/19 s1)" \
+  "$(grepf '(openai|@anthropic-ai/sdk|@google/generative-ai|@mistralai/|cohere-ai)' ${code+"${code[@]}"} | drop_noise)"
 
 # W4: a Lambda Node runtime older than LAMBDA_NODE_MIN (top of this file). The runtime id is the one
 # Node version the standard writes down; every other Node floats on the current LTS. A line WARNs
