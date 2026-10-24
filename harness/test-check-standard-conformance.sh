@@ -169,11 +169,15 @@ expect "api_token from a variable -> PASS" 0
 # ---- W3 / W4 stay advisory ---------------------------------------------------
 mkrepo; printf 'import OpenAI from "openai"\n' > "$tmp/a.ts"; ( cd "$tmp" && git add -A )
 expect "direct AI provider SDK (WARN only) -> PASS" 0
-reports "W3 names Bedrock as the only route" 0 yes "direct AI provider SDK; route AI through Bedrock"
+reports "W3 names the two sanctioned routes" 0 yes "direct AI provider SDK; route AI through Bedrock or Cloudflare Workers AI"
 
-# Cloudflare Workers AI stopped being a sanctioned route in v0.7.0, so its SDK is a direct one now.
-mkrepo; printf 'import { Ai } from "@cloudflare/ai"\n' > "$tmp/a.ts"; ( cd "$tmp" && git add -A )
-reports "W3 the Cloudflare Workers AI SDK is a direct provider SDK too (WARN)" 0 yes "a.ts:1:"
+# Cloudflare Workers AI is a sanctioned route again since v0.10.12 (D67), so its packages pass.
+mkrepo; printf 'import { Ai } from "@cloudflare/ai"\nimport { createWorkersAI } from "workers-ai-provider"\n' > "$tmp/a.ts"; ( cd "$tmp" && git add -A )
+reports "W3 the Cloudflare Workers AI packages are not reported" 0 no "a.ts:"
+
+# Another provider's SDK still is.
+mkrepo; printf 'import Anthropic from "@anthropic-ai/sdk"\n' > "$tmp/a.ts"; ( cd "$tmp" && git add -A )
+reports "W3 still reports another provider's SDK" 0 yes "a.ts:1:"
 
 mkrepo; printf 'runtime = "nodejs20.x"\n' > "$tmp/a.tf"; ( cd "$tmp" && git add -A )
 expect "nodejs20.x runtime (WARN only) -> PASS" 0

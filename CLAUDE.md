@@ -163,8 +163,10 @@ Claude Code는 이 파일의 project 설정과 아래 공통 규칙을 따릅니
 - 이 신원은 playbook 본체와 표준을 채택한 모든 신규/기존 project에 공통입니다. `.claude/settings.json`의
   `attribution`이 이 trailer를 지정하고 session link를 끕니다. `git commit -m`/`-F`나 custom template을 쓸 때도
   message에 trailer를 직접 넣고 결과를 확인합니다.
-- default branch와 prod branch는 `main`이고 `master`는 쓰지 않습니다. infra가 있으면 `develop`(dev)을 함께 두고,
-  없으면 `main` 하나만 씁니다. 아직 옮기지 않은 project는 migration note를 따릅니다. `main`에는 PR merge로만 반영합니다.
+- default branch와 prod branch는 `main`이고 `master`는 쓰지 않습니다. 아직 옮기지 않은 project는 migration note를 따릅니다.
+  `develop`을 함께 둘지는 대표님이 project마다 정하고, 이미 쓰는 model은 기본값과 달라도 그대로 둡니다. 정하지 않았으면
+  code가 있는 project는 `develop`을 두고(infra가 있으면 `develop`이 dev), 주로 문서만 다루는 repository는 `main` 하나만
+  씁니다(D68). `main`에는 PR merge로만 반영합니다.
 - 문서는 Korean 합니다체로, code와 comment, commit/PR은 English로 씁니다. 금지 unicode 문장 부호는
   ASCII hyphen, 쉼표, 괄호로 바꿉니다. 자세한 내용은 docs/16에 있습니다.
 
@@ -215,5 +217,5 @@ Claude Code는 이 파일의 project 설정과 아래 공통 규칙을 따릅니
 playbook을 최신 version으로 올리라는 요청은 `playbook/.claude/skills/playbook-setup/SKILL.md`대로 합니다.
 채택한 version 다음부터 최신까지의 `playbook/docs/migrations/` note를 순서대로 적용하고 push와 release까지 마칩니다.
 
-playbook version: v0.10.11 (synced 2026-10-24)
+playbook version: v0.10.12 (synced 2026-10-25)
 <!-- playbook-standard:end -->
