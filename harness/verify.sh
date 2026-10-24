@@ -47,6 +47,8 @@ if [ "$SELF_TESTS" -eq 1 ]; then
     run_clean templates/infra-foundation/.github/scripts/test-plan-guard.py python3 templates/infra-foundation/.github/scripts/test-plan-guard.py
     run_clean scripts/test-initialize.sh bash scripts/test-initialize.sh
     run_clean scripts/test-infra-templates.sh bash scripts/test-infra-templates.sh
+    run_clean modules/aws/cloudfront-function/tests/viewer-request.test.mjs \
+      node --test modules/aws/cloudfront-function/tests/viewer-request.test.mjs
   fi
 fi
 bash harness/check-structure-conformance.sh .

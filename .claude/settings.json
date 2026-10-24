@@ -33,6 +33,16 @@
         "hooks": [
           {
             "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/harness/docs-stop-hook.sh\"",
+            "timeout": 15,
+            "statusMessage": "문서 갱신 확인(D49)"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
             "command": "node \"$CLAUDE_PROJECT_DIR/.korean-style/scripts/hooks/stop.mjs\"",
             "statusMessage": "최종 답변 문체 검사 중"
           }
