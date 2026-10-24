@@ -229,11 +229,13 @@ jobs:
             bash harness/test-install.sh
             bash harness/test-upgrade.sh
             bash harness/test-branch-protection.sh
+            bash harness/test-docs-stop-hook.sh
             python3 scripts/test-bootstrap.py
             python3 scripts/test-sync-standard.py
             python3 scripts/test-sync-korean-style.py
             python3 templates/.github/scripts/test-plan-guard.py
             python3 templates/infra-foundation/test-bootstrap-auth.py
+            node --test modules/aws/cloudfront-function/tests/viewer-request.test.mjs
           else
             echo "no playbook installer in this repo; skipping"
           fi

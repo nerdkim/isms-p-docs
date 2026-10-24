@@ -203,6 +203,7 @@ Claude Code는 이 파일의 project 설정과 아래 공통 규칙을 따릅니
   project에 기록한 검증 명령을 씁니다. 변경과 관련된 test를 실행합니다.
 - 작업을 끝내기 전에 README와 관련 문서(`docs/`, 변경 이력)를 실제 변경에 맞추고 같은 commit에 넣습니다(D49). 명령, 설정,
   구조, 동작, 사용법이 바뀌었는데 문서가 그대로면 작업이 끝난 것이 아닙니다. 고칠 문서가 없으면 확인한 결과를 보고에 적습니다.
+  문서는 그대로 두고 code나 설정만 바꾼 채 마치려 하면 Stop hook(`harness/docs-stop-hook.sh`)이 한 번 되묻습니다(D65).
 - GitHub repository 정보(description, homepage, topics)와 LICENSE도 같은 작업에서 맞춥니다(D51). `bash playbook/scripts/repo-about.sh`가
   고칠 것을 알려 주고 `release-pr.sh`도 release마다 실행합니다. description은 `gh repo edit`로 고칩니다. license를 새로 정하거나
   종류를 바꾸는 일은 대표님께 여쭙니다.
@@ -214,5 +215,5 @@ Claude Code는 이 파일의 project 설정과 아래 공통 규칙을 따릅니
 playbook을 최신 version으로 올리라는 요청은 `playbook/.claude/skills/playbook-setup/SKILL.md`대로 합니다.
 채택한 version 다음부터 최신까지의 `playbook/docs/migrations/` note를 순서대로 적용하고 push와 release까지 마칩니다.
 
-playbook version: v0.10.9 (synced 2026-10-24)
+playbook version: v0.10.11 (synced 2026-10-24)
 <!-- playbook-standard:end -->
