@@ -147,6 +147,8 @@ Claude Code는 이 파일의 project 설정과 아래 공통 규칙을 따릅니
   대표님께 `aws sso login`을 요청하지 않습니다.
 - private repository의 CI job은 대표님 PC의 local runner에서 돕니다(D50). runner가 없으면 첫 push 전에
   `bash playbook/scripts/local-runner.sh add <owner/repo>`로 띄웁니다. public repository는 GitHub-hosted runner를 씁니다.
+  project가 따로 만든 workflow도 모든 Linux job의 `runs-on`에 template의 선택식을 씁니다(D72). Docker나 arm64가 필요해
+  hosted label을 남기는 job만 그 줄 끝에 `# hosted-runner: <이유>`를 적습니다.
 - 묻는 경우는 prod 검사가 막은 변경(data를 지우거나 다시 만드는 변경, 보호를 끄는 값), 공용 CI role과
   OIDC provider 변경, 무료 범위를 넘는 resource의 첫 도입, 외부 발송과 store 제출, license를 새로 정하거나 바꾸는 일입니다.
   작업 요청을 다른 repository의 deploy 승인으로 넓혀 해석하지 않습니다.
@@ -226,5 +228,5 @@ Claude Code는 이 파일의 project 설정과 아래 공통 규칙을 따릅니
 playbook을 최신 version으로 올리라는 요청은 `playbook/.claude/skills/playbook-setup/SKILL.md`대로 합니다.
 채택한 version 다음부터 최신까지의 `playbook/docs/migrations/` note를 순서대로 적용하고 push와 release까지 마칩니다.
 
-playbook version: v0.10.13 (synced 2026-10-27)
+playbook version: v0.10.14 (synced 2026-10-27)
 <!-- playbook-standard:end -->
