@@ -805,5 +805,28 @@ check_says "T11 prepare sets core.hooksPath itself -> no prepare warning" 0 no "
 t11pkg '{ "name": "x", "scripts": { "verify": "pnpm check" } }'
 check_says "T11 no prepare script -> WARN, still PASS" 0 yes "T11 package.json has no prepare script"
 
+# T18: every Linux job goes through the runner expression (D50, D72). A hosted x64 label is named,
+# a reasoned `# hosted-runner:` keeps it quietly, and other operating systems, arm64 and matrix
+# values are not this check's business.
+t18wf() { printf 'on: push\njobs:\n  build:\n    runs-on: %s\n    steps:\n      - run: echo hi\n' "$1" > "$tmp/.github/workflows/app.yml"; git -C "$tmp" add -A; }
+mkconsumer
+check_says "T18 the fixture's own workflow uses the expression -> no T18" 0 no "T18"
+t18wf 'ubuntu-latest'
+check_says "T18 a job on ubuntu-latest -> WARN, still PASS" 0 yes "T18 a Linux job names a GitHub-hosted runner"
+t18wf 'ubuntu-24.04   # pinned image'
+check_says "T18 a pinned ubuntu image with a plain comment -> WARN" 0 yes "app.yml:4: runs-on: ubuntu-24.04"
+t18wf 'ubuntu-latest  # hosted-runner: its services need Docker'
+check_says "T18 a hosted label kept with a reason -> no T18" 0 no "T18"
+t18wf 'ubuntu-latest  # hosted-runner:'
+check_says "T18 a marker without a reason still warns" 0 yes "T18 a Linux job names a GitHub-hosted runner"
+t18wf "\${{ github.event.repository.private && fromJSON('[\"self-hosted\",\"linux\",\"x64\"]') || 'ubuntu-24.04' }}"
+check_says "T18 the standard expression with another fallback -> no T18" 0 no "T18"
+for label in macos-latest windows-2022 ubuntu-24.04-arm '${{ matrix.os }}'; do
+  t18wf "$label"
+  check_says "T18 runs-on: $label is not reported" 0 no "T18"
+done
+mkconsumer; public_layout; as_owner; t18wf 'ubuntu-latest'
+check_says "T18 a public repository is skipped" 0 no "T18"
+
 echo ""
 if [ "$fails" = 0 ]; then echo "ALL TESTS PASSED"; exit 0; else echo "SOME TESTS FAILED"; exit 1; fi

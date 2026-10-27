@@ -26,6 +26,7 @@
 #   WARN T15 a guard file exists but is untracked, so it does not travel and CI never runs it
 #   WARN T16 the Korean writing style is not installed, or its scripts or hooks are missing locally (docs/22 s6)
 #   FAIL T17 public repository: the marker is unusable, or a personal file or setting is published (docs/22 s7)
+#   WARN T18 a Linux job names a GitHub-hosted runner label instead of the standard expression (D50, docs/04 4.7)
 #
 # Scope note: T11 reads .git/config, which is not committed, so it is skipped under CI (a
 # fresh checkout never has it). The committed half of the hook wiring is T2 plus the root
@@ -709,6 +710,29 @@ if [ "$PUBLIC" -eq 1 ]; then
   if LC_ALL=C.UTF-8 grep -qP '[\x{AC00}-\x{D7A3}]' CLAUDE.md 2>/dev/null; then
     report WARN "T17 public repository: CLAUDE.md contains Korean text; it is the public guidance, and personal or Korean instructions belong in CLAUDE.local.md (docs/22 s7)"
   fi
+fi
+
+# ---- T18 every Linux job goes through the runner expression ------------------
+# D50 runs every Linux job of a private repository on the owner's local runner through the standard
+# runs-on expression, which still sends a public repository to GitHub-hosted. A job that names a
+# hosted x64 label directly bypasses it: in a private repository it waits on GitHub's billing and
+# never reaches the local runner (on 2026-10-26 GitHub refused every such job for a failed payment,
+# D72). The local runner has no Docker and no arm64, so a job that needs either may keep its label
+# with a reason in a trailing `# hosted-runner: <reason>` on the runs-on line. macOS, Windows and
+# arm64 labels and matrix-driven values are not reported. A public repository (harness/public-repo)
+# is skipped, since the expression changes nothing there. WARN: the job still runs where it says.
+if [ "$PUBLIC" -eq 0 ]; then
+  hosted=""
+  while IFS= read -r wf; do
+    [ -f "$wf" ] && [ ! -L "$wf" ] || continue
+    while IFS= read -r hit; do
+      [ -n "$hit" ] || continue
+      grep -qE '#[[:space:]]*hosted-runner:[[:space:]]*[^[:space:]]{3,}' <<< "${hit#*:}" && continue
+      hosted="${hosted}${wf}:${hit%%:*}: $(sed -E 's/^[[:space:]]+//' <<< "${hit#*:}")"$'\n'
+    done < <(grep -nE '^[[:space:]]*runs-on:[[:space:]]*ubuntu-(latest|[0-9]{2}\.[0-9]{2})[[:space:]]*(#.*)?$' "$wf" || true)
+  done < <(git -c core.quotePath=false ls-files -- '.github/workflows/*.yml' '.github/workflows/*.yaml' 2>/dev/null)
+  [ -n "$hosted" ] && report WARN "T18 a Linux job names a GitHub-hosted runner, so in a private repository it never reaches the local runner (D50, docs/04 4.7)" \
+    "${hosted}fix: write runs-on as \${{ github.event.repository.private && fromJSON('[\"self-hosted\",\"linux\",\"x64\"]') || '<the label>' }}, or keep the label with a trailing '# hosted-runner: <reason>' when the job needs Docker"
 fi
 
 say ""
