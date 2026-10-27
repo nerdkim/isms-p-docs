@@ -104,7 +104,10 @@ mandatory) follow the playbook docs. Only repository-specific rules are kept her
   별표 7의2 item 1.1.2, ISMS-P covers every item, and check [13] enforces it. The
   character rules from playbook `docs/16` apply, except that `docs/ko/` and `docs/en/` are a
   confirmed exception listed in `harness/conventions-exclude` (they reproduce authoritative source
-  data, not this project's own engineering prose).
+  data, not this project's own engineering prose). `harness/korean-content` (playbook D71) does not
+  fit them: it waives only the term check [2] and keeps the other checks, which the reproduced
+  text fails (266 paren-spacing hits in a trial run on 2026-10-27), and the source text cannot be
+  edited.
 - **Regeneration**: `docs/` drives everything derived. Run `python3 tools/build_index.py` after any
   corpus change and commit the result in the same commit. CI regenerates and fails on any diff, so a
   stale `extended/manifest.json` blocks the merge.
@@ -130,6 +133,8 @@ Claude Code는 이 파일의 project 설정과 아래 공통 규칙을 따릅니
 
 ### 작업과 승인
 - Korean 존댓말로 응대하고 "대표님"이라고 부릅니다. 문서도 합니다체로 쓰고 IT 용어는 English로 씁니다.
+- 한국어를 쓸 때는 먼저 `korean-rewrite` skill을 부릅니다. skill이 굳은 외래어를 한글로 쓰라고 해도 IT 용어는 English로 씁니다.
+  한국어 독자에게 내는 한국어 산출물만 skill의 용어를 따르고, 그 경로와 이유는 `harness/korean-content`에 적습니다(D71).
 - system과 developer 지침, 실행 권한 경계를 먼저 따릅니다. 그 안에서 현재 사용자 지시,
   적용 경로의 CLAUDE.md, 현재 표준 문서 순서로 판단합니다. 과거 decision log는 근거 기록입니다.
 - 이미 요청받은 조사, code와 문서 수정, local 검증은 끝까지 진행합니다. 같은 승인을 다시 묻지 않습니다.
@@ -145,7 +150,11 @@ Claude Code는 이 파일의 project 설정과 아래 공통 규칙을 따릅니
 - 묻는 경우는 prod 검사가 막은 변경(data를 지우거나 다시 만드는 변경, 보호를 끄는 값), 공용 CI role과
   OIDC provider 변경, 무료 범위를 넘는 resource의 첫 도입, 외부 발송과 store 제출, license를 새로 정하거나 바꾸는 일입니다.
   작업 요청을 다른 repository의 deploy 승인으로 넓혀 해석하지 않습니다.
-- playbook은 이 project에서 고치지 않습니다(D46). `./playbook` clone과 playbook에서 받은 파일(`harness/`의 guard 파일, 이 관리 block,
+- 다른 repository의 문제는 그 repository의 session에 맡깁니다(D70). 다른 repository의 working copy를 고치거나 그 repository에
+  push하지 않고 tag, Release, GitHub 설정도 바꾸지 않습니다. 결함은 임시 clone의 `fix/<이 project 이름>-<요약>` branch에 재현 근거와
+  수정을 담아 그 repository의 `develop`(없으면 `main`)으로 PR만 열고 merge하지 않습니다. 공개 여부, run을 다시 돌릴지, deploy는 그
+  repository가 정하므로 이 project의 결정 사항으로 대표님께 여쭙지 않습니다. 대표님께서 직접 지시하신 다른 repository 작업은 그대로 합니다.
+- playbook도 이 project에서 고치지 않습니다(D46). `./playbook` clone과 playbook에서 받은 파일(`harness/`의 guard 파일, 이 관리 block,
   `.github/scripts/`의 playbook script)을 고치지 않고, nerdkim/playbook의 `develop`이나 `main`에 push하거나 tag와 Release를 만들지 않습니다.
 - playbook 결함을 찾으면 `./playbook`이 아닌 임시 clone에서 `fix/<project 이름>-<요약>` branch를 만들어 재현 근거와 regression test를
   담고, 그 임시 clone에서 `bash scripts/develop-pr.sh <branch>`로 nerdkim/playbook의 `develop`에 PR을 올려 check가 통과하면
@@ -217,5 +226,5 @@ Claude Code는 이 파일의 project 설정과 아래 공통 규칙을 따릅니
 playbook을 최신 version으로 올리라는 요청은 `playbook/.claude/skills/playbook-setup/SKILL.md`대로 합니다.
 채택한 version 다음부터 최신까지의 `playbook/docs/migrations/` note를 순서대로 적용하고 push와 release까지 마칩니다.
 
-playbook version: v0.10.12 (synced 2026-10-25)
+playbook version: v0.10.13 (synced 2026-10-27)
 <!-- playbook-standard:end -->

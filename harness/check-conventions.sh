@@ -13,6 +13,8 @@
 #       English ("commit을 push합니다", never the transliteration), which is the same rule the
 #       assistant's replies follow. So [2] applies to every document with no language
 #       exemption: a Korean-language file is exactly the file this check exists to scan.
+#       The only exemption is by declared path: a Korean project's deliverables for Korean
+#       readers, listed with a reason in `harness/korean-content` (D71), skip [2] alone.
 #       The term dictionary lives in `harness/conventions-terms`, which may only ADD to the
 #       core set hard-coded below (see SELF-DEFENSE).
 #   [3] prose arrows must be the arrow char (docs/16 s2.1): use U+2192, not the
@@ -248,6 +250,58 @@ if [ -n "$USER_EXCLUDE_RE" ] && [ "${#TREE[@]}" -gt 0 ]; then
   fi
 fi
 
+# Korean deliverables (D71, docs/16 s3.1 and s6.2). Rule [2] keeps the IT terms of a document in
+# English, which is right for the standard and for a project's own engineering documents, and wrong
+# for what a Korean project writes for Korean readers: a Korean control document uses the Korean
+# words its readers use, and the Korean writing skill tells Claude to write them that way.
+# harness/korean-content names those paths, one plain path prefix per line (`#` comments ok), and a
+# line starting with `reason:` says why in 10 or more characters. With a valid file [2] skips the
+# listed paths and nothing else changes: [1] and [3] to [6] still scan them. A file without a reason,
+# or with an entry that carries a regex metacharacter, names the whole tree or harness/, or is shorter
+# than 3 characters, grants nothing and is a FAIL. It hides no file from the forbidden-character scan
+# the way conventions-exclude does, so there is no 40% limit, and [2] announces what it skipped.
+KC_RE=''
+KC_PATHS=''
+if [ -e harness/korean-content ] || [ -L harness/korean-content ]; then
+  kc_bad=""; kc_reason=0; kc_re=""; kc_paths=""
+  if [ -L harness/korean-content ] || [ ! -f harness/korean-content ]; then
+    kc_bad="  harness/korean-content is not a regular file"$'\n'
+  else
+    while IFS= read -r line || [ -n "$line" ]; do
+      line="${line%%#*}"
+      if [[ "$line" =~ ^[[:space:]]*reason: ]]; then
+        kc_why="$(printf '%s' "${line#*reason:}" | tr -d '[:space:]')"
+        [ "${#kc_why}" -ge 10 ] && kc_reason=1
+        continue
+      fi
+      line="$(printf '%s' "$line" | tr -d '[:space:]')"
+      [ -n "$line" ] || continue
+      # Interpolated into a regex below, as conventions-exclude entries are, so only a plain path.
+      if grep -qE '[][*?+(){}|^$\\.]' <<< "$line"; then
+        kc_bad="${kc_bad}  ${line}  (regex metacharacter: use a plain literal path prefix)"$'\n'
+        continue
+      fi
+      if [ "${#line}" -lt 3 ] || grep -qE '^(/+|harness(/.*)?)$' <<< "$line"; then
+        kc_bad="${kc_bad}  ${line}  (the whole tree, harness/ or too short: name the Korean deliverables)"$'\n'
+        continue
+      fi
+      kc_re="${kc_re:+$kc_re|}^${line}"
+      kc_paths="${kc_paths:+$kc_paths }${line}"
+    done < harness/korean-content
+    [ "$kc_reason" = 1 ] ||
+      kc_bad="${kc_bad}  harness/korean-content states no reason (a line 'reason: ...' of 10 or more characters)"$'\n'
+  fi
+  if [ -n "$kc_bad" ]; then
+    echo "== [0] korean-content self-defense =="
+    printf '%s' "$kc_bad"
+    echo "  -> FAIL: harness/korean-content grants nothing, so [2] still scans every path (docs/16 s6.2)."
+    fail=1
+  else
+    KC_RE="$kc_re"
+    KC_PATHS="$kc_paths"
+  fi
+fi
+
 # Prose file set for [2][3][4][5]: documents plus the standard's own scripts and workflows.
 #
 # The path patterns are anchored with `(^|/)`, not `^`, so a file matches wherever it sits in the
@@ -426,13 +480,19 @@ if [ -f harness/conventions-terms ]; then
 fi
 
 th=""
+kc_skipped=0
 for f in ${TERMFILES+"${TERMFILES[@]}"}; do
   [ -f "$PFX$f" ] || continue
   # No language exemption. Under docs/16 s3.1 every document is Korean prose whose IT terms
   # stay English, so a Korean-language file is exactly the file this check exists to scan.
   # The old skip list (`*.ko.md` and the two Korean governance documents) inverted the rule the
   # moment the documents became Korean, and its globs were unanchored, so any path merely
-  # ENDING in agent-conduct.md escaped too.
+  # ENDING in agent-conduct.md escaped too. The one exemption is by declared path, not by
+  # language: a Korean deliverable listed in harness/korean-content (D71, see above).
+  if [ -n "$KC_RE" ] && grep -qE "$KC_RE" <<< "$f"; then
+    kc_skipped=$((kc_skipped + 1))
+    continue
+  fi
   #
   # stripfence, not strip: strip removes inline code spans, so writing `커밋` in backticks
   # silenced the check for that line. Inline code in a Korean document carries English
@@ -440,6 +500,8 @@ for f in ${TERMFILES+"${TERMFILES[@]}"}; do
   h=$(stripfence "$PFX$f" | grep -noP "($TPAT)" | sed "s#^#${f}:#"); [ -n "$h" ] && th+="$h"$'\n'
 done
 th=$(printf '%s' "$th" | sed '/^$/d')
+[ -z "$KC_RE" ] ||
+  echo "  korean-content: skipped $kc_skipped file(s) under ${KC_PATHS}, written for Korean readers (D71)"
 if [ -n "$th" ]; then echo "$th"; echo "  -> FAIL: $(printf '%s\n' "$th" | grep -c .) hits"; fail=1
 else echo "  OK: 0 (core terms + $TERMS_ADDED from harness/conventions-terms)"; fi
 

@@ -179,6 +179,17 @@ reports "W3 the Cloudflare Workers AI packages are not reported" 0 no "a.ts:"
 mkrepo; printf 'import Anthropic from "@anthropic-ai/sdk"\n' > "$tmp/a.ts"; ( cd "$tmp" && git add -A )
 reports "W3 still reports another provider's SDK" 0 yes "a.ts:1:"
 
+# A Workers AI model id names its maker (`@cf/openai/...` is Whisper on the Cloudflare route), not an
+# SDK in the app, so neither the code nor the infra setting is reported (found in language-study).
+mkrepo; printf 'const stt = "@cf/openai/whisper-large-v3-turbo"\n' > "$tmp/a.ts"
+printf 'CF_STT_MODEL = "@cf/openai/whisper-large-v3-turbo"\n' > "$tmp/a.hcl"; ( cd "$tmp" && git add -A )
+reports "W3 a Workers AI model id of an OpenAI model is not reported" 0 no "a.ts:"
+reports "W3 a Workers AI model id in infra is not reported" 0 no "a.hcl:"
+
+# The OpenAI package is still reported on a line that also names such a model.
+mkrepo; printf 'import OpenAI from "openai" // not @cf/openai/whisper-large-v3-turbo\n' > "$tmp/a.ts"; ( cd "$tmp" && git add -A )
+reports "W3 the OpenAI package beside a Workers AI model id is still reported" 0 yes "a.ts:1:"
+
 mkrepo; printf 'runtime = "nodejs20.x"\n' > "$tmp/a.tf"; ( cd "$tmp" && git add -A )
 expect "nodejs20.x runtime (WARN only) -> PASS" 0
 

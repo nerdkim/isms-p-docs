@@ -469,8 +469,19 @@ report WARN "free-tier forbidden resource (docs/01 s4.1)" \
 # directly into the app (D67, docs/19 s1). Workers AI left the standard in v0.7.0 and came back in
 # v0.10.12 as a REST route from the backend, so its packages are not reported. WARN because a
 # dev-only or evaluation script is a legitimate exception that this grep cannot distinguish.
+# A Workers AI model id names the model's maker, not an SDK in the app: `@cf/openai/whisper-large-
+# v3-turbo` is Whisper served by the Cloudflare route. drop_workers_ai_models takes those ids out
+# of a line before it counts, so the model setting of a sanctioned route is not reported.
+drop_workers_ai_models() {
+  awk '{
+    p = index($0, ":"); rest = substr($0, p + 1); q = index(rest, ":")
+    text = tolower(substr(rest, q + 1))
+    gsub(/@cf\/[a-z0-9._-]+\/[a-z0-9._-]+/, "", text)
+    if (text ~ /(openai|@anthropic-ai\/sdk|@google\/generative-ai|@mistralai\/|cohere-ai)/) print $0
+  }'
+}
 report WARN "direct AI provider SDK; route AI through Bedrock or Cloudflare Workers AI (docs/19 s1)" \
-  "$(grepf '(openai|@anthropic-ai/sdk|@google/generative-ai|@mistralai/|cohere-ai)' ${code+"${code[@]}"} | drop_noise)"
+  "$(grepf '(openai|@anthropic-ai/sdk|@google/generative-ai|@mistralai/|cohere-ai)' ${code+"${code[@]}"} | drop_noise | drop_workers_ai_models)"
 
 # W4: a Lambda Node runtime older than LAMBDA_NODE_MIN (top of this file). The runtime id is the one
 # Node version the standard writes down; every other Node floats on the current LTS. A line WARNs

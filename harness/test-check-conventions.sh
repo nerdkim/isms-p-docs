@@ -240,6 +240,65 @@ mkdir -p "$d/.korean-style"
 printf '# korean-style rules\n\nloanword-spelling: 워크플로우=워크플로\n커밋 메시지를 검사한다.\n' > "$d/.korean-style/rules.md"
 assert_repo ".korean-style/ is excluded as the Korean style's rule corpus" "$d" 0 "RESULT: PASS"
 
+# 21c) harness/korean-content: what a Korean project writes for Korean readers keeps the Korean
+# terms those readers use (D71). [2] skips the listed paths and says so, every other check still
+# scans them, and [2] still scans every other path.
+KC_REASON='reason: 한국어 독자에게 내는 통제 문서입니다'
+d="$(new_repo)"
+mkdir -p "$d/harness" "$d/docs/ko"
+printf '# Korean deliverables\n%s\ndocs/ko/  # the control documents\n' "$KC_REASON" > "$d/harness/korean-content"
+printf '# 통제\n\n배포 전에 백업을 확인합니다.\n' > "$d/docs/ko/control.md"
+assert_repo "korean-content lets a listed Korean deliverable keep its Korean terms [2]" "$d" 0 \
+  "korean-content: skipped 1 file(s) under docs/ko/"
+
+d="$(new_repo)"
+mkdir -p "$d/harness" "$d/docs/ko"
+printf '%s\ndocs/ko/\n' "$KC_REASON" > "$d/harness/korean-content"
+printf '# 통제\n\n배포 전에 확인합니다.\n' > "$d/docs/ko/control.md"
+printf '# 개발 문서\n\n배포 순서를 적습니다.\n' > "$d/docs/dev.md"
+assert_repo "korean-content leaves [2] on for every other path" "$d" 1 "docs/dev.md:3:"
+
+d="$(new_repo)"
+mkdir -p "$d/harness" "$d/docs/ko"
+printf '%s\ndocs/ko/\n' "$KC_REASON" > "$d/harness/korean-content"
+printf '# 통제\n\n범위 %s 설명\n' "$EM_DASH" > "$d/docs/ko/control.md"
+assert_repo "korean-content does not lift the forbidden-character check [1]" "$d" 1 "forbidden unicode"
+
+d="$(new_repo)"
+mkdir -p "$d/harness" "$d/docs/ko"
+printf '%s\ndocs/ko/\n' "$KC_REASON" > "$d/harness/korean-content"
+printf '# 통제\n\n설명 (부연)\n' > "$d/docs/ko/control.md"
+assert_repo "korean-content does not lift the paren-spacing check [4]" "$d" 1 "opening-paren"
+
+# A marker that narrows a gate must say why and must name the deliverables, not the tree.
+d="$(new_repo)"
+mkdir -p "$d/harness" "$d/docs/ko"
+printf 'docs/ko/\n' > "$d/harness/korean-content"
+printf '# 통제\n\n배포 전에 확인합니다.\n' > "$d/docs/ko/control.md"
+assert_repo "korean-content without a reason grants nothing [0]" "$d" 1 "states no reason"
+
+d="$(new_repo)"
+mkdir -p "$d/harness" "$d/docs/ko"
+printf 'reason: short\ndocs/ko/\n' > "$d/harness/korean-content"
+printf '# 통제\n\n배포 전에 확인합니다.\n' > "$d/docs/ko/control.md"
+assert_repo "korean-content with a reason under 10 characters grants nothing [0]" "$d" 1 "states no reason"
+
+d="$(new_repo)"
+mkdir -p "$d/harness"
+printf '%s\n/\n' "$KC_REASON" > "$d/harness/korean-content"
+assert_repo "korean-content refuses the whole tree [0]" "$d" 1 "korean-content self-defense"
+
+d="$(new_repo)"
+mkdir -p "$d/harness"
+printf '%s\nharness/\n' "$KC_REASON" > "$d/harness/korean-content"
+assert_repo "korean-content refuses harness/ [0]" "$d" 1 "name the Korean deliverables"
+
+d="$(new_repo)"
+mkdir -p "$d/harness" "$d/docs/ko"
+printf '%s\ndocs/.\n' "$KC_REASON" > "$d/harness/korean-content"
+printf '# 통제\n\n배포 전에 확인합니다.\n' > "$d/docs/ko/control.md"
+assert_repo "korean-content refuses a regex entry [0]" "$d" 1 "regex metacharacter"
+
 # 21c) the wholesale-carve-out share is measured against the tree in both modes. A commit that
 # only refreshes the vendored corpus stages almost nothing but excluded paths; measuring the
 # staged set blocked every release update of an external corpus that is a small part of the tree.
