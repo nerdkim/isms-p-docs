@@ -2,5 +2,11 @@
 # criteria documents under docs/. This is faithful source data (Korean is authoritative),
 # not the project's own engineering prose, so docs/16 (English IT terms, no-space parens)
 # must not rewrite it. Do NOT add the project's own docs here; only this external corpus.
+#
+# harness/korean-content (playbook D71, v0.10.13) does not fit this corpus. It waives only the term
+# check [2] and keeps every other check, and on 2026-10-27, with docs/ko/ moved there for a trial
+# run, the reproduced official text failed [1] forbidden unicode, [4] paren spacing (266 hits) and
+# [5] (2 hits). That text cannot be edited, and docs/en/ is the English translation, not Korean
+# content, so both paths stay here.
 docs/ko/
 docs/en/

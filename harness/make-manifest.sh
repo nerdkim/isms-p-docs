@@ -31,10 +31,10 @@ OUT="harness/MANIFEST.sha256"
 
 # Every guard file whose content must not drift. MANIFEST.sha256 itself is excluded (it
 # cannot contain its own hash), and so are the marker files (commitmsg-strict, ci-optout,
-# conventions-exclude, commit-gate-since, public-repo, corpus-repo), which are per-repo policy the
-# owner sets deliberately. Each is committed, so changing one still shows up in review, and the ones
-# that narrow a gate (commit-gate-since, public-repo, corpus-repo) refuse to grant anything without
-# a stated reason.
+# conventions-exclude, commit-gate-since, public-repo, corpus-repo, korean-content), which are per-repo
+# policy the owner sets deliberately. Each is committed, so changing one still shows up in review, and
+# the ones that narrow a gate (commit-gate-since, public-repo, corpus-repo, korean-content) refuse to
+# grant anything without a stated reason.
 # The personal files a public repository keeps (CLAUDE.local.md, .claude/settings.local.json) are
 # gitignored and never part of the guard.
 #
