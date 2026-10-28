@@ -49,7 +49,7 @@ for f in lib.sh test-lib.sh bootstrap-hooks.sh verify.sh \
          check-structure-conformance.sh test-check-structure-conformance.sh \
          check-infra-conformance.sh test-check-infra-conformance.sh \
          test-install.sh test-upgrade.sh test-branch-protection.sh migrate-agent-files.py make-manifest.sh gitmessage conventions.yml conventions-terms \
-         docs-stop-hook.sh test-docs-stop-hook.sh \
+         docs-stop-hook.sh test-docs-stop-hook.sh ui-design-hook.sh test-ui-design-hook.sh \
          githooks/pre-commit githooks/commit-msg githooks/pre-push; do
   [ -f "harness/$f" ] && FILES="$FILES harness/$f"
 done

@@ -205,6 +205,58 @@ reports "W4 a newer runtime than the minimum is not reported" 0 no "Lambda Node 
 mkrepo; printf 'runtimes = ["nodejs26.x", "nodejs22.x"]\n' > "$tmp/a.tf"; ( cd "$tmp" && git add -A )
 reports "W4 a list that still carries an old runtime is reported" 0 yes "a.tf:1:"
 
+# ---- W5 screens follow the daisyUI standard (D73) ----------------------------------
+# A color comes from a daisyUI token, a palette lives once in the theme override, spacing comes from
+# Tailwind's scale, and a second design system is named. Each reporting case sits next to the shape
+# that must stay quiet.
+w5repo() { # WEB_PACKAGE_JSON - a repository with an apps/web app
+  mkrepo; mkdir -p "$tmp/apps/web/src" "$tmp/apps/api/src"
+  printf '%s\n' "$1" > "$tmp/apps/web/package.json"
+}
+DAISY='{ "dependencies": { "react": "19", "daisyui": "5", "tailwindcss": "4" } }'
+w5repo "$DAISY"
+printf 'export const Card = () => <div className="card bg-base-100 text-primary">x</div>\n' > "$tmp/apps/web/src/Card.tsx"
+printf '@import "tailwindcss";\n@plugin "daisyui";\n@plugin "daisyui/theme" {\n  name: "light";\n  default: true;\n  --color-primary: #4f46e5;\n}\n' > "$tmp/apps/web/src/index.css"
+( cd "$tmp" && git add -A )
+reports "W5 tokens in components and hex only in the theme override pass" 0 no "W5"
+reports "W5 is not even named for a clean screen" 0 no "daisyUI tokens"
+w5repo "$DAISY"
+printf 'export const A = () => <div style={{ color: "#4f46e5" }} className="bg-[#ffffff]">x</div>\n' > "$tmp/apps/web/src/A.tsx"
+printf '.title {\n  color: #1f2937;\n}\n' > "$tmp/apps/web/src/app.css"
+( cd "$tmp" && git add -A )
+reports "W5 a hex color in a component is reported" 0 yes "apps/web/src/A.tsx:1:"
+reports "W5 a hex color in a plain stylesheet rule is reported" 0 yes "apps/web/src/app.css:2:"
+w5repo "$DAISY"
+printf '@plugin "daisyui/theme" {\n  name: "dark";\n  --color-primary: #818cf8;\n}\n.x {\n  color: #111827;\n}\n' > "$tmp/apps/web/src/index.css"
+( cd "$tmp" && git add -A )
+reports "W5 the theme block ends at its closing brace" 0 yes "apps/web/src/index.css:6:"
+reports "W5 and inside it a hex stays quiet" 0 no "index.css:3:"
+w5repo "$DAISY"
+printf 'export const L = () => <a href="#add">add</a>\nexport const M = () => <svg fill="#4f46e5" /> // design-allow: the brand logo keeps its print color\n' > "$tmp/apps/web/src/L.tsx"
+printf 'const color = "#123456"\n' > "$tmp/apps/web/src/L.test.tsx"
+printf 'const color = "#123456"\n' > "$tmp/apps/api/src/mail.ts"
+( cd "$tmp" && git add -A )
+reports "W5 a three-digit anchor, a reasoned design-allow, a test and the API stay quiet" 0 no "daisyUI tokens"
+w5repo "$DAISY"
+printf 'export const P = () => <div className="mt-[13px] w-[22rem] p-4">x</div>\n' > "$tmp/apps/web/src/P.tsx"
+( cd "$tmp" && git add -A )
+reports "W5 an arbitrary px or rem value is reported" 0 yes "apps/web/src/P.tsx:1:"
+w5repo "$DAISY"
+printf 'export const Q = () => <div className="mt-4 w-80 grid-cols-[1fr_2fr]">x</div>\n' > "$tmp/apps/web/src/Q.tsx"
+( cd "$tmp" && git add -A )
+reports "W5 Tailwind scale values and a non-length arbitrary value stay quiet" 0 no "arbitrary px or rem"
+w5repo '{ "dependencies": { "react": "19", "daisyui": "5", "@mui/material": "7", "styled-components": "6" } }'
+( cd "$tmp" && git add -A )
+reports "W5 a UI kit beside daisyUI is reported" 0 yes '"@mui/material"'
+reports "W5 and a CSS-in-JS package too" 0 yes '"styled-components"'
+w5repo '{ "dependencies": { "react": "19", "tailwindcss": "4" } }'
+( cd "$tmp" && git add -A )
+reports "W5 a web app without daisyui is reported" 0 yes "apps/web/package.json: no daisyui dependency"
+w5repo "$DAISY"
+for i in $(seq 1 25); do printf 'export const C%d = () => <i style={{ color: "#10%04d" }} />\n' "$i" "$i"; done > "$tmp/apps/web/src/Many.tsx"
+( cd "$tmp" && git add -A )
+reports "W5 prints at most 20 lines and counts the rest" 0 yes "... and 5 more"
+
 # ---- W2 without CloudFront ------------------------------------------------------
 # One CloudFront distribution in front of the S3 site and the API is the standard edge since
 # v0.7.0, so it left the free-tier list. The rest of the list still warns.

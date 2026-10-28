@@ -92,7 +92,7 @@ FIXBLOCK
 
 # The checker skips T11 under CI, so unset the CI markers to make results identical whether
 # the suite runs on a laptop or inside Actions.
-rc() { ( cd "$tmp" && env -u CI -u GITHUB_ACTIONS bash "$CHK" . >/dev/null 2>&1 ); echo $?; }
+rc() { ( cd "$tmp" && env -u CI -u GITHUB_ACTIONS -u GITHUB_EVENT_PATH bash "$CHK" . >/dev/null 2>&1 ); echo $?; }
 expect() { # label expected-rc
   local got; got="$(rc)"
   if [ "$got" = "$2" ]; then echo "  PASS $1 (rc=$got)"; else echo "  FAIL $1 (rc=$got, expected $2)"; fails=1; fi
@@ -101,7 +101,7 @@ expect() { # label expected-rc
 # pass on an unrelated failure such as a manifest left unrecorded.
 expect_report() {
   local out got
-  out="$( cd "$tmp" && env -u CI -u GITHUB_ACTIONS bash "$CHK" . 2>&1 )"; got=$?
+  out="$( cd "$tmp" && env -u CI -u GITHUB_ACTIONS -u GITHUB_EVENT_PATH bash "$CHK" . 2>&1 )"; got=$?
   if [ "$got" = "$2" ] && grep -qF -- "$3" <<< "$out"; then
     echo "  PASS $1 (rc=$got)"
   else
@@ -662,7 +662,7 @@ t16 "T16 hooks in .claude/settings.local.json are accepted" no
 # carrying TEXT was printed. Runs as a local working copy unless the ENV names CI.
 check_says() {
   local label="$1" want="$2" should="$3" text="$4" out got seen=no; shift 4
-  out="$( cd "$tmp" && env -u CI -u GITHUB_ACTIONS "$@" bash "$CHK" . 2>&1 )"; got=$?
+  out="$( cd "$tmp" && env -u CI -u GITHUB_ACTIONS -u GITHUB_EVENT_PATH "$@" bash "$CHK" . 2>&1 )"; got=$?
   grep -qF -- "$text" <<< "$out" && seen=yes
   if [ "$got" = "$want" ] && [ "$seen" = "$should" ]; then
     echo "  PASS $label (rc=$got)"
@@ -751,6 +751,28 @@ mkconsumer; public_layout; as_owner
 check_says "public: the owner's clone without the Korean style is reported (WARN)" 0 yes "T16 public repository: the Korean writing style is not installed"
 mkconsumer; public_layout; as_contributor
 check_says "public: a contributor's clone is never asked for the Korean style" 0 no "T16"
+
+# T19 (D74): what a public repository commits calls the owner 사용자, not 대표님.
+event() { # PRIVATE(true|false) -> path of a GitHub event payload for a repository of that visibility
+  printf '{"action": "opened", "repository": {"full_name": "nerdkim/x", "private": %s}}\n' "$1" > "$WORK/event-$1.json"
+  printf '%s\n' "$WORK/event-$1.json"
+}
+mkconsumer; public_layout
+check_says "T19 public: the block in CLAUDE.local.md and the playbook's own files are not reported" 0 no "T19" CI=true
+mkdir -p "$tmp/docs"; printf '# 결정\n\n대표님이 2026-10-20에 정했습니다.\n' > "$tmp/docs/decisions.ko.md"
+check_says "T19 public: a document that says 대표님 is reported, as a WARN, before its first commit" 0 yes "docs/decisions.ko.md:3:" CI=true
+printf '# 결정\n\n대표님이라는 말의 예입니다. <!-- honorific-allow: quoted example -->\n' > "$tmp/docs/decisions.ko.md"
+check_says "T19 public: a line marked honorific-allow is not reported" 0 no "T19" CI=true
+mkconsumer; public_layout; mkdir -p "$tmp/docs"; printf '대표님\n' > "$tmp/docs/scratch.md"; printf 'docs/scratch.md\n' >> "$tmp/.gitignore"
+check_says "T19 public: a gitignored file is not reported" 0 no "T19" CI=true
+mkconsumer; public_layout; printf '\n대표님께 묻습니다.\n' >> "$tmp/CLAUDE.md"
+check_says "T19 public: CLAUDE.md outside the managed block is reported" 0 yes "CLAUDE.md:5:" CI=true
+mkconsumer; mkdir -p "$tmp/docs"; printf '대표님이 정했습니다.\n' > "$tmp/docs/notes.ko.md"
+check_says "T19 private: the same wording is not reported" 0 no "T19"
+check_says "T19 a CI run of a public repository without the marker reports it" 0 yes "docs/notes.ko.md:1:" CI=true GITHUB_EVENT_PATH="$(event false)"
+check_says "T19 a CI run of a private repository does not" 0 no "T19" CI=true GITHUB_EVENT_PATH="$(event true)"
+mkconsumer
+check_says "T19 the managed block in the CLAUDE.md of a public repository is not reported" 0 no "T19" CI=true GITHUB_EVENT_PATH="$(event false)"
 
 # ---- T13 and a work branch -------------------------------------------------------
 # A short-lived branch is not a trunk: its pull requests are checked by the unfiltered

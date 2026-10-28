@@ -52,6 +52,9 @@
 #   WARN W2 free-tier forbidden resource (docs/01 s4.1); CloudFront is the standard edge since v0.7.0
 #   WARN W3 direct AI provider SDK; AI goes through Bedrock or Cloudflare Workers AI (docs/19 s1)
 #   WARN W4 Lambda Node runtime older than LAMBDA_NODE_MIN (docs/05 s4, docs/07 s1)
+#   WARN W5 a web or desktop screen leaves the daisyUI standard: a hex color outside the
+#           `@plugin "daisyui/theme"` block, an arbitrary px or rem value in a class, or a UI kit
+#           or CSS-in-JS package, or a web app without daisyui (D73, docs/09 s7)
 #
 # Usage: bash check-standard-conformance.sh [ROOT]   (ROOT default = cwd)
 # Requires GNU grep. Exit 1 on any FAIL, else 0.
@@ -497,6 +500,49 @@ report WARN "Lambda Node runtime older than ${LAMBDA_NODE_MIN} (docs/05 s4, docs
       }
       if (old) print
     }')"
+
+# W5: screens follow the web standard (D73, docs/09 s7). A component takes its colors from the
+# daisyUI semantic tokens and its spacing from Tailwind's scale; a palette lives once, in the
+# `@plugin "daisyui/theme"` block of the entry stylesheet; and a UI kit or CSS-in-JS library brings a
+# second design system that daisyUI does not see. The design skill proposes hex palettes and pixel
+# values, so this is where a screen built straight from its output shows up. Scope: .tsx, .ts, .jsx,
+# .js and .css under apps/web/src and apps/desktop/src, not tests or stories, and the package.json of
+# those two apps. Only 6 and 8 digit hex colors count, since `#add` is also an anchor, and a line that
+# carries `design-allow: <reason>` (a brand logo, a chart that must match print) is left out. Comment
+# lines are text about the rule. WARN: existing screens move over time; at most 20 lines per kind are
+# printed, with the count of the rest.
+ui=(); uipkg=()
+for f in ${SRC+"${SRC[@]}"}; do
+  case "$f" in apps/web/src/*|apps/desktop/src/*) ;; apps/web/package.json|apps/desktop/package.json) uipkg+=("$f"); continue ;; *) continue ;; esac
+  case "$f" in *.test.*|*.spec.*|*.stories.*) continue ;; esac
+  case "$f" in *.tsx|*.ts|*.jsx|*.js|*.css) ui+=("$f") ;; esac
+done
+# first20 - stdin to stdout, the first 20 lines and how many more there were.
+first20() { awk 'NR <= 20 { print } END { if (NR > 20) printf "... and %d more\n", NR - 20 }'; }
+ui_hex() {
+  local f
+  for f in "$@"; do
+    awk -v f="$f" '
+      /@plugin[ \t]+"daisyui\/theme"/ { theme = 1; depth = 0; opened = 0 }
+      theme { o = gsub(/\{/, "{"); c = gsub(/\}/, "}"); depth += o - c; if (o) opened = 1; if (opened && depth <= 0) theme = 0; next }
+      /design-allow:[ \t]*[^ \t]/ { next }
+      /#[0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F][0-9a-fA-F]([0-9a-fA-F][0-9a-fA-F])?([^0-9a-zA-Z_-]|$)/ { print f ":" NR ":" $0 }
+    ' "$f" 2>/dev/null
+  done
+}
+report WARN "a screen color outside the daisyUI tokens: put the palette in the @plugin \"daisyui/theme\" override (D73, docs/09 s7)" \
+  "$(ui_hex ${ui+"${ui[@]}"} | drop_noise | first20)"
+report WARN "an arbitrary px or rem value in a class: use Tailwind's scale (D73, docs/09 s7)" \
+  "$(grepf '[a-z]-\[-?[0-9.]+(px|rem)\]' ${ui+"${ui[@]}"} | grep -v 'design-allow:[[:space:]]*[^[:space:]]' | drop_noise | first20)"
+ui_kits=""
+for f in ${uipkg+"${uipkg[@]}"}; do
+  ui_kits+="$(grepf '"(@mui/[^"]*|@chakra-ui/[^"]*|@mantine/[^"]*|antd|bootstrap|react-bootstrap|styled-components|@emotion/[^"]*|@vanilla-extract/[^"]*)"[[:space:]]*:' "$f")"$'\n'
+  if [ "$f" = apps/web/package.json ] && ! grep -q '"daisyui"[[:space:]]*:' "$f"; then
+    ui_kits+="${f}: no daisyui dependency"$'\n'
+  fi
+done
+report WARN "a UI kit or CSS-in-JS package beside daisyUI, or a web app without daisyui (D73, docs/09 s2)" \
+  "$(printf '%s' "$ui_kits" | grep .)"
 
 # ---- waiver self-defense (mirrors check-conventions.sh [0]) -------------------
 # The waiver is the cheapest way to switch a policy rule off, so it is itself checked.

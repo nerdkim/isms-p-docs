@@ -132,7 +132,9 @@ Claude Code는 이 파일의 project 설정과 아래 공통 규칙을 따릅니
 표준을 읽을 때는 현재 적용한 version을 `harness/ADOPTED`로 확인합니다.
 
 ### 작업과 승인
-- Korean 존댓말로 응대하고 "대표님"이라고 부릅니다. 문서도 합니다체로 쓰고 IT 용어는 English로 씁니다.
+- Korean 존댓말로 응대하고 "대표님"이라고 부릅니다. 이 호칭은 응대(답변, 보고, 질문)에만 씁니다. 공개 repository에 commit하거나
+  올리는 한국어(문서, 주석, PR, issue, Release note)에서는 "사용자"라고 쓰고, English 원문의 "the owner"도 "사용자"로 옮깁니다.
+  공개할 repository는 공개하기 전에 이 기준으로 고칩니다(D74). 문서도 합니다체로 쓰고 IT 용어는 English로 씁니다.
 - 한국어를 쓸 때는 먼저 `korean-rewrite` skill을 부릅니다. skill이 굳은 외래어를 한글로 쓰라고 해도 IT 용어는 English로 씁니다.
   한국어 독자에게 내는 한국어 산출물만 skill의 용어를 따르고, 그 경로와 이유는 `harness/korean-content`에 적습니다(D71).
 - system과 developer 지침, 실행 권한 경계를 먼저 따릅니다. 그 안에서 현재 사용자 지시,
@@ -144,8 +146,8 @@ Claude Code는 이 파일의 project 설정과 아래 공통 규칙을 따릅니
 - 작업 branch에서 `develop`으로 가는 PR은 묻지 않고 merge합니다(D52). `bash playbook/scripts/develop-pr.sh <branch>`가
   check를 기다렸다가 모두 통과하면 merge commit으로 merge합니다. 시험은 merge 뒤 `develop`의 dev 환경에서 합니다.
 - AWS 명령은 PC에서 실행하지 않습니다. plan, apply, state 복사는 CI가 OIDC로 하고 결과는 `gh run`으로 읽습니다.
-  대표님께 `aws sso login`을 요청하지 않습니다.
-- private repository의 CI job은 대표님 PC의 local runner에서 돕니다(D50). runner가 없으면 첫 push 전에
+  사용자에게 `aws sso login`을 요청하지 않습니다.
+- private repository의 CI job은 사용자 PC의 local runner에서 돕니다(D50). runner가 없으면 첫 push 전에
   `bash playbook/scripts/local-runner.sh add <owner/repo>`로 띄웁니다. public repository는 GitHub-hosted runner를 씁니다.
   project가 따로 만든 workflow도 모든 Linux job의 `runs-on`에 template의 선택식을 씁니다(D72). Docker나 arm64가 필요해
   hosted label을 남기는 job만 그 줄 끝에 `# hosted-runner: <이유>`를 적습니다.
@@ -155,7 +157,7 @@ Claude Code는 이 파일의 project 설정과 아래 공통 규칙을 따릅니
 - 다른 repository의 문제는 그 repository의 session에 맡깁니다(D70). 다른 repository의 working copy를 고치거나 그 repository에
   push하지 않고 tag, Release, GitHub 설정도 바꾸지 않습니다. 결함은 임시 clone의 `fix/<이 project 이름>-<요약>` branch에 재현 근거와
   수정을 담아 그 repository의 `develop`(없으면 `main`)으로 PR만 열고 merge하지 않습니다. 공개 여부, run을 다시 돌릴지, deploy는 그
-  repository가 정하므로 이 project의 결정 사항으로 대표님께 여쭙지 않습니다. 대표님께서 직접 지시하신 다른 repository 작업은 그대로 합니다.
+  repository가 정하므로 이 project의 결정 사항으로 사용자에게 묻지 않습니다. 사용자가 직접 지시한 다른 repository 작업은 그대로 합니다.
 - playbook도 이 project에서 고치지 않습니다(D46). `./playbook` clone과 playbook에서 받은 파일(`harness/`의 guard 파일, 이 관리 block,
   `.github/scripts/`의 playbook script)을 고치지 않고, nerdkim/playbook의 `develop`이나 `main`에 push하거나 tag와 Release를 만들지 않습니다.
 - playbook 결함을 찾으면 `./playbook`이 아닌 임시 clone에서 `fix/<project 이름>-<요약>` branch를 만들어 재현 근거와 regression test를
@@ -175,7 +177,7 @@ Claude Code는 이 파일의 project 설정과 아래 공통 규칙을 따릅니
   `attribution`이 이 trailer를 지정하고 session link를 끕니다. `git commit -m`/`-F`나 custom template을 쓸 때도
   message에 trailer를 직접 넣고 결과를 확인합니다.
 - default branch와 prod branch는 `main`이고 `master`는 쓰지 않습니다. 아직 옮기지 않은 project는 migration note를 따릅니다.
-  `develop`을 함께 둘지는 대표님이 project마다 정하고, 이미 쓰는 model은 기본값과 달라도 그대로 둡니다. 정하지 않았으면
+  `develop`을 함께 둘지는 사용자가 project마다 정하고, 이미 쓰는 model은 기본값과 달라도 그대로 둡니다. 정하지 않았으면
   code가 있는 project는 `develop`을 두고(infra가 있으면 `develop`이 dev), 주로 문서만 다루는 repository는 `main` 하나만
   씁니다(D68). `main`에는 PR merge로만 반영합니다.
 - 문서는 Korean 합니다체로, code와 comment, commit/PR은 English로 씁니다. 금지 unicode 문장 부호는
@@ -188,18 +190,22 @@ Claude Code는 이 파일의 project 설정과 아래 공통 규칙을 따릅니
 - Node.js는 현재 LTS, pnpm과 Terraform, Terragrunt는 최신 안정 version을 씁니다. CI와 설정 파일에는 version을 숫자로
   고정하지 않고 lockfile은 commit합니다. 숫자로 적는 version은 Lambda runtime 하나이며 AWS가 GA로 낸 최신 `nodejsNN.x`를 씁니다.
 - GitHub Actions는 nerdkim의 모든 repository가 함께 쓰는 OIDC role 두 개(`nerdkim-gha-plan`, `nerdkim-gha-apply`)로
-  AWS에 접근합니다. IAM Identity Center SSO는 대표님이 직접 하는 일회성 작업에만 씁니다. repository별 secret과
+  AWS에 접근합니다. IAM Identity Center SSO는 사용자가 직접 하는 일회성 작업에만 씁니다. repository별 secret과
   variable, IAM access key, module용 PAT는 만들지 않습니다.
 - infra가 있는 project는 `infra/`에 Terragrunt `*.hcl`만 둡니다. Terraform module code(`*.tf`)는 만들지 않고 module은
   `git::https://github.com/nerdkim/playbook.git//modules/<aws|cloudflare|grafana>/<name>?ref=<채택한 version>`으로만 가져옵니다.
-- 대표님이 운영하는 service는 playbook docs/23에 따라 Microsoft Clarity와 Grafana Cloud로 관측합니다. 수집 code는 기본으로 꺼져 있고
-  project가 값을 넣어야 켜집니다. 사용자가 설치하는 app은 사용자가 켠 경우에만 오류를 보고합니다. Grafana token은 SSM `/shared/`에만 두고
+- 사용자가 운영하는 service는 playbook docs/23에 따라 Microsoft Clarity와 Grafana Cloud로 관측합니다. 수집 code는 기본으로 꺼져 있고
+  project가 값을 넣어야 켜집니다. 최종 사용자가 설치하는 app은 최종 사용자가 켠 경우에만 오류를 보고합니다. Grafana token은 SSM `/shared/`에만 두고
   repository, Terraform 입력, Lambda 환경 변수에 넣지 않습니다. dev와 prod 어느 쪽이든 켜기 전에 개인정보 처리방침을 고칩니다.
-- Clarity masking mode는 대표님이 `Balanced`나 `Relaxed`로 정하므로 `Strict`를 요청하지 않습니다(D63). 화면에 글자로 보이는
-  개인정보와 사용자가 쓴 내용(이름, 연락처, 주소, 본문, 금액)을 담은 요소에는 `data-clarity-mask="True"`를 붙입니다(docs/23 5.1절).
-- 화면이나 component를 새로 만들거나 구성, 색, 글꼴, 상호작용을 크게 바꿀 때는 먼저 `frontend-design:frontend-design`과
-  `ui-ux-pro-max:ui-ux-pro-max` skill을 불러 방향과 UX 기준을 정합니다(D61). 문구 수정이나 작은 bug 수정에는 부르지 않습니다.
-  두 skill이 없는 환경이면 건너뛰고 보고에 적습니다.
+- Clarity masking mode는 사용자가 `Balanced`나 `Relaxed`로 정하므로 `Strict`를 요청하지 않습니다(D63). 화면에 글자로 보이는
+  개인정보와 최종 사용자가 쓴 내용(이름, 연락처, 주소, 본문, 금액)을 담은 요소에는 `data-clarity-mask="True"`를 붙입니다(docs/23 5.1절).
+- 화면이나 component를 새로 만들거나 구성, 색, 글꼴, 상호작용을 크게 바꿀 때는 먼저 `ui-ux-pro-max:ui-ux-pro-max` skill을 부르고
+  `--stack react`와 `--domain ux`로 접근성, form, 반응형 기준을 정합니다(D73). 구현은 docs/09 7절 표준으로 합니다. daisyUI component를
+  먼저 쓰고, 색은 daisyUI semantic token으로만 씁니다. skill이 낸 palette는 `src/index.css`의 `@plugin "daisyui/theme"` override에
+  token으로 옮기고, 글꼴은 Pretendard, 간격과 글자 크기는 Tailwind 기본 scale을 씁니다. skill이 다른 UI library나 Google Fonts,
+  hex 색을 권해도 이 표준으로 옮깁니다. 문구 수정이나 작은 bug 수정에는 부르지 않습니다. skill을 부르지 않고 화면 파일을 고치면
+  hook(`harness/ui-design-hook.sh`)이 한 번 막고, 보안 검사 W5가 hex 색과 임의 px 값, 표준 밖 UI library를 보고합니다.
+  skill이 없는 환경이면 건너뛰고 보고에 적습니다.
 - 한국어 site(`<html lang="ko">`)는 날짜를 `yyyy/mm/dd`, 일시를 `yyyy/mm/dd HH:mm`(24시간)으로 받고 보여 줍니다(D60). browser 언어를
   따르는 native `<input type="date">`, `datetime-local`, `month`와 locale 없는 `toLocaleDateString()`은 쓰지 않습니다. 대신
   template의 `DateField`와 `formatKoreanDate`를 씁니다(docs/09 5.2절).
@@ -219,7 +225,7 @@ Claude Code는 이 파일의 project 설정과 아래 공통 규칙을 따릅니
   문서는 그대로 두고 code나 설정만 바꾼 채 마치려 하면 Stop hook(`harness/docs-stop-hook.sh`)이 한 번 되묻습니다(D65).
 - GitHub repository 정보(description, homepage, topics)와 LICENSE도 같은 작업에서 맞춥니다(D51). `bash playbook/scripts/repo-about.sh`가
   고칠 것을 알려 주고 `release-pr.sh`도 release마다 실행합니다. description은 `gh repo edit`로 고칩니다. license를 새로 정하거나
-  종류를 바꾸는 일은 대표님께 여쭙니다.
+  종류를 바꾸는 일은 사용자에게 묻습니다.
 - 실패를 숨기거나 gate를 끄지 않습니다. 실행하지 않은 검증과 필요한 외부 권한은 분명히 보고합니다.
 - 작업은 push와 release PR까지 마쳐야 끝납니다. deploy가 끝나면 실제 endpoint와 변경 결과를 확인하고,
   merge와 deploy 완료를 나눠 보고합니다. 문서만 바꿨을 때는 dev service를 강제로 다시 시작하지 않습니다.
@@ -228,5 +234,5 @@ Claude Code는 이 파일의 project 설정과 아래 공통 규칙을 따릅니
 playbook을 최신 version으로 올리라는 요청은 `playbook/.claude/skills/playbook-setup/SKILL.md`대로 합니다.
 채택한 version 다음부터 최신까지의 `playbook/docs/migrations/` note를 순서대로 적용하고 push와 release까지 마칩니다.
 
-playbook version: v0.10.14 (synced 2026-10-27)
+playbook version: v0.10.16 (synced 2026-10-28)
 <!-- playbook-standard:end -->
