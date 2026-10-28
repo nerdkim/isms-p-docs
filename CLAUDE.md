@@ -14,8 +14,9 @@ this repository. See the managed block at the bottom.
 > `main` branch** (owner decision 2026-10-20 for the documents repositories, and the playbook's
 > main-only model for a project without infrastructure). Every change arrives through a pull
 > request from a short-lived branch: `bash playbook/scripts/release-pr.sh <branch>` pushes it and
-> turns on auto-merge, GitHub merges it once the required checks pass, and the branch is deleted
-> after the merge.
+> turns on auto-merge, and GitHub merges it once the required checks pass. GitHub keeps the branch,
+> because the playbook's branch settings leave automatic deletion off, so delete it after the merge
+> (`git push origin --delete <branch>`).
 >
 > `AGENTS.md` is a symbolic link to this `CLAUDE.md` (identical content; per playbook `docs/10` the
 > real file is `CLAUDE.md`). Claude Code reads `CLAUDE.md`; other agents such as Codex read
