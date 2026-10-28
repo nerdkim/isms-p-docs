@@ -27,6 +27,7 @@
 #   WARN T16 the Korean writing style is not installed, or its scripts or hooks are missing locally (docs/22 s6)
 #   FAIL T17 public repository: the marker is unusable, or a personal file or setting is published (docs/22 s7)
 #   WARN T18 a Linux job names a GitHub-hosted runner label instead of the standard expression (D50, docs/04 4.7)
+#   WARN T19 public repository (D74, docs/22 s7): committed text calls the owner 대표님 instead of 사용자
 #
 # Scope note: T11 reads .git/config, which is not committed, so it is skipped under CI (a
 # fresh checkout never has it). The committed half of the hook wiring is T2 plus the root
@@ -733,6 +734,50 @@ if [ "$PUBLIC" -eq 0 ]; then
   done < <(git -c core.quotePath=false ls-files -- '.github/workflows/*.yml' '.github/workflows/*.yaml' 2>/dev/null)
   [ -n "$hosted" ] && report WARN "T18 a Linux job names a GitHub-hosted runner, so in a private repository it never reaches the local runner (D50, docs/04 4.7)" \
     "${hosted}fix: write runs-on as \${{ github.event.repository.private && fromJSON('[\"self-hosted\",\"linux\",\"x64\"]') || '<the label>' }}, or keep the label with a trailing '# hosted-runner: <reason>' when the job needs Docker"
+fi
+
+
+# ---- T19 a public repository calls the owner 사용자 ---------------------------
+# D74: 대표님 is how a session addresses the owner in a reply. A public repository's text is read by
+# anyone, so what it commits (documents, comments, the public CLAUDE.md) calls the owner 사용자, and
+# "the owner" of an English source is translated the same way. deskilo's Korean documents had 38
+# lines of 대표님 a week before it was to be published. The managed block states the form of address
+# itself and the playbook's own files (harness/MANIFEST.sha256) quote it, so neither is reported; a
+# line that has to keep the word carries `honorific-allow: <reason>`. Besides the marker, a CI run
+# reads the visibility from its event payload, so a public repository that never switched to the
+# public mode is checked there too. Untracked files count unless gitignored: a new document is
+# caught before its first commit. WARN: the project rewrites the wording.
+VISIBLE_PUBLIC="$PUBLIC"
+if [ "$VISIBLE_PUBLIC" -eq 0 ] && [ -n "${GITHUB_EVENT_PATH:-}" ] && [ -f "${GITHUB_EVENT_PATH:-}" ]; then
+  if command -v python3 >/dev/null 2>&1; then
+    python3 -c 'import json, sys; repo = json.load(open(sys.argv[1], encoding="utf-8")).get("repository") or {}; sys.exit(0 if repo.get("private") is False else 1)' \
+      "$GITHUB_EVENT_PATH" 2>/dev/null && VISIBLE_PUBLIC=1
+  else
+    visibility="$(grep -m1 -oE '"private"[[:space:]]*:[[:space:]]*(true|false)' "$GITHUB_EVENT_PATH" 2>/dev/null || true)"
+    [[ "$visibility" == *false ]] && VISIBLE_PUBLIC=1
+  fi
+fi
+if [ "$VISIBLE_PUBLIC" -eq 1 ] && git rev-parse --git-dir >/dev/null 2>&1; then
+  owned=""
+  [ -f harness/MANIFEST.sha256 ] && owned="$(awk '!/^#/ && NF >= 2 {print $2}' harness/MANIFEST.sha256)"
+  honor=""
+  while IFS= read -r hit; do
+    [ -n "$hit" ] || continue
+    grep -qxF -- "${hit%%:*}" <<< "$owned" && continue
+    grep -qF 'honorific-allow:' <<< "$hit" && continue
+    honor="${honor}${hit}"$'\n'
+  done < <(git -c core.quotePath=false grep --untracked -n -I -F '대표님' -- . ':!CLAUDE.md' ':!CLAUDE.local.md' 2>/dev/null || true)
+  if [ -f CLAUDE.md ] && [ ! -L CLAUDE.md ]; then
+    honor="${honor}$(awk '/playbook-standard:start/ { inb = 1 } !inb && /대표님/ && !/honorific-allow:/ { print "CLAUDE.md:" NR ":" $0 } /playbook-standard:end/ { inb = 0 }' CLAUDE.md)"
+  fi
+  honor="$(sed '/^$/d' <<< "$honor")"
+  if [ -n "$honor" ]; then
+    count="$(wc -l <<< "$honor" | tr -d ' ')"
+    shown="$(head -n 20 <<< "$honor" | cut -c1-200)"
+    [ "$count" -gt 20 ] && shown="${shown}"$'\n'"... and $((count - 20)) more"
+    report WARN "T19 public repository (D74, docs/22 s7): $count committed line(s) call the owner 대표님, and public text says 사용자" \
+      "${shown}"$'\n'"fix: write 사용자, also for \"the owner\" of an English source; keep 대표님 for replies to the owner, or mark a line that must keep the word with 'honorific-allow: <reason>'"
+  fi
 fi
 
 say ""

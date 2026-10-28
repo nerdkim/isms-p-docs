@@ -18,6 +18,17 @@
     ],
     "PreToolUse": [
       {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/harness/ui-design-hook.sh\"",
+            "timeout": 15,
+            "statusMessage": "화면 작업 design 기준 확인(D73)"
+          }
+        ]
+      },
+      {
         "matcher": "Write|Edit|MultiEdit|NotebookEdit|AskUserQuestion|ExitPlanMode|SendUserFile|Task|Agent|Bash",
         "hooks": [
           {
